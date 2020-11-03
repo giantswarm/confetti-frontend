@@ -17,6 +17,7 @@ job_filters: &job_filters
 whitelist: &whitelist
   paths:
     - node_modules/*
+    - tsconfig.tsbuildinfo
 
 workflows:
   version: 2
@@ -70,7 +71,9 @@ jobs:
 
       - save_cache:
           paths:
+            - out/*
             - node_modules
+            - tsconfig.tsbuildinfo
           key: v1-npm-deps-{{ checksum "yarn.lock" }}
 
       - persist_to_workspace:

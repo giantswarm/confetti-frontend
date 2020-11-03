@@ -19,6 +19,7 @@
     "strict": true,
     "downlevelIteration": true,
     "incremental": true,
+    "tsBuildInfoFile": "./tsconfig.tsbuildinfo",
     "target": "esnext",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
