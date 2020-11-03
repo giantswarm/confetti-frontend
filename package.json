@@ -9,6 +9,7 @@
         "lint": "eslint --ext .js,.ts,.tsx ./src/",
         "lint:fix": "yarn lint --fix",
         "format": "prettier --write \"src/**/*.{js,ts,tsx}\"",
+        "format:validate": "yarn format --version; yarn format --no-color --check",
         "test": "jest",
         "test:watch": "yarn test --watch",
         "test:coverage": "yarn test --collect-coverage"
