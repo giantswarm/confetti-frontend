@@ -53,7 +53,7 @@ module.exports = {
         "valid-typeof": 0,
         "array-callback-return": 2,
         "block-scoped-var": 2,
-        "class-methods-use-this": 2,
+        "class-methods-use-this": 0,
         complexity: 2,
         "consistent-return": 2,
         "default-param-last": 2,

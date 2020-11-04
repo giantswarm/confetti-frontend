@@ -1,6 +1,8 @@
 import { render, RenderOptions } from "@testing-library/react";
 import { Grommet } from "grommet";
 
+import { createRepositories } from "@/app/factory";
+import { StoreProvider } from "@/app/Store";
 import GlobalStyle from "@/core/views/globalStyle";
 import { theme } from "@/core/views/theme";
 
@@ -8,9 +10,11 @@ const AllTheProviders: React.FC<{}> = ({ children }) => {
     return (
         <>
             <GlobalStyle />
-            <Grommet theme={theme} full={true} themeMode='light'>
-                {children}
-            </Grommet>
+            <StoreProvider storeFactory={createRepositories}>
+                <Grommet theme={theme} full={true} themeMode='light'>
+                    {children}
+                </Grommet>
+            </StoreProvider>
         </>
     );
 };
