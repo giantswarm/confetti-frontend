@@ -23,8 +23,8 @@ export class UserImpl extends GenericObject {
     }
 
     public async deserialize(from: PropertyMap): Promise<void> {
-        this.userName = from.username as string;
-        this.token = from.token as string;
+        this.userName = (from.username as string) ?? this.userName;
+        this.token = (from.token as string) ?? this.token;
 
         return Promise.resolve();
     }
