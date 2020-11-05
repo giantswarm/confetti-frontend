@@ -15,10 +15,11 @@ export class UsersRepository extends Repository {
         });
     }
 
-    public currentUser: RepositoryValue<User> = new RepositoryValue<User>(null, false);
+    public currentUser = new RepositoryValue<User>(null, false);
 
     public async login(userName: string): Promise<void> {
         this.currentUser.loading = true;
+        this.currentUser.error = "";
 
         try {
             const newUser = await this.usersService.login(userName);

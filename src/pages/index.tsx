@@ -17,6 +17,14 @@ const IndexPage: React.FC<PageIndexProps> = () => {
         getStuff();
     }, [Users, Events]);
 
+    const handleWatch = (eventID: string) => async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        await Events.watchEvent(eventID);
+        console.log(Events.activeEventID.error);
+    };
+
     if (Events.events.error) {
         return <div>error: {Events.events.error}</div>;
     }
@@ -34,6 +42,9 @@ const IndexPage: React.FC<PageIndexProps> = () => {
                         <p>Event Type: {event.eventType}</p>
                         <p>Event Name: {event.name}</p>
                         <p>Event Is Active: {String(event.active)}</p>
+                        <button type='button' onClick={handleWatch(event.id)}>
+                            Join event
+                        </button>
                     </div>
                 );
             })}

@@ -15,14 +15,19 @@ export class EventsRepository extends Repository {
 
         makeObservable(this, {
             events: observable,
+            activeEventID: observable,
             getAll: action,
+            watchEvent: action,
         });
     }
 
-    public events: RepositoryValue<EventsMap> = new RepositoryValue<EventsMap>(null);
+    public events = new RepositoryValue<EventsMap>(null);
+
+    public activeEventID = new RepositoryValue<string>(null);
 
     public async getAll(): Promise<void> {
         this.events.loading = true;
+        this.events.error = "";
 
         try {
             const authToken = this.usersRepository.currentUser?.data?.token;
@@ -50,6 +55,44 @@ export class EventsRepository extends Repository {
         } finally {
             runInAction(() => {
                 this.events.loading = false;
+            });
+        }
+    }
+
+    public async watchEvent(eventID: string): Promise<void> {
+        this.activeEventID.loading = true;
+        this.activeEventID.error = "";
+
+        try {
+            const authToken = this.usersRepository.currentUser?.data?.token;
+            if (!authToken) {
+                runInAction(() => {
+                    this.activeEventID.error = "You are not authenticated";
+                });
+
+                return;
+            }
+
+            await this.eventsService.watchEvent({
+                eventID,
+                authToken,
+                onConnect: () => {
+                    console.log("Connected");
+                },
+                onDisconnect: () => {
+                    console.log("Disconnected");
+                },
+                onMessage: (payload) => {
+                    console.log("Message", payload);
+                },
+            });
+        } catch (err: unknown) {
+            runInAction(() => {
+                this.activeEventID.error = (err as Error).message;
+            });
+        } finally {
+            runInAction(() => {
+                this.activeEventID.loading = false;
             });
         }
     }
