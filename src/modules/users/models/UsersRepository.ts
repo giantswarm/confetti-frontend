@@ -4,7 +4,7 @@ import { Repository } from "@/core/models/Repository";
 import { RepositoryValue } from "@/core/models/RepositoryValue";
 
 import { UsersService } from "../networking/UsersService";
-import { UserImpl } from "./User";
+import { User } from "./User";
 
 export class UsersRepository extends Repository {
     constructor(protected readonly usersService: UsersService) {
@@ -16,16 +16,16 @@ export class UsersRepository extends Repository {
         });
     }
 
-    public currentUser: RepositoryValue<UserImpl> = new RepositoryValue<UserImpl>(null, false);
+    public currentUser: RepositoryValue<User> = new RepositoryValue<User>(null, false);
 
-    public async login(username: string): Promise<void> {
+    public async login(userName: string): Promise<void> {
         this.currentUser.loading = true;
 
         try {
-            const newUser = await this.usersService.login();
+            const newUser = await this.usersService.login(userName);
             runInAction(() => {
                 this.currentUser.data = newUser;
-                this.currentUser.data.userName = username;
+                this.currentUser.data.userName = userName;
             });
         } catch (err) {
             runInAction(() => {

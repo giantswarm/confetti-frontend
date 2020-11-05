@@ -1,16 +1,16 @@
 import { Config } from "@/app/Config";
-import { PropertyMap } from "@/core/models/GenericObject";
 import { HttpClient, HttpRequestMethods } from "@/core/networking/HttpClient";
 import { Service } from "@/core/networking/Service";
 
-import { UserImpl } from "../models/User";
+import { User } from "../models/User";
+import { UsersLoginResponsePayload } from "./payloads/login";
 
 export class UsersService extends Service {
     constructor(protected readonly httpClient: HttpClient) {
         super();
     }
 
-    public async login(): Promise<UserImpl> {
+    public async login(userName: string): Promise<User> {
         try {
             this.httpClient.setRequestConfig({
                 baseURL: `http://${Config.getInstance().backendHost}`,
@@ -19,9 +19,11 @@ export class UsersService extends Service {
                 method: HttpRequestMethods.POST,
             });
 
-            const result = await this.httpClient.execute<PropertyMap>();
-            const user = new UserImpl();
-            user.deserialize(result.data);
+            const result = await this.httpClient.execute<UsersLoginResponsePayload>();
+
+            const user = new User();
+            user.userName = userName;
+            user.token = result.data.token;
 
             return user;
         } catch (err: unknown) {
