@@ -1,35 +1,30 @@
 import { makeObservable, observable } from "mobx";
 
-import { GenericObject } from "@/core/models/GenericObject";
+import { GenericObject, PropertyMap } from "@/core/models/GenericObject";
 
-export interface User {
-    username: string;
-    token: string;
-}
-
-export class UserImpl extends GenericObject<User> implements User {
+export class UserImpl extends GenericObject {
     constructor() {
         super();
 
         makeObservable(this, {
-            username: observable,
+            userName: observable,
             token: observable,
         });
     }
 
-    public username: string = "";
+    public userName: string = "";
     public token: string = "";
 
-    public async serialize(): Promise<User> {
+    public async serialize(): Promise<PropertyMap> {
         return Promise.resolve({
-            username: this.username,
+            userName: this.userName,
             token: this.token,
         });
     }
 
-    public async deserialize(from: User): Promise<void> {
-        this.username = from.username ?? "";
-        this.token = from.token ?? "";
+    public async deserialize(from: PropertyMap): Promise<void> {
+        this.userName = from.username as string;
+        this.token = from.token as string;
 
         return Promise.resolve();
     }

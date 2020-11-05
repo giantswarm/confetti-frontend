@@ -25,7 +25,7 @@ export class UsersRepository extends Repository {
             const newUser = await this.usersService.login();
             runInAction(() => {
                 this.currentUser.data = newUser;
-                this.currentUser.data.username = username;
+                this.currentUser.data.userName = username;
             });
         } catch (err) {
             runInAction(() => {

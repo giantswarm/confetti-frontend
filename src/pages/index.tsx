@@ -18,7 +18,7 @@ const IndexPage = observer(() => {
         return <div>loading...</div>;
     }
 
-    return <h1>Hello {Users.currentUser.data?.username}</h1>;
+    return <h1>Hello {Users.currentUser.data?.userName}</h1>;
 });
 
 export default IndexPage;

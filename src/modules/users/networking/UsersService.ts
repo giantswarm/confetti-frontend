@@ -1,8 +1,9 @@
 import { Config } from "@/app/Config";
+import { PropertyMap } from "@/core/models/GenericObject";
 import { HttpClient, HttpRequestMethods } from "@/core/networking/HttpClient";
 import { Service } from "@/core/networking/Service";
 
-import { User, UserImpl } from "../models/User";
+import { UserImpl } from "../models/User";
 
 export class UsersService extends Service {
     constructor(protected readonly httpClient: HttpClient) {
@@ -18,7 +19,7 @@ export class UsersService extends Service {
                 method: HttpRequestMethods.POST,
             });
 
-            const result = await this.httpClient.execute<User>();
+            const result = await this.httpClient.execute<PropertyMap>();
             const user = new UserImpl();
             user.deserialize(result.data);
 
