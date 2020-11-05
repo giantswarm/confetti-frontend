@@ -77,9 +77,15 @@ export class EventsRepository extends Repository {
                 eventID,
                 authToken,
                 onConnect: () => {
+                    runInAction(() => {
+                        this.activeEventID.data = eventID;
+                    });
                     console.log("Connected");
                 },
                 onDisconnect: () => {
+                    runInAction(() => {
+                        this.activeEventID.data = null;
+                    });
                     console.log("Disconnected");
                 },
                 onMessage: (payload) => {
