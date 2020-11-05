@@ -10,7 +10,9 @@ const IndexPage = observer(() => {
         Users.login("sss");
     }, [Users]);
 
-    console.log(Users.currentUser.data);
+    if (Users.currentUser.error) {
+        return <div>error: {Users.currentUser.error}</div>;
+    }
 
     if (Users.currentUser.loading) {
         return <div>loading...</div>;
