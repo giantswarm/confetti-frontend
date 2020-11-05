@@ -2,9 +2,8 @@ import { action, makeObservable, observable, runInAction } from "mobx";
 
 import { Repository } from "@/core/models/Repository";
 import { RepositoryValue } from "@/core/models/RepositoryValue";
-
-import { UsersService } from "../networking/UsersService";
-import { User } from "./User";
+import { User } from "@/modules/users/models/User";
+import { UsersService } from "@/modules/users/networking/UsersService";
 
 export class UsersRepository extends Repository {
     constructor(protected readonly usersService: UsersService) {
@@ -27,9 +26,9 @@ export class UsersRepository extends Repository {
                 this.currentUser.data = newUser;
                 this.currentUser.data.userName = userName;
             });
-        } catch (err) {
+        } catch (err: unknown) {
             runInAction(() => {
-                this.currentUser.error = err;
+                this.currentUser.error = (err as Error).message;
             });
         } finally {
             runInAction(() => {

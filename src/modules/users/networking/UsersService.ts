@@ -1,9 +1,8 @@
 import { Config } from "@/app/Config";
 import { HttpClient, HttpRequestMethods } from "@/core/networking/HttpClient";
 import { Service } from "@/core/networking/Service";
-
-import { User } from "../models/User";
-import { UsersLoginResponsePayload } from "./payloads/login";
+import { User } from "@/modules/users/models/User";
+import { UsersLoginResponsePayload } from "@/modules/users/networking/payloads/login";
 
 export class UsersService extends Service {
     constructor(protected readonly httpClient: HttpClient) {
@@ -27,7 +26,7 @@ export class UsersService extends Service {
 
             return user;
         } catch (err: unknown) {
-            return Promise.reject((err as Error).message);
+            return Promise.reject(this.getErrorFromResponse(err));
         }
     }
 }

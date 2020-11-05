@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { GenericResponse } from "./GenericResponse";
+import { GenericResponse } from "@/core/networking/GenericResponse";
 
 export enum HttpRequestMethods {
     GET = "GET",

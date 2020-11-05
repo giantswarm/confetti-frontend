@@ -1,7 +1,6 @@
 import { HttpClientImpl } from "@/core/networking/HttpClient";
-
-import { UsersService } from "../networking/UsersService";
-import { UsersRepository } from "./UsersRepository";
+import { UsersRepository } from "@/modules/users/models/UsersRepository";
+import { UsersService } from "@/modules/users/networking/UsersService";
 
 export function createUsersRepository(): UsersRepository {
     const httpClient = new HttpClientImpl();

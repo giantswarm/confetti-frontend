@@ -1,8 +1,7 @@
 import { makeObservable, observable } from "mobx";
 
 import { GenericObject } from "@/core/models/GenericObject";
-
-export type EventType = string;
+import { EventType } from "@/modules/events/models/types/eventTypes";
 
 export class Event extends GenericObject {
     constructor() {

@@ -3,22 +3,42 @@ import { useEffect } from "react";
 
 import { useStore } from "@/app/Store";
 
-const IndexPage = observer(() => {
-    const { Users } = useStore();
+interface PageIndexProps {}
+
+const IndexPage: React.FC<PageIndexProps> = () => {
+    const { Users, Events } = useStore();
 
     useEffect(() => {
-        Users.login("sss");
-    }, [Users]);
+        const getStuff = async () => {
+            await Users.login("sss");
+            await Events.getAll();
+        };
 
-    if (Users.currentUser.error) {
-        return <div>error: {Users.currentUser.error}</div>;
+        getStuff();
+    }, [Users, Events]);
+
+    if (Events.events.error) {
+        return <div>error: {Events.events.error}</div>;
     }
 
-    if (Users.currentUser.loading) {
+    if (Events.events.loading || !Events.events.data) {
         return <div>loading...</div>;
     }
 
-    return <h1>Hello {Users.currentUser.data?.userName}</h1>;
-});
+    return (
+        <>
+            {Array.from(Events.events.data, ([_, event]) => {
+                return (
+                    <div key={event.id}>
+                        <p>Event ID: {event.id}</p>
+                        <p>Event Type: {event.eventType}</p>
+                        <p>Event Name: {event.name}</p>
+                        <p>Event Is Active: {String(event.active)}</p>
+                    </div>
+                );
+            })}
+        </>
+    );
+};
 
-export default IndexPage;
+export default observer(IndexPage);

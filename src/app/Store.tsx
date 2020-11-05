@@ -1,7 +1,7 @@
 import { enableStaticRendering, useLocalObservable } from "mobx-react-lite";
 import { createContext, useContext } from "react";
 
-import { AppRepositories } from "./factory";
+import { AppRepositories } from "@/app/factory";
 
 const isServer = typeof window === "undefined";
 enableStaticRendering(isServer);
