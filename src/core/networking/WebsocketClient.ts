@@ -1,3 +1,7 @@
+import { MessageQueue } from "./MessageQueue";
+
+const maxNumOfMessagesInQueue = 15;
+
 export enum WebsocketEvents {
     Connect,
     Disconnect,
@@ -15,7 +19,15 @@ export interface WebsocketClient {
     off(event: WebsocketEvents, callback: WebsocketEventCallback): void;
 }
 
+export interface WebsocketClientConfig {
+    processOfflineEvents?: boolean;
+}
+
 export class WebsocketClientImpl implements WebsocketClient {
+    constructor(config?: WebsocketClientConfig) {
+        this.config = Object.assign({}, this.config, config);
+    }
+
     public connect(url: string): void {
         if (this.underlyingConnection) {
             return;
@@ -35,6 +47,10 @@ export class WebsocketClientImpl implements WebsocketClient {
 
     public emit<T = Record<string, unknown>>(data: T): Promise<void> {
         if (!this.underlyingConnection) {
+            if (this.config.processOfflineEvents) {
+                this.messageQueue.add(data);
+            }
+
             return Promise.resolve();
         }
 
@@ -59,7 +75,10 @@ export class WebsocketClientImpl implements WebsocketClient {
     protected addSocketEvents(): void {
         if (!this.underlyingConnection) return;
 
-        this.underlyingConnection.onopen = () => this.callEventCallbacks(WebsocketEvents.Connect, {});
+        this.underlyingConnection.onopen = () => {
+            this.callEventCallbacks(WebsocketEvents.Connect, {});
+            this.processMessageQueue();
+        };
         this.underlyingConnection.onclose = () => {
             this.callEventCallbacks(WebsocketEvents.Disconnect, {});
 
@@ -90,6 +109,20 @@ export class WebsocketClientImpl implements WebsocketClient {
         }
     }
 
+    protected processMessageQueue = (): void => {
+        if (!this.underlyingConnection || !this.config.processOfflineEvents) return;
+
+        let message: unknown | null = this.messageQueue.next();
+        while (message !== null) {
+            this.emit(message);
+
+            message = this.messageQueue.next();
+        }
+    };
+
+    protected config: WebsocketClientConfig = {
+        processOfflineEvents: false,
+    };
     protected underlyingConnection: WebSocket | null = null;
     protected eventsMap: Record<WebsocketEvents, WebsocketEventCallback[]> = {
         [WebsocketEvents.Connect]: [],
@@ -97,4 +130,5 @@ export class WebsocketClientImpl implements WebsocketClient {
         [WebsocketEvents.Message]: [],
         [WebsocketEvents.Error]: [],
     };
+    protected messageQueue = new MessageQueue<unknown>(maxNumOfMessagesInQueue);
 }
