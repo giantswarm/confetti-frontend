@@ -46,7 +46,7 @@ export class EventsRepository extends Repository {
         return this.events.data?.get(this.activeEventID.data) ?? null;
     }
 
-    get activeRoom(): OnsiteEventRoom | null {
+    get activeOnsiteRoom(): OnsiteEventRoom | null {
         if (!this.activeOnsiteRoomID.data) return null;
         if (this.activeEvent?.eventType !== "onsite") return null;
 
@@ -162,6 +162,7 @@ export class EventsRepository extends Repository {
     };
 
     public onWatcherDisconnect = (_eventID: string): void => {
+        if (this.activeOnsiteRoom) this.activeOnsiteRoom.attendeeCounter--;
         this.activeEventID.data = null;
         this.activeOnsiteRoomID.data = null;
     };
