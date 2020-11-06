@@ -14,4 +14,11 @@ export class User extends GenericObject {
 
     public userName: string = "";
     public token: string = "";
+
+    public toJSON() {
+        return {
+            userName: this.userName,
+            token: this.token,
+        };
+    }
 }

@@ -11,7 +11,10 @@ const IndexPage: React.FC<PageIndexProps> = () => {
 
     useEffect(() => {
         const getStuff = async () => {
-            await Users.login("sss");
+            Users.tryToRestoreUser();
+            if (!Users.currentUser.data) {
+                await Users.login("sss");
+            }
             await Events.getAll();
         };
 

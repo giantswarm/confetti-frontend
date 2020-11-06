@@ -19,6 +19,8 @@ export class Config {
 
     public readonly backendHost: string = process.env.BACKEND_HOST ?? "localhost:7777";
 
+    public readonly isServer: boolean = typeof window === "undefined";
+
     private determineDeploymentStatus(): ConfigDeploymentStatus {
         switch (process.env.DEPLOYMENT_STATUS) {
             case "dev":
