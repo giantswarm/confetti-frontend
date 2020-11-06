@@ -1,7 +1,5 @@
 import { MessageQueue } from "./MessageQueue";
 
-const maxNumOfMessagesInQueue = 15;
-
 export enum WebsocketEvents {
     Connect,
     Disconnect,
@@ -20,11 +18,14 @@ export interface WebsocketClient {
 }
 
 export interface WebsocketClientConfig {
-    processOfflineEvents?: boolean;
+    processOfflineEvents: boolean;
+    offlineEventsQueueLength: number;
+    autoReconnect: boolean;
+    autoReconnectInterval: number;
 }
 
 export class WebsocketClientImpl implements WebsocketClient {
-    constructor(config?: WebsocketClientConfig) {
+    constructor(config?: Partial<WebsocketClientConfig>) {
         this.config = Object.assign({}, this.config, config);
     }
 
@@ -34,15 +35,12 @@ export class WebsocketClientImpl implements WebsocketClient {
         }
 
         this.underlyingConnection = new WebSocket(url);
-        this.addSocketEvents();
+        this.addSocketEvents(url);
     }
 
     public disconnect(): void {
-        if (!this.underlyingConnection) {
-            return;
-        }
-
-        this.underlyingConnection.close();
+        this.shouldAutoReconnect = false;
+        this.underlyingConnection?.close();
     }
 
     public emit<T = Record<string, unknown>>(data: T): Promise<void> {
@@ -72,21 +70,24 @@ export class WebsocketClientImpl implements WebsocketClient {
         this.eventsMap[event].filter((cb) => !Object.is(callback, cb));
     }
 
-    protected addSocketEvents(): void {
+    protected addSocketEvents(url: string): void {
         if (!this.underlyingConnection) return;
 
         this.underlyingConnection.onopen = () => {
             this.callEventCallbacks(WebsocketEvents.Connect, {});
             this.processMessageQueue();
+
+            this.stopAutoReconnectTicker();
+            this.shouldAutoReconnect = this.config.autoReconnect;
         };
         this.underlyingConnection.onclose = () => {
             this.callEventCallbacks(WebsocketEvents.Disconnect, {});
 
             this.underlyingConnection = null;
-            this.eventsMap[WebsocketEvents.Connect] = [];
-            this.eventsMap[WebsocketEvents.Disconnect] = [];
-            this.eventsMap[WebsocketEvents.Message] = [];
-            this.eventsMap[WebsocketEvents.Error] = [];
+
+            if (this.shouldAutoReconnect) {
+                this.startAutoReconnectTicker(url);
+            }
         };
         this.underlyingConnection.onmessage = (e) => {
             let data: Record<string, unknown> = {};
@@ -99,6 +100,7 @@ export class WebsocketClientImpl implements WebsocketClient {
             this.callEventCallbacks(WebsocketEvents.Message, data);
         };
         this.underlyingConnection.onerror = () => {
+            this.shouldAutoReconnect = this.config.autoReconnect;
             this.callEventCallbacks(WebsocketEvents.Error, {});
         };
     }
@@ -120,8 +122,19 @@ export class WebsocketClientImpl implements WebsocketClient {
         }
     };
 
+    protected startAutoReconnectTicker(url: string): void {
+        this.autoReconnectTicker = setInterval(() => this.connect(url), this.config.autoReconnectInterval);
+    }
+
+    protected stopAutoReconnectTicker(): void {
+        clearInterval(this.autoReconnectTicker);
+    }
+
     protected config: WebsocketClientConfig = {
         processOfflineEvents: false,
+        offlineEventsQueueLength: 25,
+        autoReconnect: true,
+        autoReconnectInterval: 10000,
     };
     protected underlyingConnection: WebSocket | null = null;
     protected eventsMap: Record<WebsocketEvents, WebsocketEventCallback[]> = {
@@ -130,5 +143,7 @@ export class WebsocketClientImpl implements WebsocketClient {
         [WebsocketEvents.Message]: [],
         [WebsocketEvents.Error]: [],
     };
-    protected messageQueue = new MessageQueue<unknown>(maxNumOfMessagesInQueue);
+    protected messageQueue = new MessageQueue<unknown>(this.config.offlineEventsQueueLength);
+    protected shouldAutoReconnect: boolean = this.config.autoReconnect;
+    protected autoReconnectTicker: number = 0;
 }

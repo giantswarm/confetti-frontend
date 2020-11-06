@@ -10,6 +10,7 @@ export function createEventsRepository(usersRepository: UsersRepository): Events
     const httpClient = new HttpClientImpl();
     const wsClient = new WebsocketClientImpl({
         processOfflineEvents: true,
+        autoReconnect: true,
     });
     const eventsService = new EventsService(httpClient, wsClient);
     const eventsRepository = new EventsRepository(persistingStrategy, eventsService, usersRepository);
