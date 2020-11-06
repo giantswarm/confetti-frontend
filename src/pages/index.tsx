@@ -15,7 +15,11 @@ const IndexPage: React.FC<PageIndexProps> = () => {
             if (!Users.currentUser.data) {
                 await Users.login("sss");
             }
-            await Events.getAll();
+
+            await Events.tryToRestoreActiveEvent();
+            if (!Events.activeEventID.data) {
+                await Events.getAll();
+            }
         };
 
         getStuff();
@@ -62,7 +66,7 @@ const IndexPage: React.FC<PageIndexProps> = () => {
                         <li>Event Is Active: {String(event.active)}</li>
                         <li>
                             <button type='button' onClick={handleWatch(event.id)}>
-                                {Events.activeEventID.data ? "Leave event" : "Join event"}
+                                {Events.activeEventID.data === event.id ? "Leave event" : "Join event"}
                             </button>
                         </li>
 
@@ -78,7 +82,9 @@ const IndexPage: React.FC<PageIndexProps> = () => {
                                                 <li>Room Conference URL: {room.conferenceURL}</li>
                                                 <li>Room Attendee Counter: {room.attendeeCounter}</li>
                                                 <button type='button' onClick={handleJoinRoom(event.id, room.id)}>
-                                                    {Events.activeOnsiteRoomID.data ? "Leave room" : "Join room"}
+                                                    {Events.activeOnsiteRoomID.data === room.id
+                                                        ? "Leave room"
+                                                        : "Join room"}
                                                 </button>
                                             </div>
                                         );

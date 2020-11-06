@@ -1,5 +1,6 @@
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
 
+import { PersistingStrategy } from "@/core/models/PersistingStrategy";
 import { Repository } from "@/core/models/Repository";
 import { RepositoryValue } from "@/core/models/RepositoryValue";
 import { PayloadHandler } from "@/core/networking/PayloadHandler";
@@ -16,13 +17,22 @@ import { OnsiteEventRoom } from "./types/onsite/OnsiteEventRoom";
 type EventsMap = Map<string, RemoteEvent>;
 
 export class EventsRepository extends Repository {
-    constructor(protected readonly eventsService: EventsService, protected readonly usersRepository: UsersRepository) {
+    public static activeEventIDStorageKey = "activeEventID";
+    public static activeOnsiteEventRoomIDStorageKey = "activeOnsiteEventRoomID";
+
+    constructor(
+        protected readonly persistingStrategy: PersistingStrategy,
+        protected readonly eventsService: EventsService,
+        protected readonly usersRepository: UsersRepository
+    ) {
         super();
 
         makeObservable(this, {
             events: observable,
             activeEventID: observable,
             activeEvent: computed,
+            activeOnsiteRoomID: observable,
+            activeOnsiteRoom: computed,
             getAll: action,
             watchEvent: action,
             onWatcherConnect: action,
@@ -135,6 +145,11 @@ export class EventsRepository extends Repository {
 
     public stopWatchingEvent(eventID: string): void {
         this.eventsService.stopWatchingEvent(eventID);
+        if (this.activeOnsiteRoom) this.activeOnsiteRoom.attendeeCounter--;
+        this.activeEventID.data = null;
+        this.persistingStrategy.delete(EventsRepository.activeEventIDStorageKey);
+        this.activeOnsiteRoomID.data = null;
+        this.persistingStrategy.delete(EventsRepository.activeOnsiteEventRoomIDStorageKey);
     }
 
     public async joinOnsiteRoom(eventID: string, onsiteRoomID: string): Promise<void> {
@@ -157,15 +172,64 @@ export class EventsRepository extends Repository {
         }
     }
 
+    public async tryToRestoreActiveEvent(): Promise<void> {
+        this.activeEventID.loading = true;
+
+        try {
+            const existingEventID = this.persistingStrategy.restore<string>(EventsRepository.activeEventIDStorageKey);
+            if (!existingEventID) return Promise.resolve();
+
+            if (!this.events.data || !this.events.data.has(existingEventID)) {
+                await this.getAll();
+                if (!this.events.data?.has(existingEventID)) {
+                    throw new Error(`Event with ID ${existingEventID} does not exist anymore.`);
+                }
+            }
+
+            this.watchEvent(existingEventID);
+        } catch (err) {
+            this.persistingStrategy.delete(EventsRepository.activeEventIDStorageKey);
+        } finally {
+            runInAction(() => {
+                this.activeEventID.loading = false;
+            });
+        }
+
+        return Promise.resolve();
+    }
+
+    public async tryToRestoreActiveOnsiteRoom(): Promise<void> {
+        this.activeOnsiteRoomID.loading = true;
+
+        try {
+            const existingOnsiteRoomID = this.persistingStrategy.restore<string>(
+                EventsRepository.activeOnsiteEventRoomIDStorageKey
+            );
+            if (!existingOnsiteRoomID) return Promise.resolve();
+
+            const desiredRoom = this.findRoomWithID(existingOnsiteRoomID);
+            if (!desiredRoom) {
+                throw new Error(`Onsite event room with ID ${existingOnsiteRoomID} does not exist anymore.`);
+            }
+
+            await this.joinOnsiteRoom(this.activeEventID.data!, existingOnsiteRoomID);
+        } catch (err) {
+            this.persistingStrategy.delete(EventsRepository.activeOnsiteEventRoomIDStorageKey);
+        } finally {
+            runInAction(() => {
+                this.activeOnsiteRoomID.loading = false;
+            });
+        }
+
+        return Promise.resolve();
+    }
+
     public onWatcherConnect = (eventID: string): void => {
         this.activeEventID.data = eventID;
+        this.persistingStrategy.persist(EventsRepository.activeEventIDStorageKey, eventID);
     };
 
-    public onWatcherDisconnect = (_eventID: string): void => {
-        if (this.activeOnsiteRoom) this.activeOnsiteRoom.attendeeCounter--;
-        this.activeEventID.data = null;
-        this.activeOnsiteRoomID.data = null;
-    };
+    public onWatcherDisconnect = (_eventID: string): void => {};
 
     public onWatcherInvalidPayload = (errorMessage: string): void => {
         this.activeEventID.error = errorMessage;
@@ -174,22 +238,28 @@ export class EventsRepository extends Repository {
     public onWatcherUpdateConfiguration = (newEvent: RemoteEvent): void => {
         this.activeEventID.data = newEvent.id;
         this.events.data?.set(newEvent.id, newEvent);
+
+        this.tryToRestoreActiveOnsiteRoom();
     };
 
     public onRoomJoin = (roomID: string): void => {
         this.activeOnsiteRoomID.data = roomID;
+        this.persistingStrategy.persist(EventsRepository.activeOnsiteEventRoomIDStorageKey, roomID);
     };
 
     public onRoomJoinError = (_roomID: string, errorMessage: string): void => {
         this.activeOnsiteRoomID.error = errorMessage;
+        this.persistingStrategy.delete(EventsRepository.activeOnsiteEventRoomIDStorageKey);
     };
 
     public onRoomLeave = (_roomID: string): void => {
         this.activeOnsiteRoomID.data = null;
+        this.persistingStrategy.delete(EventsRepository.activeOnsiteEventRoomIDStorageKey);
     };
 
     public onRoomLeaveError = (_roomID: string, errorMessage: string): void => {
         this.activeOnsiteRoomID.error = errorMessage;
+        this.persistingStrategy.delete(EventsRepository.activeOnsiteEventRoomIDStorageKey);
     };
 
     public onRoomUpdateAttendeeCounter = (roomID: string, counter: number): void => {
