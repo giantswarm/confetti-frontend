@@ -22,7 +22,11 @@ const IndexPage: React.FC<PageIndexProps> = () => {
         e.preventDefault();
         e.stopPropagation();
 
-        await Events.watchEvent(eventID);
+        if (Events.activeEventID.data) {
+            Events.stopWatchingEvent(eventID);
+        } else {
+            await Events.watchEvent(eventID);
+        }
     };
 
     if (Events.events.error) {

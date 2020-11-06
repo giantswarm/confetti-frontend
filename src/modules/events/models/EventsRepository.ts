@@ -173,6 +173,10 @@ export class EventsRepository extends Repository {
         room.attendeeCounter = counter;
     };
 
+    public stopWatchingEvent(eventID: string): void {
+        this.eventsService.stopWatchingEvent(eventID);
+    }
+
     private findRoomWithID(roomID: string): OnsiteEventRoom | null {
         if (!this.activeEvent) return null;
         const room = (this.activeEvent as OnsiteEvent).rooms?.find((r) => r.id === roomID);

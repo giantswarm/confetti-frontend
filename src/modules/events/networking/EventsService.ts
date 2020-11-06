@@ -73,6 +73,10 @@ export class EventsService extends Service {
         });
     }
 
+    public stopWatchingEvent(_eventID: string): void {
+        this.wsClient.disconnect();
+    }
+
     private parseEvent(responseEvent: EventsListerResponsePayloadEvent): RemoteEvent {
         let newEvent: RemoteEvent = {} as RemoteEvent;
         switch (responseEvent.event_type) {
