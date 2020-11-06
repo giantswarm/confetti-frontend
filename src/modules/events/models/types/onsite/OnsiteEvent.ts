@@ -1,4 +1,4 @@
-import { extendObservable, observable } from "mobx";
+import { makeObservable, observable } from "mobx";
 
 import { Event } from "@/modules/events/models/Event";
 import { EventType } from "@/modules/events/models/types/eventTypes";
@@ -8,8 +8,8 @@ export class OnsiteEvent extends Event {
     constructor() {
         super();
 
-        extendObservable(this, {
-            rooms: observable.array,
+        makeObservable(this, {
+            rooms: observable,
         });
     }
 

@@ -1,5 +1,6 @@
 import { Config } from "@/app/Config";
 import { HttpClient, HttpRequestMethods } from "@/core/networking/HttpClient";
+import { PayloadHandler } from "@/core/networking/PayloadHandler";
 import { Service } from "@/core/networking/Service";
 import { WebsocketClient, WebsocketEvents } from "@/core/networking/WebsocketClient";
 import {
@@ -10,6 +11,7 @@ import {
 import { Event } from "../models/Event";
 import { EventType, RemoteEvent } from "../models/types/eventTypes";
 import { OnsiteEvent } from "../models/types/onsite/OnsiteEvent";
+import { EventsWatcherPayloads } from "./payloads/watcher/watcher";
 
 export class EventsService extends Service {
     constructor(protected readonly httpClient: HttpClient, protected readonly wsClient: WebsocketClient) {
@@ -40,16 +42,16 @@ export class EventsService extends Service {
         }
     }
 
-    public async watchEvent(req: {
+    public async watchEvent(config: {
         eventID: string;
         authToken: string;
         onConnect: () => void;
         onDisconnect: () => void;
-        onMessage: (payload: Record<string, unknown>) => void;
+        messagePayloadHandlers: PayloadHandler<EventsWatcherPayloads>[];
     }): Promise<void> {
         return new Promise((resolve, reject) => {
             this.wsClient.on(WebsocketEvents.Connect, () => {
-                req.onConnect();
+                config.onConnect();
                 resolve();
             });
             this.wsClient.on(WebsocketEvents.Error, () => {
@@ -57,14 +59,16 @@ export class EventsService extends Service {
                 reject(new Error("Unable to establish connection. Check your console for the full error output."));
             });
             this.wsClient.on(WebsocketEvents.Disconnect, () => {
-                req.onDisconnect();
+                config.onDisconnect();
             });
-            this.wsClient.on(WebsocketEvents.Message, (payload) => {
-                req.onMessage(payload);
+            this.wsClient.on(WebsocketEvents.Message, (payload: EventsWatcherPayloads) => {
+                for (const handler of config.messagePayloadHandlers) {
+                    handler.process(payload);
+                }
             });
 
             this.wsClient.connect(
-                `ws://${Config.getInstance().backendHost}/v1/events/${req.eventID}/watch/?token=${req.authToken}`
+                `ws://${Config.getInstance().backendHost}/v1/events/${config.eventID}/watch/?token=${config.authToken}`
             );
         });
     }

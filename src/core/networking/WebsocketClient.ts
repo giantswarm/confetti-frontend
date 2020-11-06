@@ -5,13 +5,13 @@ export enum WebsocketEvents {
     Error,
 }
 
-export type WebsocketEventCallback = (payload: Record<string, unknown>) => void;
+export type WebsocketEventCallback<T = Record<string, unknown>> = (payload: T) => void;
 
 export interface WebsocketClient {
     connect(url: string): void;
     disconnect(): void;
     emit<T = Record<string, unknown>>(data: T): Promise<void>;
-    on(event: WebsocketEvents, callback: WebsocketEventCallback): void;
+    on<T = Record<string, unknown>>(event: WebsocketEvents, callback: WebsocketEventCallback<T>): void;
     off(event: WebsocketEvents, callback: WebsocketEventCallback): void;
 }
 
@@ -48,8 +48,8 @@ export class WebsocketClientImpl implements WebsocketClient {
         }
     }
 
-    public on(event: WebsocketEvents, callback: WebsocketEventCallback): void {
-        this.eventsMap[event].push(callback);
+    public on<T = Record<string, unknown>>(event: WebsocketEvents, callback: WebsocketEventCallback<T>): void {
+        this.eventsMap[event].push(callback as WebsocketEventCallback);
     }
 
     public off(event: WebsocketEvents, callback: WebsocketEventCallback): void {

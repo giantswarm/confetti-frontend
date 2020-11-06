@@ -11,6 +11,7 @@ export class OnsiteEventRoom extends GenericObject {
             name: observable,
             description: observable,
             conferenceURL: observable,
+            attendeeCounter: observable,
         });
     }
 
@@ -18,4 +19,5 @@ export class OnsiteEventRoom extends GenericObject {
     public name: string = "";
     public description: string = "";
     public conferenceURL: string = "";
+    public attendeeCounter: number = 0;
 }
