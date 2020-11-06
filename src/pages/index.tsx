@@ -29,6 +29,17 @@ const IndexPage: React.FC<PageIndexProps> = () => {
         }
     };
 
+    const handleJoinRoom = (eventID: string, roomID: string) => async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (Events.activeOnsiteRoomID.data) {
+            await Events.leaveOnsiteRoom(eventID, roomID);
+        } else {
+            await Events.joinOnsiteRoom(eventID, roomID);
+        }
+    };
+
     if (Events.events.error) {
         return <div>error: {Events.events.error}</div>;
     }
@@ -63,6 +74,9 @@ const IndexPage: React.FC<PageIndexProps> = () => {
                                                 <li>Room Name: {room.name}</li>
                                                 <li>Room Conference URL: {room.conferenceURL}</li>
                                                 <li>Room Attendee Counter: {room.attendeeCounter}</li>
+                                                <button type='button' onClick={handleJoinRoom(event.id, room.id)}>
+                                                    {Events.activeOnsiteRoomID.data ? "Leave room" : "Join room"}
+                                                </button>
                                             </div>
                                         );
                                     })}

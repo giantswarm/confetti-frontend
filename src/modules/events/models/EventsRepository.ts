@@ -133,12 +133,37 @@ export class EventsRepository extends Repository {
         }
     }
 
+    public stopWatchingEvent(eventID: string): void {
+        this.eventsService.stopWatchingEvent(eventID);
+    }
+
+    public async joinOnsiteRoom(eventID: string, onsiteRoomID: string): Promise<void> {
+        try {
+            await this.eventsService.joinOnsiteRoom(eventID, onsiteRoomID);
+        } catch (err) {
+            runInAction(() => {
+                this.activeOnsiteRoomID.error = err;
+            });
+        }
+    }
+
+    public async leaveOnsiteRoom(eventID: string, onsiteRoomID: string): Promise<void> {
+        try {
+            await this.eventsService.leaveOnsiteRoom(eventID, onsiteRoomID);
+        } catch (err) {
+            runInAction(() => {
+                this.activeOnsiteRoomID.error = err;
+            });
+        }
+    }
+
     public onWatcherConnect = (eventID: string): void => {
         this.activeEventID.data = eventID;
     };
 
     public onWatcherDisconnect = (_eventID: string): void => {
         this.activeEventID.data = null;
+        this.activeOnsiteRoomID.data = null;
     };
 
     public onWatcherInvalidPayload = (errorMessage: string): void => {
@@ -172,10 +197,6 @@ export class EventsRepository extends Repository {
 
         room.attendeeCounter = counter;
     };
-
-    public stopWatchingEvent(eventID: string): void {
-        this.eventsService.stopWatchingEvent(eventID);
-    }
 
     private findRoomWithID(roomID: string): OnsiteEventRoom | null {
         if (!this.activeEvent) return null;

@@ -11,6 +11,11 @@ import {
 import { Event } from "../models/Event";
 import { EventType, RemoteEvent } from "../models/types/eventTypes";
 import { OnsiteEvent } from "../models/types/onsite/OnsiteEvent";
+import { ONSITE_ROOM_JOIN_REQUEST, ONSITE_ROOM_LEAVE_REQUEST } from "./payloads/watcher/types/onsite/constants";
+import {
+    EventsWatcherOnsiteEventJoinRoomRequestPayload,
+    EventsWatcherOnsiteEventLeaveRoomRequestPayload,
+} from "./payloads/watcher/types/onsite/onsite";
 import { EventsWatcherPayloads } from "./payloads/watcher/watcher";
 
 export class EventsService extends Service {
@@ -75,6 +80,40 @@ export class EventsService extends Service {
 
     public stopWatchingEvent(_eventID: string): void {
         this.wsClient.disconnect();
+    }
+
+    public async joinOnsiteRoom(_eventID: string, onsiteRoomID: string): Promise<void> {
+        const payload: EventsWatcherOnsiteEventJoinRoomRequestPayload = {
+            type: ONSITE_ROOM_JOIN_REQUEST,
+            data: {
+                room_id: onsiteRoomID,
+            },
+        };
+
+        try {
+            await this.wsClient.emit(payload);
+
+            return Promise.resolve();
+        } catch (err) {
+            return Promise.reject(err);
+        }
+    }
+
+    public async leaveOnsiteRoom(_eventID: string, onsiteRoomID: string): Promise<void> {
+        const payload: EventsWatcherOnsiteEventLeaveRoomRequestPayload = {
+            type: ONSITE_ROOM_LEAVE_REQUEST,
+            data: {
+                room_id: onsiteRoomID,
+            },
+        };
+
+        try {
+            await this.wsClient.emit(payload);
+
+            return Promise.resolve();
+        } catch (err) {
+            return Promise.reject(err);
+        }
     }
 
     private parseEvent(responseEvent: EventsListerResponsePayloadEvent): RemoteEvent {
