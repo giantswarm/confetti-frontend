@@ -1,4 +1,4 @@
-import { Anchor, Box } from "grommet";
+import { Anchor, Box, Text } from "grommet";
 
 import { Config } from "@/app/Config";
 
@@ -18,7 +18,9 @@ const SidebarFooter: React.FC<SidebarFooterProps> = () => {
                 target='_blank'
                 rel='noopener'
             >
-                View app source
+                <Text size='xsmall' weight='normal'>
+                    View app source
+                </Text>
             </Anchor>
         </Box>
     );
