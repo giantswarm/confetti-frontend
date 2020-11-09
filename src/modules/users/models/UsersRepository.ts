@@ -24,7 +24,7 @@ export class UsersRepository extends Repository {
 
     public currentUser = new RepositoryValue<User>(null, false);
 
-    public async login(userName: string): Promise<void> {
+    public login = async (userName: string): Promise<void> => {
         this.currentUser.loading = true;
         this.currentUser.error = "";
 
@@ -44,7 +44,7 @@ export class UsersRepository extends Repository {
                 this.currentUser.loading = false;
             });
         }
-    }
+    };
 
     public tryToRestoreUser = (): void => {
         this.currentUser.loading = true;

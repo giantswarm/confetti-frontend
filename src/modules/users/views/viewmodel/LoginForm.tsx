@@ -16,18 +16,18 @@ const LoginForm: React.FC<LoginFormProps> = () => {
         redirectPath = decodeURIComponent(query.redirectTo as string);
     }
 
-    const { currentUser } = Users;
+    const { currentUser, tryToRestoreUser, login } = Users;
 
     useEffect(() => {
-        Users.tryToRestoreUser();
-        if (Users.currentUser.data) {
+        tryToRestoreUser();
+        if (currentUser.data) {
             push(redirectPath);
         }
-    }, [Users, push, redirectPath]);
+    }, [tryToRestoreUser, currentUser, push, redirectPath]);
 
     const handleLogin = async (event: FormExtendedEvent<unknown, Element>) => {
-        await Users.login(event.value as string);
-        if (Users.currentUser.data) {
+        await login(event.value as string);
+        if (currentUser.data) {
             await push(redirectPath);
         }
     };

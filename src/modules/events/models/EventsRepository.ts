@@ -35,6 +35,8 @@ export class EventsRepository extends Repository {
             activeOnsiteRoom: computed,
             getAll: action,
             watchEvent: action,
+            tryToRestoreActiveEvent: action,
+            tryToRestoreActiveOnsiteRoom: action,
             onWatcherConnect: action,
             onWatcherDisconnect: action,
             onWatcherUpdateConfiguration: action,
@@ -63,7 +65,7 @@ export class EventsRepository extends Repository {
         return this.findRoomWithID(this.activeOnsiteRoomID.data);
     }
 
-    public async getAll(): Promise<void> {
+    public getAll = async (): Promise<void> => {
         this.events.loading = true;
         this.events.error = "";
 
@@ -93,9 +95,9 @@ export class EventsRepository extends Repository {
                 this.events.loading = false;
             });
         }
-    }
+    };
 
-    public async watchEvent(eventID: string): Promise<void> {
+    public watchEvent = async (eventID: string): Promise<void> => {
         this.activeEventID.loading = true;
         this.activeEventID.error = "";
 
@@ -141,18 +143,18 @@ export class EventsRepository extends Repository {
                 this.activeEventID.loading = false;
             });
         }
-    }
+    };
 
-    public stopWatchingEvent(eventID: string): void {
+    public stopWatchingEvent = (eventID: string): void => {
         this.eventsService.stopWatchingEvent(eventID);
         if (this.activeOnsiteRoom) this.activeOnsiteRoom.attendeeCounter--;
         this.activeEventID.data = null;
         this.persistingStrategy.delete(EventsRepository.activeEventIDStorageKey);
         this.activeOnsiteRoomID.data = null;
         this.persistingStrategy.delete(EventsRepository.activeOnsiteEventRoomIDStorageKey);
-    }
+    };
 
-    public async joinOnsiteRoom(eventID: string, onsiteRoomID: string): Promise<void> {
+    public joinOnsiteRoom = async (eventID: string, onsiteRoomID: string): Promise<void> => {
         try {
             await this.eventsService.joinOnsiteRoom(eventID, onsiteRoomID);
         } catch (err) {
@@ -160,9 +162,9 @@ export class EventsRepository extends Repository {
                 this.activeOnsiteRoomID.error = err;
             });
         }
-    }
+    };
 
-    public async leaveOnsiteRoom(eventID: string, onsiteRoomID: string): Promise<void> {
+    public leaveOnsiteRoom = async (eventID: string, onsiteRoomID: string): Promise<void> => {
         try {
             await this.eventsService.leaveOnsiteRoom(eventID, onsiteRoomID);
         } catch (err) {
@@ -170,9 +172,9 @@ export class EventsRepository extends Repository {
                 this.activeOnsiteRoomID.error = err;
             });
         }
-    }
+    };
 
-    public async tryToRestoreActiveEvent(): Promise<void> {
+    public tryToRestoreActiveEvent = async (): Promise<void> => {
         this.activeEventID.loading = true;
 
         try {
@@ -186,7 +188,7 @@ export class EventsRepository extends Repository {
                 }
             }
 
-            this.watchEvent(existingEventID);
+            await this.watchEvent(existingEventID);
         } catch (err) {
             this.persistingStrategy.delete(EventsRepository.activeEventIDStorageKey);
         } finally {
@@ -196,9 +198,9 @@ export class EventsRepository extends Repository {
         }
 
         return Promise.resolve();
-    }
+    };
 
-    public async tryToRestoreActiveOnsiteRoom(): Promise<void> {
+    public tryToRestoreActiveOnsiteRoom = async (): Promise<void> => {
         this.activeOnsiteRoomID.loading = true;
 
         try {
@@ -222,7 +224,7 @@ export class EventsRepository extends Repository {
         }
 
         return Promise.resolve();
-    }
+    };
 
     public onWatcherConnect = (eventID: string): void => {
         this.activeEventID.data = eventID;

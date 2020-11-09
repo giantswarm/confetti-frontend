@@ -2,7 +2,6 @@ import Head from "next/head";
 
 import { formatTitle } from "@/core/views/titles";
 import Layout from "@/core/views/ui/app/Layout";
-import EventSelector from "@/modules/events/views/viewmodel/EventSelector/EventSelector";
 import { privateRoute } from "@/modules/users/views/viewmodel/privateRoute";
 
 const EventsPage: React.FC<{}> = () => {
@@ -11,7 +10,7 @@ const EventsPage: React.FC<{}> = () => {
             <Head>
                 <title>{formatTitle("Events")}</title>
             </Head>
-            <Layout sidebarContent={<EventSelector />} key='layout'>
+            <Layout sidebarContent={<div>Hello</div>} key='layout'>
                 Hi
             </Layout>
         </>
