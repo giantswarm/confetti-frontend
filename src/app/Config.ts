@@ -21,6 +21,8 @@ export class Config {
 
     public readonly isServer: boolean = typeof window === "undefined";
 
+    public readonly sourceURL = "https://github.com/giantswarm/confetti-frontend";
+
     private determineDeploymentStatus(): ConfigDeploymentStatus {
         switch (process.env.DEPLOYMENT_STATUS) {
             case "dev":

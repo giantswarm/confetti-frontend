@@ -11,8 +11,8 @@ export const theme = deepMerge(generate(16), {
     global: {
         colors: {
             brand: {
-                dark: "#2900FF",
-                light: "#2900FF",
+                dark: "#2b6587",
+                light: "#2b6587",
             },
             background: {
                 dark: "#111111",
@@ -59,7 +59,7 @@ export const theme = deepMerge(generate(16), {
             "active-text": "text-strong",
             "selected-background": "brand",
             "selected-text": "text-strong",
-            "status-critical": "#B12C2C",
+            "status-critical": "#f51b1b",
             "status-warning": "#FFAA15",
             "status-ok": "#3EE03B",
             "status-unknown": "#CCCCCC",
@@ -222,7 +222,10 @@ export const theme = deepMerge(generate(16), {
     },
     formField: {
         border: {
-            color: "border",
+            color: {
+                dark: "white",
+                light: "border",
+            },
             error: {
                 color: {
                     dark: "white",
@@ -230,7 +233,7 @@ export const theme = deepMerge(generate(16), {
                 },
             },
             position: "inner",
-            side: "all",
+            side: "bottom",
             style: "solid",
             size: "xsmall",
         },
@@ -276,16 +279,17 @@ export const theme = deepMerge(generate(16), {
         label: {
             margin: {
                 vertical: "small",
-                horizontal: "none",
             },
             size: "medium",
             weight: "normal",
-            color: "status-disabled",
+            color: {
+                dark: "white",
+                light: "status-disabled",
+            },
         },
         margin: {
             bottom: "medium",
         },
-        round: "6px",
     },
     calendar: {
         small: {

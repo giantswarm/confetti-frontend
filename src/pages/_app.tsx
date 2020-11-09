@@ -15,7 +15,7 @@ const AppWrapper: React.FC<AppProps> = ({ Component, pageProps }) => {
             </Head>
             <GlobalStyle />
             <StoreProvider storeFactory={createRepositories}>
-                <Grommet theme={theme} full={true} themeMode='light'>
+                <Grommet theme={theme} full={true} themeMode={theme.defaultMode as "light" | "dark"}>
                     <Component {...pageProps} />
                 </Grommet>
             </StoreProvider>
