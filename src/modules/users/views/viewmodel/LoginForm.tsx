@@ -1,5 +1,7 @@
 import { Box, Button, Form, FormExtendedEvent, FormField, Heading, Text, TextInput } from "grommet";
 import { observer } from "mobx-react-lite";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 import { useStore } from "@/app/Store";
 import Spinner from "@/core/views/ui/app/Spinner";
@@ -8,13 +10,26 @@ interface LoginFormProps {}
 
 const LoginForm: React.FC<LoginFormProps> = () => {
     const { Users } = useStore();
-    // const router = useRouter();
+    const { push, query } = useRouter();
+    let redirectPath: string = "/";
+    if (query.redirectTo) {
+        redirectPath = decodeURIComponent(query.redirectTo as string);
+    }
 
     const { currentUser } = Users;
 
+    useEffect(() => {
+        Users.tryToRestoreUser();
+        if (Users.currentUser.data) {
+            push(redirectPath);
+        }
+    }, [Users, push, redirectPath]);
+
     const handleLogin = async (event: FormExtendedEvent<unknown, Element>) => {
         await Users.login(event.value as string);
-        // await router.push("/events");
+        if (Users.currentUser.data) {
+            await push(redirectPath);
+        }
     };
 
     return (
@@ -22,7 +37,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
             <Heading level={1} margin={{ top: "none", bottom: "medium" }}>
                 Welcome
             </Heading>
-            <Form validate='blur' onSubmit={handleLogin}>
+            <Form onSubmit={handleLogin}>
                 <FormField
                     name='name'
                     label={
@@ -35,7 +50,12 @@ const LoginForm: React.FC<LoginFormProps> = () => {
                     }
                     error={currentUser.error}
                 >
-                    <TextInput required={true} name='name' placeholder='Type a cool nickname here' />
+                    <TextInput
+                        required={true}
+                        name='name'
+                        placeholder='Type a cool nickname here'
+                        disabled={currentUser.loading}
+                    />
                 </FormField>
 
                 <Box direction='row' justify='between' align='center'>

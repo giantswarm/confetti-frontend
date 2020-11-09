@@ -17,5 +17,14 @@ module.exports = (phase) => {
 
     return {
         env,
+        async redirects() {
+            return [
+                {
+                    source: "/",
+                    destination: "/events",
+                    permanent: false,
+                },
+            ];
+        },
     };
 };

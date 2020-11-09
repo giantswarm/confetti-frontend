@@ -46,7 +46,7 @@ export class UsersRepository extends Repository {
         }
     }
 
-    public tryToRestoreUser(): void {
+    public tryToRestoreUser = (): void => {
         this.currentUser.loading = true;
 
         try {
@@ -70,5 +70,5 @@ export class UsersRepository extends Repository {
                 this.currentUser.loading = false;
             });
         }
-    }
+    };
 }

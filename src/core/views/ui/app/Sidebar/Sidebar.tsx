@@ -3,14 +3,17 @@ import { Sidebar as GrommetSidebar } from "grommet";
 import SidebarFooter from "./SidebarFooter";
 import SidebarHeader from "./SidebarHeader";
 
-interface SidebarProps {}
+interface SidebarProps {
+    visible?: boolean;
+}
 
-const Sidebar: React.FC<SidebarProps> = ({ children }) => {
+const Sidebar: React.FC<SidebarProps> = ({ children, visible }) => {
     return (
         <GrommetSidebar
-            pad='medium'
+            pad={visible ? "medium" : "none"}
+            width={visible ? "medium" : "0%"}
+            overflow='hidden'
             background='brand'
-            width='medium'
             responsive={true}
             header={<SidebarHeader />}
             footer={<SidebarFooter />}
@@ -18,6 +21,10 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
             {children}
         </GrommetSidebar>
     );
+};
+
+Sidebar.defaultProps = {
+    visible: true,
 };
 
 export default Sidebar;
