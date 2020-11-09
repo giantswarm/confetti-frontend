@@ -7,8 +7,8 @@ import { PayloadHandler } from "@/core/networking/PayloadHandler";
 import { EventsService } from "@/modules/events/networking/EventsService";
 import { UsersRepository } from "@/modules/users/models/UsersRepository";
 
-import { DefaultEventPayloadHandler } from "../networking/handlers/types/default/DefaultEventPayloadHandler";
-import { OnsiteEventPayloadHandler } from "../networking/handlers/types/onsite/OnsitePayloadHandler";
+import { DefaultEventPayloadHandler } from "../networking/handlers/watcher/types/default/DefaultEventPayloadHandler";
+import { OnsiteEventPayloadHandler } from "../networking/handlers/watcher/types/onsite/OnsitePayloadHandler";
 import { EventsWatcherPayloads } from "../networking/payloads/watcher/watcher";
 import { RemoteEvent } from "./types/eventTypes";
 import { OnsiteEvent } from "./types/onsite/OnsiteEvent";

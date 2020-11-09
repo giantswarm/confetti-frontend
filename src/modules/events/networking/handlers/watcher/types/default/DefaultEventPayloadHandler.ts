@@ -7,11 +7,11 @@ import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEven
 import {
     EVENT_INVALID_PAYLOAD_ERROR,
     EVENT_UPDATE_CONFIGURATION,
-} from "../../../payloads/watcher/types/default/constants";
+} from "../../../../payloads/watcher/types/default/constants";
 import {
     EventsWatcherDefaultEventPayloads,
     EventsWatcherEventConfiguration,
-} from "../../../payloads/watcher/types/default/default";
+} from "../../../../payloads/watcher/types/default/default";
 
 export class DefaultEventPayloadHandler implements PayloadHandler<EventsWatcherDefaultEventPayloads> {
     constructor(

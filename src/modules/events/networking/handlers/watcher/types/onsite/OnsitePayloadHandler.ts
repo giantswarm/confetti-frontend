@@ -6,8 +6,8 @@ import {
     ONSITE_ROOM_LEAVE_ERROR,
     ONSITE_ROOM_LEAVE_SUCCESS,
     ONSITE_ROOM_UPDATE_ATTENDEE_COUNTER,
-} from "../../../payloads/watcher/types/onsite/constants";
-import { EventsWatcherOnsiteEventPayloads } from "../../../payloads/watcher/types/onsite/onsite";
+} from "../../../../payloads/watcher/types/onsite/constants";
+import { EventsWatcherOnsiteEventPayloads } from "../../../../payloads/watcher/types/onsite/onsite";
 
 export class OnsiteEventPayloadHandler implements PayloadHandler<EventsWatcherOnsiteEventPayloads> {
     constructor(
