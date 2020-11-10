@@ -4,3 +4,8 @@ import { OnsiteEvent } from "@/modules/events/models/types/onsite/OnsiteEvent";
 export type EventType = "default" | "onsite";
 
 export type RemoteEvent = Event | OnsiteEvent;
+
+export interface RemoteEventMapping {
+    default: Event;
+    onsite: OnsiteEvent;
+}

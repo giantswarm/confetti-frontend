@@ -65,6 +65,8 @@ export class EventsRepository extends Repository {
     }
 
     public getAll = async (): Promise<void> => {
+        if (this.events.data) return;
+
         this.events.loading = true;
         this.events.error = "";
 
@@ -97,6 +99,8 @@ export class EventsRepository extends Repository {
     };
 
     public watchEvent = async (eventID: string): Promise<void> => {
+        if (this.activeEventID.data === eventID) return;
+
         this.activeEventID.loading = true;
         this.activeEventID.error = "";
 
@@ -149,8 +153,6 @@ export class EventsRepository extends Repository {
         if (this.activeOnsiteRoom) this.activeOnsiteRoom.attendeeCounter--;
         this.activeEventID.data = null;
         this.persistingStrategy.delete(EventsRepository.activeEventIDStorageKey);
-        this.activeOnsiteRoomID.data = null;
-        this.persistingStrategy.delete(EventsRepository.activeOnsiteEventRoomIDStorageKey);
     };
 
     public joinOnsiteRoom = async (eventID: string, onsiteRoomID: string): Promise<void> => {
@@ -245,9 +247,10 @@ export class EventsRepository extends Repository {
     };
 
     private findRoomWithID(roomID: string): OnsiteEventRoom | null {
-        if (!this.activeEvent) return null;
-        const room = (this.activeEvent as OnsiteEvent).rooms?.find((r) => r.id === roomID);
+        if (this.activeEvent instanceof OnsiteEvent) {
+            return this.activeEvent.rooms.find((r) => r.id === roomID) ?? null;
+        }
 
-        return room ?? null;
+        return null;
     }
 }

@@ -6,7 +6,12 @@ export class LocalStoragePersistingStrategy implements PersistingStrategy {
     public persist<T = Record<string, unknown>>(key: string, value: T): void {
         if (Config.getInstance().isServer) return;
 
-        const serializedData = JSON.stringify(value);
+        let serializedData = "";
+        if (typeof value === "string") {
+            serializedData = value;
+        } else {
+            serializedData = JSON.stringify(value);
+        }
         localStorage.setItem(key, serializedData);
     }
 
