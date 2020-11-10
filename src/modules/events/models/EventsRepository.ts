@@ -126,6 +126,10 @@ export class EventsRepository extends Repository {
         ];
 
         try {
+            if (!this.events.data?.has(eventID)) {
+                throw new Error("This event does not exist anymore.");
+            }
+
             await this.eventsService.watchEvent({
                 eventID,
                 authToken,
