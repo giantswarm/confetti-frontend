@@ -11,13 +11,12 @@ import { RemoteEvent } from "@/modules/events/models/types/eventTypes";
 interface EventSelectorProps extends BoxTypes {}
 
 const EventSelector: React.FC<EventSelectorProps> = ({ children, ...rest }) => {
-    const { getAll, tryToRestoreActiveEvent, events } = useStore().Events;
+    const { getAll, events } = useStore().Events;
     const { push } = useRouter();
 
     useEffect(() => {
         const fetchAllEvents = async () => {
             await getAll();
-            await tryToRestoreActiveEvent();
             if (events.data?.size === 1) {
                 const event = events.data.values().next().value as RemoteEvent;
                 await push({
@@ -29,7 +28,7 @@ const EventSelector: React.FC<EventSelectorProps> = ({ children, ...rest }) => {
             }
         };
         fetchAllEvents();
-    }, [getAll, tryToRestoreActiveEvent, events, push]);
+    }, [getAll, events, push]);
 
     return (
         <Box {...rest}>

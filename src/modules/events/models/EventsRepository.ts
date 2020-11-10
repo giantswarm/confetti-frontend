@@ -35,7 +35,6 @@ export class EventsRepository extends Repository {
             activeOnsiteRoom: computed,
             getAll: action,
             watchEvent: action,
-            tryToRestoreActiveEvent: action,
             tryToRestoreActiveOnsiteRoom: action,
             onWatcherConnect: action,
             onWatcherDisconnect: action,
@@ -172,32 +171,6 @@ export class EventsRepository extends Repository {
                 this.activeOnsiteRoomID.error = err;
             });
         }
-    };
-
-    public tryToRestoreActiveEvent = async (): Promise<void> => {
-        this.activeEventID.loading = true;
-
-        try {
-            const existingEventID = this.persistingStrategy.restore<string>(EventsRepository.activeEventIDStorageKey);
-            if (!existingEventID) return Promise.resolve();
-
-            if (!this.events.data || !this.events.data.has(existingEventID)) {
-                await this.getAll();
-                if (!this.events.data?.has(existingEventID)) {
-                    throw new Error(`Event with ID ${existingEventID} does not exist anymore.`);
-                }
-            }
-
-            await this.watchEvent(existingEventID);
-        } catch (err) {
-            this.persistingStrategy.delete(EventsRepository.activeEventIDStorageKey);
-        } finally {
-            runInAction(() => {
-                this.activeEventID.loading = false;
-            });
-        }
-
-        return Promise.resolve();
     };
 
     public tryToRestoreActiveOnsiteRoom = async (): Promise<void> => {

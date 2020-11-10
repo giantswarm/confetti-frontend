@@ -16,10 +16,7 @@ const IndexPage: React.FC<PageIndexProps> = () => {
                 await Users.login("sss");
             }
 
-            await Events.tryToRestoreActiveEvent();
-            if (!Events.activeEventID.data) {
-                await Events.getAll();
-            }
+            await Events.getAll();
         };
 
         getStuff();
