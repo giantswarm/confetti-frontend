@@ -2,6 +2,7 @@ import Head from "next/head";
 
 import { formatTitle } from "@/core/views/titles";
 import Layout from "@/core/views/ui/app/Layout";
+import BrandBackground from "@/core/views/ui/brand/BrandBackground";
 import LoginForm from "@/modules/users/views/viewmodel/LoginForm";
 
 const LoginPage: React.FC<{}> = () => {
@@ -10,7 +11,9 @@ const LoginPage: React.FC<{}> = () => {
             <Head>
                 <title>{formatTitle("Login")}</title>
             </Head>
-            <Layout key='layout' sidebarContent={<LoginForm />} />
+            <Layout key='layout' sidebarContent={<LoginForm />}>
+                <BrandBackground />
+            </Layout>
         </>
     );
 };
