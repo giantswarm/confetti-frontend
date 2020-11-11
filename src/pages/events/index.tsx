@@ -11,9 +11,7 @@ const EventsPage: React.FC<{}> = () => {
             <Head>
                 <title>{formatTitle("Events")}</title>
             </Head>
-            <Layout sidebarContent={<EventSelector />} key='layout'>
-                Hi
-            </Layout>
+            <Layout sidebarContent={<EventSelector />} key='layout' />
         </>
     );
 };

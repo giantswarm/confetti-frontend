@@ -1,5 +1,6 @@
-import { Box, BoxTypes, Heading, Text } from "grommet";
+import { Anchor, Box, BoxTypes, Heading, Text } from "grommet";
 import { observer } from "mobx-react-lite";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
@@ -64,7 +65,20 @@ const EventSelector: React.FC<EventSelectorProps> = ({ children, ...rest }) => {
             <Heading level={3}>Select an event</Heading>
 
             {Array.from(Events.events.data, ([_, event]) => (
-                <div key={event.id}>{event.name}</div>
+                <div key={event.id}>
+                    <Link
+                        href={{
+                            pathname: Paths.EventsWatcher,
+                            query: {
+                                eventID: event.id,
+                            },
+                        }}
+                    >
+                        <Anchor size='small' color='white'>
+                            {event.name}
+                        </Anchor>
+                    </Link>
+                </div>
             ))}
         </Box>
     );

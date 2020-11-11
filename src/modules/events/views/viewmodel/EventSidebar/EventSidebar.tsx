@@ -29,6 +29,10 @@ const EventSidebar: React.FC<EventSidebarProps> = ({ children, ...rest }) => {
         joinEvent();
     }, [Events, query.eventID]);
 
+    if (Events.lostConnection) {
+        return null;
+    }
+
     if (Events.activeEventID.loading) {
         return (
             <Box key='event-sidebar' direction='row' gap='small' {...rest}>

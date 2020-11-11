@@ -48,12 +48,14 @@ export class EventsRepository extends Repository {
             onWatcherInvalidPayload: action,
             leaveOnsiteRoom: action,
             joinOnsiteRoom: action,
+            lostConnection: observable,
         });
     }
 
     public events = new RepositoryValue<EventsMap>(null);
     public activeEventID = new RepositoryValue<string>(null);
     public activeOnsiteRoomID = new RepositoryValue<string>(null);
+    public lostConnection = false;
 
     get activeEvent(): RemoteEvent | null {
         if (!this.activeEventID.data) return null;
@@ -218,6 +220,7 @@ export class EventsRepository extends Repository {
     public onWatcherConnect = async (eventID: string): Promise<void> => {
         await this.getAll();
         runInAction(() => {
+            this.lostConnection = false;
             this.activeEventID.error = "";
             this.activeEventID.loading = true;
             this.activeEventID.data = eventID;
@@ -225,7 +228,9 @@ export class EventsRepository extends Repository {
         this.persistingStrategy.persist(EventsRepository.activeEventIDStorageKey, eventID);
     };
 
-    public onWatcherDisconnect = (_eventID: string): void => {};
+    public onWatcherDisconnect = (_eventID: string): void => {
+        this.lostConnection = true;
+    };
 
     public onWatcherInvalidPayload = (errorMessage: string): void => {
         this.activeEventID.error = errorMessage;
