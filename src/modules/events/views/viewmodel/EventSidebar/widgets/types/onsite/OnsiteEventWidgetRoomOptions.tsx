@@ -1,5 +1,5 @@
 import { Anchor, Box, Button, Heading, Paragraph, Text } from "grommet";
-import { FormPrevious } from "grommet-icons";
+import { FormPrevious, Group } from "grommet-icons";
 import { observer } from "mobx-react-lite";
 import Link from "next/link";
 
@@ -55,12 +55,30 @@ const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> 
 
     const descriptionLines = formatDescription(activeRoom.description);
 
+    const attendeesLabel = activeRoom.attendeeCounter === 1 ? "participant" : "participants";
+
     return (
         <Box key='onsitewidget-roomoptions'>
             <Box>
                 <Heading level={4} margin={{ bottom: "xsmall" }}>
                     {activeRoom.name}
                 </Heading>
+                <Box margin={{ top: "xsmall", bottom: "medium" }} align='start'>
+                    <Box
+                        background='background-contrast'
+                        pad={{ vertical: "xsmall", horizontal: "small" }}
+                        round='xsmall'
+                        direction='row'
+                    >
+                        <Group size='medium' color='white' />
+                        <Text margin={{ left: "xsmall" }} weight='bold' color='white'>
+                            {activeRoom.attendeeCounter}
+                        </Text>
+                        <Text margin={{ left: "xsmall" }} color='white'>
+                            {attendeesLabel}
+                        </Text>
+                    </Box>
+                </Box>
                 {descriptionLines.length > 0 && (
                     <Box>
                         {descriptionLines.map((line, index) => (
@@ -70,7 +88,6 @@ const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> 
                         ))}
                     </Box>
                 )}
-                <Text>Number of attendees: {activeRoom.attendeeCounter}</Text>
             </Box>
             <Box direction='row' fill='horizontal' gap='small' margin={{ top: "medium" }} pad={{ vertical: "small" }}>
                 {activeRoom.conferenceURL && (

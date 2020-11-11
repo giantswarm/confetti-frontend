@@ -53,12 +53,7 @@ export class WebsocketClientImpl implements WebsocketClient {
         }
 
         try {
-            let serializedData = "";
-            if (typeof data === "string") {
-                serializedData = data;
-            } else {
-                serializedData = JSON.stringify(data);
-            }
+            const serializedData = JSON.stringify(data);
             this.underlyingConnection.send(serializedData);
 
             return Promise.resolve();
