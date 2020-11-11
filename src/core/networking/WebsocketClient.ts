@@ -128,7 +128,10 @@ export class WebsocketClientImpl implements WebsocketClient {
     };
 
     protected startAutoReconnectTicker(url: string): void {
-        this.autoReconnectTicker = setInterval(() => this.connect(url), this.config.autoReconnectInterval);
+        this.autoReconnectTicker = setInterval(() => {
+            this.stopAutoReconnectTicker();
+            this.connect(url);
+        }, this.config.autoReconnectInterval);
     }
 
     protected stopAutoReconnectTicker(): void {
@@ -139,7 +142,7 @@ export class WebsocketClientImpl implements WebsocketClient {
         processOfflineEvents: false,
         offlineEventsQueueLength: 25,
         autoReconnect: true,
-        autoReconnectInterval: 10000,
+        autoReconnectInterval: 2500,
     };
     protected underlyingConnection: WebSocket | null = null;
     protected eventsMap: Record<WebsocketEvents, WebsocketEventCallback[]> = {

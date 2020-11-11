@@ -1,27 +1,27 @@
-import { Box, Heading, Text } from "grommet";
-import { FormNextLink } from "grommet-icons";
+import { Box } from "grommet";
+import { observer } from "mobx-react-lite";
+
+import { useStore } from "@/app/Store";
 
 import { EventWidgetProps } from "../../widgets";
+import OnsiteEventWidgetRoomOptions from "./OnsiteEventWidgetRoomOptions";
 
 interface OnsiteEventWidget extends EventWidgetProps<"onsite"> {}
 
 const OnsiteEventWidget: React.FC<OnsiteEventWidget> = ({ event, ...rest }) => {
+    const { Events } = useStore();
+
     return (
         <Box {...rest}>
-            <Box>
-                <Heading level={2} margin={{ bottom: "none" }}>
-                    Welcome to
-                </Heading>
-                <Text weight='normal' size='large'>
-                    {event.name}
-                </Text>
-            </Box>
-            <Box direction='row' margin={{ vertical: "medium" }} align='center'>
-                <Text margin={{ right: "xsmall" }}>Join a room to start having fun</Text>
-                <FormNextLink />
-            </Box>
+            <OnsiteEventWidgetRoomOptions
+                event={event}
+                activeRoom={Events.activeOnsiteRoom}
+                leaveRoom={Events.leaveOnsiteRoom}
+                error={Events.activeOnsiteRoomID.error}
+                loading={Events.activeOnsiteRoomID.loading}
+            />
         </Box>
     );
 };
 
-export default OnsiteEventWidget;
+export default observer(OnsiteEventWidget);

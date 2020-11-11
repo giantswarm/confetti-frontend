@@ -1,6 +1,7 @@
-import { Box, BoxTypes, RoutedAnchor, Text } from "grommet";
+import { Anchor, Box, BoxTypes, Text } from "grommet";
 import { FormPrevious } from "grommet-icons";
 import { observer } from "mobx-react-lite";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
@@ -45,7 +46,9 @@ const EventSidebar: React.FC<EventSidebarProps> = ({ children, ...rest }) => {
                     {Events.activeEventID.error}
                 </Text>
                 <Box margin={{ top: "medium" }}>
-                    <RoutedAnchor path={Paths.EventsHome} icon={<FormPrevious />} label='Back to safety' />
+                    <Link href={Paths.EventsHome}>
+                        <Anchor icon={<FormPrevious />} label='Back to safety' />
+                    </Link>
                 </Box>
             </Box>
         );
@@ -56,7 +59,9 @@ const EventSidebar: React.FC<EventSidebarProps> = ({ children, ...rest }) => {
             <Box key='event-sidebar' {...rest}>
                 <Text>Event does not exist.</Text>
                 <Box margin={{ top: "medium" }}>
-                    <RoutedAnchor path={Paths.EventsHome} icon={<FormPrevious />} label='Back to safety' />
+                    <Link href={Paths.EventsHome}>
+                        <Anchor icon={<FormPrevious />} label='Back to safety' />
+                    </Link>
                 </Box>
             </Box>
         );

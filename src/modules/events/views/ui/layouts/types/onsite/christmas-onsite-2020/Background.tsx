@@ -1,6 +1,6 @@
 import { memo } from "react";
 
-const Image: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
+const Background: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
     return (
         <svg viewBox='0 0 5421.49 1075.23' {...props}>
             <defs>
@@ -3277,6 +3277,4 @@ const Image: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
     );
 };
 
-const Background = memo(Image);
-
-export default Background;
+export default memo(Background);
