@@ -46,7 +46,12 @@ const Stall: React.FC<StallProps> = ({ children, roomID, roomName, onClick, acti
             </Stack>
 
             {wrapperRef.current && isHovering && (
-                <Drop plain align={{ right: "right", top: "top", bottom: "top" }} target={wrapperRef.current} trapFocus={false}>
+                <Drop
+                    plain
+                    align={{ right: "right", top: "top", bottom: "top" }}
+                    target={wrapperRef.current}
+                    trapFocus={false}
+                >
                     <Box pad='small' background='brand' width={{ max: "200px" }}>
                         <Text size='small' color='white'>
                             {roomName}
