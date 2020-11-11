@@ -153,7 +153,6 @@ export class EventsRepository extends Repository {
 
     public stopWatchingEvent = (eventID: string): void => {
         this.eventsService.stopWatchingEvent(eventID);
-        if (this.activeOnsiteRoom) this.activeOnsiteRoom.attendeeCounter--;
         this.activeEventID.data = null;
         this.persistingStrategy.delete(EventsRepository.activeEventIDStorageKey);
     };
