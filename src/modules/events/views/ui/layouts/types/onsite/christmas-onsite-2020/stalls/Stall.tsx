@@ -1,5 +1,6 @@
-import { Box, BoxTypes, Stack } from "grommet";
+import { Box, BoxTypes, Drop, Stack, Text } from "grommet";
 import { FormCheckmark } from "grommet-icons";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 
 interface WrapperProps extends BoxTypes {
@@ -15,14 +16,26 @@ const Wrapper = styled(Box as React.FC<WrapperProps>)`
 
 interface StallProps {
     roomID: string;
+    roomName: string;
     onClick: (roomID: string) => void;
     attendeeCounter?: number;
     active?: boolean;
 }
 
-const Stall: React.FC<StallProps> = ({ children, roomID, onClick, active }) => {
+const Stall: React.FC<StallProps> = ({ children, roomID, roomName, onClick, active }) => {
+    const wrapperRef = useRef<HTMLDivElement>(null);
+    const [isHovering, setIsHovering] = useState(false);
+
     return (
-        <Wrapper onClick={() => onClick(roomID)} active={active!}>
+        <Wrapper
+            onClick={() => onClick(roomID)}
+            active={active!}
+            ref={wrapperRef}
+            onMouseOver={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
+            onFocus={() => setIsHovering(true)}
+            onBlur={() => setIsHovering(false)}
+        >
             <Stack anchor='top-right'>
                 <Box>{children}</Box>
                 {active && (
@@ -31,6 +44,16 @@ const Stall: React.FC<StallProps> = ({ children, roomID, onClick, active }) => {
                     </Box>
                 )}
             </Stack>
+
+            {wrapperRef.current && isHovering && (
+                <Drop plain align={{ right: "right", top: "top", bottom: "top" }} target={wrapperRef.current} trapFocus={false}>
+                    <Box pad='small' background='brand' width={{ max: "200px" }}>
+                        <Text size='small' color='white'>
+                            {roomName}
+                        </Text>
+                    </Box>
+                </Drop>
+            )}
         </Wrapper>
     );
 };

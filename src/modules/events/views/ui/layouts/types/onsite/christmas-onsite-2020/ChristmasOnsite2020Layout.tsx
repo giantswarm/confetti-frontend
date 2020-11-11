@@ -63,6 +63,7 @@ const ChristmasOnsite2020Layout: React.FC<ChristmasOnsite2020LayoutProps> = ({
             <Component
                 key={room.id}
                 roomID={room.id}
+                roomName={room.name}
                 onClick={handleJoinRoom}
                 attendeeCounter={room.attendeeCounter}
                 active={activeRoom?.id === room.id}
