@@ -7,11 +7,12 @@ import { useStore } from "@/app/Store";
 
 export function privateRoute<T>(WrappedComponent: React.FC<T>): React.FC<T> {
     const NewComponent: React.FC<T> = (props) => {
-        const { data } = useStore().Users.currentUser;
+        const { Users } = useStore();
         const { push, asPath, query } = useRouter();
 
         useEffect(() => {
-            if (!data) {
+            Users.tryToRestoreUser();
+            if (!Users.currentUser.data) {
                 push({
                     pathname: Paths.UsersLogin,
                     query: {
@@ -19,9 +20,9 @@ export function privateRoute<T>(WrappedComponent: React.FC<T>): React.FC<T> {
                     },
                 });
             }
-        }, [data, push, asPath, query]);
+        }, [Users, push, asPath, query]);
 
-        if (!data) {
+        if (!Users.currentUser.data) {
             return <div>Redirecting you to the login page...</div>;
         }
 
