@@ -1,25 +1,25 @@
-import { Sidebar as GrommetSidebar } from "grommet";
+import { Box } from "grommet";
+import styled from "styled-components";
 
 import SidebarFooter from "./SidebarFooter";
 import SidebarHeader from "./SidebarHeader";
 
-interface SidebarProps {
-    visible?: boolean;
-}
+const StyledSidebar = styled(Box)`
+    max-height: 100%;
+    overflow-y: auto;
+`;
 
-const Sidebar: React.FC<SidebarProps> = ({ children, visible }) => {
+interface SidebarProps {}
+
+const Sidebar: React.FC<SidebarProps> = ({ children }) => {
     return (
-        <GrommetSidebar
-            pad={visible ? "medium" : "none"}
-            width={visible ? "medium" : "0%"}
-            overflow='hidden'
-            background='brand'
-            responsive={true}
-            header={<SidebarHeader />}
-            footer={<SidebarFooter />}
-        >
-            {children}
-        </GrommetSidebar>
+        <StyledSidebar pad='medium' width='medium' background='brand' gap='large'>
+            <SidebarHeader />
+            <Box flex={true} height={{ min: "auto" }}>
+                {children}
+            </Box>
+            <SidebarFooter />
+        </StyledSidebar>
     );
 };
 

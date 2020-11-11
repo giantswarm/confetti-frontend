@@ -41,11 +41,6 @@ const Ground = styled(Box)`
     left: 0;
     background-color: ${christmasOnsite2020Palette.ground};
     z-index: 1;
-
-    svg {
-        width: 100px;
-        height: 100px;
-    }
 `;
 
 interface ChristmasOnsite2020LayoutProps extends EventLayoutProps<"onsite"> {}

@@ -1,5 +1,7 @@
-import { Anchor, Box, Heading, Paragraph, Text } from "grommet";
-import { FormPrevious, Link } from "grommet-icons";
+import { Anchor, Box, Button, Heading, Paragraph, Text } from "grommet";
+import { FormPrevious } from "grommet-icons";
+import { observer } from "mobx-react-lite";
+import Link from "next/link";
 
 import { Paths } from "@/app/Paths";
 import Spinner from "@/core/views/ui/app/Spinner";
@@ -20,6 +22,7 @@ interface OnsiteEventWidgetRoomOptionsProps {
 const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> = ({
     event,
     activeRoom,
+    leaveRoom,
     error,
     loading,
 }) => {
@@ -54,19 +57,33 @@ const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> 
 
     return (
         <Box key='onsitewidget-roomoptions'>
-            <Heading level={4} margin={{ bottom: "xsmall" }}>
-                {activeRoom.name}
-            </Heading>
-            {descriptionLines.length > 0 && (
-                <Box>
-                    {descriptionLines.map((line, index) => (
-                        <Paragraph margin={{ vertical: "xsmall" }} key={index}>
-                            {line}
-                        </Paragraph>
-                    ))}
-                </Box>
-            )}
-            <Text>{activeRoom.attendeeCounter}</Text>
+            <Box>
+                <Heading level={4} margin={{ bottom: "xsmall" }}>
+                    {activeRoom.name}
+                </Heading>
+                {descriptionLines.length > 0 && (
+                    <Box>
+                        {descriptionLines.map((line, index) => (
+                            <Paragraph margin={{ vertical: "xsmall" }} key={index}>
+                                {line}
+                            </Paragraph>
+                        ))}
+                    </Box>
+                )}
+                <Text>Number of attendees: {activeRoom.attendeeCounter}</Text>
+            </Box>
+            <Box direction='row' fill='horizontal' gap='small' margin={{ top: "medium" }} pad={{ vertical: "small" }}>
+                {activeRoom.conferenceURL && (
+                    <a href={activeRoom.conferenceURL} target='_blank' rel='noreferrer'>
+                        <Button label='Join meeting' primary={true} color='status-ok' size='medium' />
+                    </a>
+                )}
+                <Button plain={true} onClick={() => leaveRoom(event.id, activeRoom.id)}>
+                    <Text size='xsmall' color='status-unknown'>
+                        Leave room
+                    </Text>
+                </Button>
+            </Box>
         </Box>
     );
 };
@@ -76,4 +93,4 @@ OnsiteEventWidgetRoomOptions.defaultProps = {
     loading: false,
 };
 
-export default OnsiteEventWidgetRoomOptions;
+export default observer(OnsiteEventWidgetRoomOptions);

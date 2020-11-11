@@ -6,7 +6,7 @@ interface SidebarHeaderProps {}
 
 const SidebarHeader: React.FC<SidebarHeaderProps> = () => {
     return (
-        <Box fill='horizontal' align='center'>
+        <Box height={{ min: "auto" }} fill='horizontal' align='center'>
             <Logo />
         </Box>
     );

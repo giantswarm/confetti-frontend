@@ -1,6 +1,12 @@
 import { Box, BoxTypes, Main } from "grommet";
+import styled from "styled-components";
 
 import Sidebar from "./Sidebar/Sidebar";
+
+const Wrapper = styled(Box)`
+    height: 100vh;
+    overflow: hidden;
+`;
 
 interface LayoutProps extends BoxTypes {
     sidebarContent: React.ReactNode;
@@ -9,10 +15,10 @@ interface LayoutProps extends BoxTypes {
 
 const Layout: React.FC<LayoutProps> = ({ children, sidebarContent, sidebarProps, ...rest }) => {
     return (
-        <Box direction='row' height={{ min: "100%" }} flex={true} background='background' {...rest}>
+        <Wrapper direction='row' flex={true} background='background' {...rest}>
             <Sidebar {...sidebarProps}>{sidebarContent}</Sidebar>
             <Main>{children}</Main>
-        </Box>
+        </Wrapper>
     );
 };
 

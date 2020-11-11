@@ -8,9 +8,13 @@ export class OnsiteEvent extends Event {
     constructor() {
         super();
 
-        makeObservable(this, {
-            rooms: observable,
-        });
+        makeObservable(
+            this,
+            {
+                rooms: observable,
+            },
+            { deep: true }
+        );
     }
 
     public eventType: EventType = "onsite";

@@ -63,7 +63,7 @@ export class EventsRepository extends Repository {
 
     get activeOnsiteRoom(): OnsiteEventRoom | null {
         if (!this.activeOnsiteRoomID.data) return null;
-        if (this.activeEvent?.eventType !== "onsite") return null;
+        if (!(this.activeEvent instanceof OnsiteEvent)) return null;
 
         const room = this.findRoomWithID(this.activeOnsiteRoomID.data);
 
