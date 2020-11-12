@@ -1,5 +1,5 @@
 # Test
-FROM node:14.15.0-alpine as test-target
+FROM node:15.2.0-alpine as test-target
 ENV NODE_ENV=development
 ENV PATH $PATH:/usr/src/app/node_modules/.bin
 
@@ -21,7 +21,7 @@ RUN yarn build
 
 
 # Archive
-FROM node:14.15.0-alpine as archive-target
+FROM node:15.2.0-alpine as archive-target
 ENV NODE_ENV=production
 ENV PATH $PATH:/usr/src/app/node_modules/.bin
 
