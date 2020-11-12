@@ -237,7 +237,7 @@ export class HttpClientImpl implements HttpClient {
      * Override this function to run a custom hook before each request.
      * @param _reqConfig - The client's configuration.
      */
-    // eslint-disable-next-line class-methods-use-this, no-empty-function
+    // eslint-disable-next-line no-empty-function
     async onBeforeRequest(_reqConfig: HttpClientConfig): Promise<void> {}
 
     async execute<T = Record<string, unknown>>(): Promise<GenericResponse<T>> {

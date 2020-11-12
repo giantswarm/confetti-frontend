@@ -26,10 +26,5 @@ module.exports = (phase) => {
                 },
             ];
         },
-        publicRuntimeConfig: {
-            // Will be available on both server and client
-            backendHost: process.env.NEXT_PUBLIC_BACKEND_HOST || "localhost:7777",
-            backendHostSecure: process.env.NEXT_PUBLIC_BACKEND_HOST_SECURE === "true",
-        },
     };
 };
