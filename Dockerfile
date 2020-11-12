@@ -5,8 +5,7 @@ ENV PATH $PATH:/usr/src/app/node_modules/.bin
 
 WORKDIR /usr/src/app
 
-COPY package.json ./
-COPY yarn.lock ./
+COPY package.json yarn.lock ./
 
 RUN yarn install --pure-lockfile
 
@@ -28,6 +27,7 @@ ENV PATH $PATH:/usr/src/app/node_modules/.bin
 WORKDIR /usr/src/app
 
 # Include only the release build and production packages.
+COPY --from=build-target /usr/src/app/public public
 COPY --from=build-target /usr/src/app/node_modules node_modules
 COPY --from=build-target /usr/src/app/.next .next
 
