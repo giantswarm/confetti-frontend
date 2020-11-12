@@ -34,7 +34,9 @@ COPY --from=build-target /usr/src/app/node_modules node_modules
 COPY --from=build-target /usr/src/app/.next .next
 COPY --from=build-target /usr/src/app/package.json package.json
 
-RUN chown 1001:1001 -R ./
+RUN chown 1001:1001 -R ./scripts
+RUN chown 1001:1001 -R ./public
+RUN chown 1001:1001 -R ./.next
 
 EXPOSE 3000
 CMD ["sh", "-c", "yarn make-env && yarn start"]
