@@ -16,7 +16,7 @@ RUN apk add --no-cache --virtual .build-deps \
 WORKDIR /usr/src/app
 
 COPY package.json ./
-COPY yarn.lock.json ./
+COPY yarn.lock ./
 
 RUN yarn install --pure-lockfile
 
