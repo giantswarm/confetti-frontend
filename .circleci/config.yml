@@ -162,6 +162,6 @@ jobs:
             - push-to-docker:
                   context: architect
                   image: *image_name
-                  tag-latest-branch: <<parameters.tag-latest-branch>>
+                  tag-latest-branch: "master"
                   password_envar: "QUAY_USERNAME"
                   username_envar: "QUAY_PASSWORD"
