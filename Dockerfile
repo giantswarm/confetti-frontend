@@ -32,5 +32,7 @@ COPY --from=build-target /usr/src/app/public public
 COPY --from=build-target /usr/src/app/node_modules node_modules
 COPY --from=build-target /usr/src/app/.next .next
 
+RUN chmod u=rwx public
+
 EXPOSE 3000
-CMD ["sh", "-c", "node ./scripts/makeEnv.js", "next", "start"]
+CMD ["sh", "-c", "node ./scripts/makeEnv.js && next start"]
