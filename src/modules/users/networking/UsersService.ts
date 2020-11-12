@@ -1,4 +1,4 @@
-import { Config } from "@/app/Config";
+import { BackendURL, BackendURLProtocols } from "@/core/networking/BackendURL";
 import { HttpClient, HttpRequestMethods } from "@/core/networking/HttpClient";
 import { Service } from "@/core/networking/Service";
 import { User } from "@/modules/users/models/User";
@@ -10,10 +10,11 @@ export class UsersService extends Service {
     }
 
     public async login(userName: string): Promise<User> {
+        const url = new BackendURL("/v1/users/login/", BackendURLProtocols.HTTP);
+
         try {
             this.httpClient.setRequestConfig({
-                baseURL: `http://${Config.getInstance().backendHost}`,
-                url: "/v1/users/login/",
+                url: url.toString(),
                 data: {},
                 method: HttpRequestMethods.POST,
             });

@@ -1,4 +1,4 @@
-import { Config } from "@/app/Config";
+import { BackendURL, BackendURLProtocols } from "@/core/networking/BackendURL";
 import { HttpClient, HttpRequestMethods } from "@/core/networking/HttpClient";
 import { PayloadHandler } from "@/core/networking/PayloadHandler";
 import { Service } from "@/core/networking/Service";
@@ -24,10 +24,11 @@ export class EventsService extends Service {
     }
 
     public async getAll(authToken: string): Promise<RemoteEvent[]> {
+        const url = new BackendURL("/v1/events/", BackendURLProtocols.HTTP);
+
         try {
             this.httpClient.setRequestConfig({
-                baseURL: `http://${Config.getInstance().backendHost}`,
-                url: "/v1/events/",
+                url: url.toString(),
                 method: HttpRequestMethods.GET,
             });
             this.httpClient.setAuthorizationToken("Bearer", authToken);
@@ -72,9 +73,11 @@ export class EventsService extends Service {
                 }
             });
 
-            this.wsClient.connect(
-                `ws://${Config.getInstance().backendHost}/v1/events/${config.eventID}/watch/?token=${config.authToken}`
-            );
+            const url = new BackendURL(`/v1/events/${config.eventID}/watch/`, BackendURLProtocols.WS, {
+                search: `token=${config.authToken}`,
+            });
+
+            this.wsClient.connect(url.toString());
         });
     }
 

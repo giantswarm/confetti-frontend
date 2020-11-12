@@ -17,7 +17,9 @@ export class Config {
 
     public readonly deploymentStatus: ConfigDeploymentStatus = this.determineDeploymentStatus();
 
-    public readonly backendHost: string = process.env.BACKEND_HOST ?? "localhost:7777";
+    public readonly backendHostSecure = this.parseBoolean(process.env.NEXT_PUBLIC_BACKEND_HOST_SECURE);
+
+    public readonly backendHost: string = process.env.NEXT_PUBLIC_BACKEND_HOST ?? "localhost:7777";
 
     public readonly isServer: boolean = typeof window === "undefined";
 
@@ -34,5 +36,9 @@ export class Config {
             default:
                 return ConfigDeploymentStatus.Development;
         }
+    }
+
+    private parseBoolean(from?: string, defaultValue = false): boolean {
+        return from?.toLowerCase() === "true" ?? defaultValue;
     }
 }
