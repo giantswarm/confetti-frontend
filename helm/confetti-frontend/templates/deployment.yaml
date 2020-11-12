@@ -54,7 +54,7 @@ spec:
             timeoutSeconds: 2
 
       imagePullSecrets:
-        - name: confetti-frontend-pull-secret
+        - name: "{{ .Values.name }}-pull-secret"
 
       serviceAccount: {{ .Values.name }}
       serviceAccountName: {{ .Values.name }}
