@@ -3,16 +3,6 @@ FROM node:15.2.0-alpine as test-target
 ENV NODE_ENV=development
 ENV PATH $PATH:/usr/src/app/node_modules/.bin
 
-RUN apk add --no-cache --virtual .build-deps \
-    ca-certificates \
-    wget \
-    tar && \
-    cd /usr/local/bin && \
-    wget https://yarnpkg.com/latest.tar.gz && \
-    tar zvxf latest.tar.gz && \
-    ln -s /usr/local/bin/dist/bin/yarn.js /usr/local/bin/yarn.js && \
-    apk del .build-deps
-
 WORKDIR /usr/src/app
 
 COPY package.json ./
