@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ .Values.name }}
+  labels:
+    app: {{ .Values.name }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+  template:
+    metadata:
+      name: {{ .Values.name }}
+      labels:
+        app: {{ .Values.name }}
+    spec:
+      securityContext:
+        runAsUser: 1000
+      containers:
+        - name: {{ .Values.image.name }}
+          image: "quay.io/giantswarm/{{ .Values.image.name }}:{{ .Values.image.tag }}"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+              name: http
+          resources:
+            requests:
+              cpu: 200m
+              memory: 30M
+            limits:
+              cpu: 500m
+              memory: 30M
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 2
+
+      imagePullSecrets:
+        - name: confetti-frontend-pull-secret
+
+      serviceAccount: {{ .Values.name }}
+      serviceAccountName: {{ .Values.name }}
