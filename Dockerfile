@@ -3,8 +3,6 @@ FROM node:15.2.0-alpine as install-target
 ENV NODE_ENV=development
 ENV PATH $PATH:/usr/src/app/node_modules/.bin
 
-USER root
-
 WORKDIR /usr/src/app
 
 COPY package.json yarn.lock ./
@@ -34,9 +32,7 @@ COPY --from=build-target /usr/src/app/node_modules node_modules
 COPY --from=build-target /usr/src/app/.next .next
 COPY --from=build-target /usr/src/app/package.json package.json
 
-RUN chown 1001:1001 -R ./scripts
-RUN chown 1001:1001 -R ./public
-RUN chown 1001:1001 -R ./.next
+RUN chown 1000:1000 -R ./
 
 EXPOSE 3000
 CMD ["sh", "-c", "yarn make-env && yarn start"]
