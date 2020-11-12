@@ -12,8 +12,6 @@ import { StoreProvider } from "@/app/Store";
 import GlobalStyle from "@/core/views/globalStyle";
 import { theme } from "@/core/views/theme";
 
-const { publicRuntimeConfig } = getConfig();
-
 interface AppWrapperProps extends AppProps {
     config: Config;
 }
@@ -43,6 +41,7 @@ const AppWrapper: React.FC<AppWrapperProps> = ({ Component, pageProps, config })
 };
 
 ((AppWrapper as unknown) as typeof App).getInitialProps = async (appContext: AppContextType<Router>) => {
+    const { publicRuntimeConfig } = getConfig();
     const appProps = await App.getInitialProps(appContext);
     const config = makeInitialConfigInstance(publicRuntimeConfig);
 
