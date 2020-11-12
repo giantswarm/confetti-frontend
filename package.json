@@ -2,7 +2,7 @@
     "name": "confetti-frontend",
     "version": "0.1.0",
     "scripts": {
-        "predev": "node ./scripts/makeEnv.js",
+        "predev": "yarn make-env",
         "dev": "NODE_OPTIONS='--inspect=0.0.0.0' next",
         "build": "next build",
         "start": "next start",
@@ -13,7 +13,8 @@
         "format:validate": "yarn format --version; yarn format --no-color --check",
         "test": "jest",
         "test:watch": "yarn test --watch",
-        "test:coverage": "yarn test --collect-coverage"
+        "test:coverage": "yarn test --collect-coverage",
+        "make-env": "node ./scripts/makeEnv.js"
     },
     "dependencies": {
         "axios": "^0.21.0",

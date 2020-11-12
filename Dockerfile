@@ -31,8 +31,10 @@ COPY --from=build-target /usr/src/app/scripts scripts
 COPY --from=build-target /usr/src/app/public public
 COPY --from=build-target /usr/src/app/node_modules node_modules
 COPY --from=build-target /usr/src/app/.next .next
+COPY --from=build-target /usr/src/app/package.json package.json
 
-RUN chmod u=rwx /usr/src/app/public
+RUN chown 1001:1001 -R ./public
+RUN yarn make-env
 
 EXPOSE 3000
-CMD ["sh", "-c", "node ./scripts/makeEnv.js && next start"]
+CMD ["yarn", "start"]
