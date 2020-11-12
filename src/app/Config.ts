@@ -5,23 +5,20 @@ export enum ConfigDeploymentStatus {
 }
 
 export class Config {
-    private static instance: Config | null = null;
-
-    public static getInstance(): Config {
-        if (Config.instance === null) {
-            Config.instance = new Config();
+    constructor(confettiEnv?: ConfettiEnv) {
+        if (confettiEnv) {
+            this.backendHost = confettiEnv.CONFETTI_BACKEND_HOST ?? "localhost:7777";
+            this.backendHostSecure = confettiEnv.CONFETTI_BACKEND_HOST_SECURE === "true";
         }
-
-        return Config.instance;
     }
 
     public readonly deploymentStatus: ConfigDeploymentStatus = this.determineDeploymentStatus();
 
-    public readonly backendHost: string = process.env.BACKEND_HOST ?? "localhost:7777";
-
-    public readonly isServer: boolean = typeof window === "undefined";
-
     public readonly sourceURL = "https://github.com/giantswarm/confetti-frontend";
+
+    public readonly backendHostSecure: boolean = false;
+
+    public readonly backendHost: string = "localhost:7777";
 
     private determineDeploymentStatus(): ConfigDeploymentStatus {
         switch (process.env.DEPLOYMENT_STATUS) {

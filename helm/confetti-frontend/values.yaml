@@ -1,0 +1,13 @@
+name: confetti-frontend
+namespace: confetti-frontend
+image:
+  name: confetti-frontend
+  repository: giantswarm/confetti-frontend
+  tag: "[[.Version]]"
+  sha: "[[.SHA]]"
+
+hostnames: []
+
+backendUrl: "0.0.0.0"
+backendUrlSecure: true
+port: 3000

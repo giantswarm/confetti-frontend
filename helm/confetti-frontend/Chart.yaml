@@ -1,0 +1,7 @@
+apiVersion: v1
+name: confetti-frontend
+namespace: confetti-frontend
+description: An application for scheduling remote events.
+home: https://github.com/giantswarm/confetti-frontend
+version: [[ .Version ]]
+appVersion: [[ .AppVersion ]]

@@ -22,7 +22,7 @@ interface BrandBackgroundProps {}
 export const BrandBackground: React.FC<BrandBackgroundProps> = () => {
     return (
         <Wrapper>
-            <StyledImage src='/gs_bg.jpg' alt='Giant Swarm Confetti' unsized={true} quality={100} />
+            <StyledImage src='/gs_bg.jpg' alt='Giant Swarm Confetti' unsized={true} quality={90} />
         </Wrapper>
     );
 };
