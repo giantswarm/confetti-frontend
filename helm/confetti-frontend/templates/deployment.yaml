@@ -25,9 +25,9 @@ spec:
           imagePullPolicy: Always
           env:
           - name: NEXT_PUBLIC_BACKEND_HOST
-            value: {{ .Values.backendUrl }}
+            value: '{{ .Values.backendUrl }}'
           - name: NEXT_PUBLIC_BACKEND_HOST_SECURE
-            value: {{ .Values.backendUrlSecure }}
+            value: '{{ .Values.backendUrlSecure }}'
           ports:
             - containerPort: {{ .Values.port }}
               name: http
