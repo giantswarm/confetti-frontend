@@ -23,7 +23,6 @@ image_name: &image_name quay.io/giantswarm/confetti-frontend
 
 workflows:
     version: 2
-
     build:
         jobs:
             - checkout:
@@ -48,10 +47,12 @@ workflows:
                   requires:
                       - checkout
                   <<: *job_filters
-
             - push-to-quay:
                   name: push-confetti-frontend-to-quay
                   context: architect
+                  image: *image_name
+                  username_envar: "QUAY_USERNAME"
+                  password_envar: "QUAY_PASSWORD"
                   requires:
                       - test
                       - lint
@@ -62,7 +63,6 @@ workflows:
                   filters:
                       tags:
                           only: /^v.*/
-
             - architect/push-to-app-catalog:
                   name: push-confetti-frontend-to-operations-platform-app-catalog
                   context: architect
@@ -151,17 +151,18 @@ jobs:
                   root: ~/confetti-frontend
                   <<: *whitelist
     push-to-quay:
-        executor: "architect"
-        resource_class: "small"
+        docker:
+            - image: buildpack-deps:trusty
         steps:
             - checkout
+            - attach_workspace:
+                  at: ~/confetti-frontend
             - setup_remote_docker:
                   version: 19.03.13
-            - attach_workspace:
-                  at: .
-            - push-to-docker:
+                  docker_layer_caching: true
+            - architect/push-to-docker:
+                  name: push-confetti-frontend-to-quay
                   context: architect
                   image: *image_name
-                  tag-latest-branch: "master"
-                  password_envar: "QUAY_USERNAME"
-                  username_envar: "QUAY_PASSWORD"
+                  username_envar: "QUAY_USERNAME"
+                  password_envar: "QUAY_PASSWORD"
