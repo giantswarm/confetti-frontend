@@ -3,6 +3,8 @@ FROM node:15.2.0-alpine as install-target
 ENV NODE_ENV=development
 ENV PATH $PATH:/usr/src/app/node_modules/.bin
 
+USER root
+
 WORKDIR /usr/src/app
 
 COPY package.json yarn.lock ./
@@ -18,7 +20,6 @@ ENV NODE_ENV=production
 # Use build tools, installed as development packages, to produce a release build.
 RUN yarn build
 
-
 # Archive.
 FROM node:15.2.0-alpine as archive-target
 ENV NODE_ENV=production
@@ -33,8 +34,9 @@ COPY --from=build-target /usr/src/app/node_modules node_modules
 COPY --from=build-target /usr/src/app/.next .next
 COPY --from=build-target /usr/src/app/package.json package.json
 
-RUN chown 1001:1001 -R ./public
 RUN yarn make-env
+
+USER giantswarm
 
 EXPOSE 3000
 CMD ["yarn", "start"]
