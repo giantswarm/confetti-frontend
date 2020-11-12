@@ -9,5 +9,5 @@ image:
 hostnames: []
 
 backendUrl: "0.0.0.0"
-backendUrlSecure: true
+backendUrlSecure: "true"
 port: 3000
