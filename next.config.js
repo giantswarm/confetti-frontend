@@ -1,4 +1,4 @@
-const { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } = require("next/constants");
+const { PHASE_PRODUCTION_BUILD } = require("next/constants");
 
 module.exports = (phase) => {
     let deploymentStatus = "dev";
@@ -25,6 +25,11 @@ module.exports = (phase) => {
                     permanent: false,
                 },
             ];
+        },
+        publicRuntimeConfig: {
+            // Will be available on both server and client
+            backendHost: process.env.CONFETTI_BACKEND_HOST || "localhost:7777",
+            backendHostSecure: process.env.CONFETTI_BACKEND_HOST_SECURE === "true",
         },
     };
 };

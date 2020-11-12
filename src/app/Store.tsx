@@ -3,9 +3,7 @@ import { createContext, useContext } from "react";
 
 import { AppRepositories } from "@/app/factory";
 
-import { Config } from "./Config";
-
-enableStaticRendering(Config.getInstance().isServer);
+enableStaticRendering(typeof window === "undefined");
 
 const storeContext = createContext<AppRepositories | null>(null);
 

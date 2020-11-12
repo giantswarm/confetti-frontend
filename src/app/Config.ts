@@ -5,25 +5,13 @@ export enum ConfigDeploymentStatus {
 }
 
 export class Config {
-    private static instance: Config | null = null;
-
-    public static getInstance(): Config {
-        if (Config.instance === null) {
-            Config.instance = new Config();
-        }
-
-        return Config.instance;
-    }
-
     public readonly deploymentStatus: ConfigDeploymentStatus = this.determineDeploymentStatus();
 
-    public readonly backendHostSecure = this.parseBoolean(process.env.NEXT_PUBLIC_BACKEND_HOST_SECURE);
-
-    public readonly backendHost: string = process.env.NEXT_PUBLIC_BACKEND_HOST ?? "localhost:7777";
-
-    public readonly isServer: boolean = typeof window === "undefined";
-
     public readonly sourceURL = "https://github.com/giantswarm/confetti-frontend";
+
+    public backendHostSecure = false;
+
+    public backendHost = "localhost:7777";
 
     private determineDeploymentStatus(): ConfigDeploymentStatus {
         switch (process.env.DEPLOYMENT_STATUS) {
@@ -37,8 +25,17 @@ export class Config {
                 return ConfigDeploymentStatus.Development;
         }
     }
+}
 
-    private parseBoolean(from?: string, defaultValue = false): boolean {
-        return from?.toLowerCase() === "true" ?? defaultValue;
-    }
+export interface PublicRuntimeConfig {
+    backendHostSecure: boolean;
+    backendHost: string;
+}
+
+export function makeInitialConfigInstance(publicRuntimeConfig: PublicRuntimeConfig): Config {
+    const config = new Config();
+    config.backendHost = publicRuntimeConfig.backendHost;
+    config.backendHostSecure = publicRuntimeConfig.backendHostSecure;
+
+    return config;
 }

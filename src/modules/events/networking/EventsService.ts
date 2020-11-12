@@ -1,3 +1,4 @@
+import { Config } from "@/app/Config";
 import { BackendURL, BackendURLProtocols } from "@/core/networking/BackendURL";
 import { HttpClient, HttpRequestMethods } from "@/core/networking/HttpClient";
 import { PayloadHandler } from "@/core/networking/PayloadHandler";
@@ -19,12 +20,16 @@ import {
 import { EventsWatcherPayloads } from "./payloads/watcher/watcher";
 
 export class EventsService extends Service {
-    constructor(protected readonly httpClient: HttpClient, protected readonly wsClient: WebsocketClient) {
+    constructor(
+        protected readonly config: Config,
+        protected readonly httpClient: HttpClient,
+        protected readonly wsClient: WebsocketClient
+    ) {
         super();
     }
 
     public async getAll(authToken: string): Promise<RemoteEvent[]> {
-        const url = new BackendURL("/v1/events/", BackendURLProtocols.HTTP);
+        const url = new BackendURL(this.config, "/v1/events/", BackendURLProtocols.HTTP);
 
         try {
             this.httpClient.setRequestConfig({
@@ -73,7 +78,7 @@ export class EventsService extends Service {
                 }
             });
 
-            const url = new BackendURL(`/v1/events/${config.eventID}/watch/`, BackendURLProtocols.WS, {
+            const url = new BackendURL(this.config, `/v1/events/${config.eventID}/watch/`, BackendURLProtocols.WS, {
                 search: `token=${config.authToken}`,
             });
 

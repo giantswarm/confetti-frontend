@@ -6,35 +6,40 @@ export enum BackendURLProtocols {
 }
 
 export class BackendURL extends URL {
-    constructor(from: string, protocol: BackendURLProtocols = BackendURLProtocols.HTTP, options: Partial<URL> = {}) {
+    constructor(
+        config: Config,
+        from: string,
+        protocol: BackendURLProtocols = BackendURLProtocols.HTTP,
+        options: Partial<URL> = {}
+    ) {
         let urlProtocol = "http";
         switch (true) {
-            case protocol === BackendURLProtocols.HTTP && Config.getInstance().backendHostSecure:
+            case protocol === BackendURLProtocols.HTTP && config.backendHostSecure:
                 urlProtocol = "https";
                 break;
-            case protocol === BackendURLProtocols.HTTP && !Config.getInstance().backendHostSecure:
+            case protocol === BackendURLProtocols.HTTP && !config.backendHostSecure:
                 urlProtocol = "http";
                 break;
-            case protocol === BackendURLProtocols.WS && Config.getInstance().backendHostSecure:
+            case protocol === BackendURLProtocols.WS && config.backendHostSecure:
                 urlProtocol = "wss";
                 break;
-            case protocol === BackendURLProtocols.WS && !Config.getInstance().backendHostSecure:
+            case protocol === BackendURLProtocols.WS && !config.backendHostSecure:
                 urlProtocol = "ws";
                 break;
         }
 
-        const baseURL = `${urlProtocol}://${Config.getInstance().backendHost}`;
+        const baseURL = `${urlProtocol}://${config.backendHost}`;
 
         super(from, baseURL);
 
-        const config: Partial<URL> = {
+        const configuration: Partial<URL> = {
             ...options,
         };
-        this.parseConfig(config);
+        this.parseConfiguration(configuration);
     }
 
-    private parseConfig(config: Partial<URL>): void {
-        for (const [key, value] of Object.entries(config)) {
+    private parseConfiguration(configuration: Partial<URL>): void {
+        for (const [key, value] of Object.entries(configuration)) {
             // @ts-expect-error
             this[key] = value;
         }

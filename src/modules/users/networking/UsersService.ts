@@ -1,3 +1,4 @@
+import { Config } from "@/app/Config";
 import { BackendURL, BackendURLProtocols } from "@/core/networking/BackendURL";
 import { HttpClient, HttpRequestMethods } from "@/core/networking/HttpClient";
 import { Service } from "@/core/networking/Service";
@@ -5,12 +6,12 @@ import { User } from "@/modules/users/models/User";
 import { UsersLoginResponsePayload } from "@/modules/users/networking/payloads/login";
 
 export class UsersService extends Service {
-    constructor(protected readonly httpClient: HttpClient) {
+    constructor(protected readonly config: Config, protected readonly httpClient: HttpClient) {
         super();
     }
 
     public async login(userName: string): Promise<User> {
-        const url = new BackendURL("/v1/users/login/", BackendURLProtocols.HTTP);
+        const url = new BackendURL(this.config, "/v1/users/login/", BackendURLProtocols.HTTP);
 
         try {
             this.httpClient.setRequestConfig({
