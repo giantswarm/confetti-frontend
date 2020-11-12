@@ -5,7 +5,7 @@ orbs:
 defaults: &defaults
     working_directory: ~/confetti-frontend
     docker:
-        - image: circleci/node:12-buster
+        - image: circleci/node:15.1.0-buster
 
 job_filters: &job_filters
     filters:
@@ -148,7 +148,7 @@ jobs:
                   root: ~/confetti-frontend
                   <<: *whitelist
     push-to-quay:
-        <<: *defaults
+        executor: "architect"
         steps:
             - checkout
             - attach_workspace:
