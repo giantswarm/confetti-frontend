@@ -50,9 +50,6 @@ workflows:
             - push-to-quay:
                   name: push-confetti-frontend-to-quay
                   context: architect
-                  image: *image_name
-                  username_envar: "QUAY_USERNAME"
-                  password_envar: "QUAY_PASSWORD"
                   requires:
                       - test
                       - lint
