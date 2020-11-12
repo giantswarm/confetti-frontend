@@ -7,7 +7,7 @@ metadata:
     app: {{ .Values.name }}
 spec:
   ports:
-    - port: 3000
+    - port: {{ .Values.port }}
       targetPort: http
   selector:
     app: {{ .Values.name }}

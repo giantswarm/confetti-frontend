@@ -23,20 +23,31 @@ spec:
         - name: {{ .Values.image.name }}
           image: "quay.io/giantswarm/{{ .Values.image.name }}:{{ .Values.image.tag }}"
           imagePullPolicy: Always
+          env:
+          - name: NEXT_PUBLIC_BACKEND_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: "{{ .Values.name }}-configmap"
+                key: backend-url
+          - name: NEXT_PUBLIC_BACKEND_HOST_SECURE
+            valueFrom:
+              configMapKeyRef:
+                name: "{{ .Values.name }}-configmap"
+                key: backend-url-secure
           ports:
-            - containerPort: 3000
+            - containerPort: {{ .Values.port }}
               name: http
           resources:
             requests:
-              cpu: 200m
-              memory: 30M
+              cpu: 100m
+              memory: 20Mi
             limits:
-              cpu: 500m
-              memory: 30M
+              cpu: 250m
+              memory: 250Mi
           livenessProbe:
             httpGet:
               path: /
-              port: 3000
+              port: {{ .Values.port }}
               scheme: HTTP
             initialDelaySeconds: 10
             periodSeconds: 30
