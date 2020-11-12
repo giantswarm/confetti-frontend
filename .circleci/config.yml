@@ -49,7 +49,7 @@ workflows:
                       - checkout
                   <<: *job_filters
 
-            - push-to-docker:
+            - push-to-quay:
                   name: push-confetti-frontend-to-quay
                   context: architect
                   requires:
