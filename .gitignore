@@ -38,3 +38,6 @@ yarn-error.log*
 
 # TypeScript incremental compilation
 tsconfig.tsbuildinfo
+
+# Dynamic environment variables
+/public/env.js
