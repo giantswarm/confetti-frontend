@@ -32,4 +32,4 @@ COPY --from=build-target /usr/src/app/node_modules node_modules
 COPY --from=build-target /usr/src/app/.next .next
 
 EXPOSE 3000
-CMD ["yarn", "start"]
+CMD ["next", "start"]
