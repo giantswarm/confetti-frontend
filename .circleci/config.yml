@@ -49,9 +49,6 @@ workflows:
                       - checkout
                   <<: *job_filters
 
-            - setup_remote_docker:
-                  version: 19.03.13
-
             - architect/push-to-docker:
                   name: push-confetti-frontend-to-quay
                   context: architect
