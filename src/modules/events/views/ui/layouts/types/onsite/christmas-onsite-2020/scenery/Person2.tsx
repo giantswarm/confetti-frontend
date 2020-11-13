@@ -2,10 +2,10 @@ import { memo } from "react";
 import styled from "styled-components";
 
 const StyledSVG = styled.svg`
-    width: 8%;
+    width: 5%;
     position: absolute;
-    left: 67%;
-    top: 10vw;
+    left: 70%;
+    top: 10.2vw;
     z-index: 8;
 `;
 
@@ -13,7 +13,7 @@ interface Person2Props extends React.ComponentPropsWithoutRef<"svg"> {}
 
 const Person2: React.FC<Person2Props> = (props) => {
     return (
-        <StyledSVG viewBox='0 0 301.57 267.52' {...props}>
+        <StyledSVG viewBox='140 0 171.57 267.52' {...props}>
             <defs>
                 <style>
                     {
