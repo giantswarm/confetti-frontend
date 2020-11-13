@@ -46,7 +46,6 @@ const particlesParams: ISourceOptions = {
             straight: false,
             out_mode: "out",
             bounce: false,
-            distance: 100,
         },
     },
     retina_detect: true,
