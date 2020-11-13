@@ -1,4 +1,5 @@
 import { Box } from "grommet";
+import dynamic from "next/dynamic";
 import styled from "styled-components";
 
 import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEventRoom";
@@ -17,7 +18,6 @@ import Person3 from "./scenery/Person3";
 import PuppetShow from "./scenery/PuppetShow";
 import Snowman from "./scenery/Snowman";
 import { stalls } from "./stalls/stalls";
-import dynamic from "next/dynamic";
 
 const Snow = dynamic(() => import("./scenery/Snow"));
 

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Stall from "./Stall";
 
 const StyledStall = styled(Stall)`
-    width: 32%;
+    width: 26%;
     position: absolute;
     left: 26%;
     top: 6.5vw;
@@ -16,7 +16,7 @@ interface SpareProps extends React.ComponentPropsWithoutRef<typeof Stall> {}
 const Spare: React.FC<SpareProps> = (props) => {
     return (
         <StyledStall {...props}>
-            <svg viewBox='0 0 1266.88 447.62'>
+            <svg viewBox='0 0 966.88 447.62'>
                 <defs>
                     <style>
                         {

@@ -4,9 +4,9 @@ import styled from "styled-components";
 import Stall from "./Stall";
 
 const StyledStall = styled(Stall)`
-    width: 15%;
+    width: 14%;
     position: absolute;
-    left: 59%;
+    left: 58%;
     top: -2.6vw;
     z-index: 5;
 `;
@@ -16,7 +16,7 @@ interface MainStageProps extends React.ComponentPropsWithoutRef<typeof Stall> {}
 const MainStage: React.FC<MainStageProps> = (props) => {
     return (
         <StyledStall {...props}>
-            <svg viewBox='0 0 644.31 459.84'>
+            <svg viewBox='0 0 550.31 459.84'>
                 <defs>
                     <style>
                         {

@@ -5,10 +5,10 @@ import Stall from "./Stall";
 
 const StyledStall = styled(Stall)`
     display: block;
-    width: 16%;
+    width: 14%;
     position: absolute;
     left: 56%;
-    top: 7.5vw;
+    top: 7.7vw;
     z-index: 7;
 `;
 
@@ -17,7 +17,7 @@ interface ViadeeProps extends React.ComponentPropsWithoutRef<typeof Stall> {}
 const Viadee: React.FC<ViadeeProps> = (props) => {
     return (
         <StyledStall {...props}>
-            <svg viewBox='0 0 700.16 465.99'>
+            <svg viewBox='0 0 620.16 465.99'>
                 <defs>
                     <style>
                         {
