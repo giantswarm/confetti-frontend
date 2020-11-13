@@ -6,7 +6,6 @@ import MainStage from "./MainStage";
 import ManagedApps from "./ManagedApps";
 import Monitoring from "./Monitoring";
 import MulledWine from "./MulledWine";
-import PuppetShow from "./PuppetShow";
 import RelEng from "./RelEng";
 import RemoteWork from "./RemoteWork";
 import Security from "./Security";
@@ -15,7 +14,6 @@ import Stall from "./Stall";
 import Viadee from "./Viadee";
 
 export const stalls: Record<string, React.FC<React.ComponentPropsWithoutRef<typeof Stall>>> = {
-    "puppet-show": PuppetShow,
     "direkt-gruppe": DirektGruppe,
     kubernetes: Kubernetes,
     "main-stage": MainStage,
@@ -24,7 +22,7 @@ export const stalls: Record<string, React.FC<React.ComponentPropsWithoutRef<type
     devops: DevOps,
     spare: Spare,
     viadee: Viadee,
-    releng: RelEng,
+    "release-engineering": RelEng,
     security: Security,
     "container-solutions": ContainerSolutions,
     monitoring: Monitoring,

@@ -1,12 +1,20 @@
 import { memo } from "react";
+import styled from "styled-components";
 
 import Stall from "./Stall";
+
+const StyledStall = styled(Stall)`
+    width: 13%;
+    position: absolute;
+    left: 0;
+    top: 6.5vw;
+`;
 
 interface ManagedAppsProps extends React.ComponentPropsWithoutRef<typeof Stall> {}
 
 const ManagedApps: React.FC<ManagedAppsProps> = (props) => {
     return (
-        <Stall {...props}>
+        <StyledStall {...props}>
             <svg viewBox='0 0 523.42 474.82'>
                 <defs>
                     <linearGradient
@@ -385,7 +393,7 @@ const ManagedApps: React.FC<ManagedAppsProps> = (props) => {
                     </g>
                 </g>
             </svg>
-        </Stall>
+        </StyledStall>
     );
 };
 

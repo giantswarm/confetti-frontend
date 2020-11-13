@@ -1,12 +1,20 @@
 import { memo } from "react";
+import styled from "styled-components";
 
 import Stall from "./Stall";
+
+const StyledStall = styled(Stall)`
+    width: 9%;
+    position: absolute;
+    left: 31%;
+    top: -1.1vw;
+`;
 
 interface KubernetesProps extends React.ComponentPropsWithoutRef<typeof Stall> {}
 
 const Kubernetes: React.FC<KubernetesProps> = (props) => {
     return (
-        <Stall {...props}>
+        <StyledStall {...props}>
             <svg viewBox='0 0 360.01 328.34'>
                 <defs>
                     <style>
@@ -163,7 +171,7 @@ const Kubernetes: React.FC<KubernetesProps> = (props) => {
                     </g>
                 </g>
             </svg>
-        </Stall>
+        </StyledStall>
     );
 };
 

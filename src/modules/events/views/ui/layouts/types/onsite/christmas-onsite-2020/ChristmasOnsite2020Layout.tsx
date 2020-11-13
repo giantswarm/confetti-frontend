@@ -6,11 +6,12 @@ import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEven
 import { EventLayoutProps } from "../../../layouts";
 import Background from "./Background";
 import { christmasOnsite2020Palette } from "./palette";
+import PuppetShow from "./scenery/PuppetShow";
 import { stalls } from "./stalls/stalls";
 
 const Wrapper = styled(Box)`
     position: relative;
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
 `;
 
@@ -33,7 +34,7 @@ const StyledBackground = styled(Background)`
     z-index: 1;
 `;
 
-const Ground = styled(Box)`
+const Ground = styled.div`
     height: 60%;
     width: 100%;
     position: absolute;
@@ -41,6 +42,13 @@ const Ground = styled(Box)`
     left: 0;
     background-color: ${christmasOnsite2020Palette.ground};
     z-index: 1;
+`;
+
+const RoomsWrapper = styled.div`
+    max-width: 80%;
+    margin: auto;
+    z-index: 3;
+    position: relative;
 `;
 
 interface ChristmasOnsite2020LayoutProps extends EventLayoutProps<"onsite"> {}
@@ -59,24 +67,18 @@ const ChristmasOnsite2020Layout: React.FC<ChristmasOnsite2020LayoutProps> = ({
         const Component = stalls[room.id];
         if (!Component) return null;
 
-        return (
-            <Component
-                key={room.id}
-                roomID={room.id}
-                roomName={room.name}
-                onClick={handleJoinRoom}
-                attendeeCounter={room.attendeeCounter}
-                active={activeRoom?.id === room.id}
-            />
-        );
+        return <Component key={room.id} room={room} onClick={handleJoinRoom} activeRoom={activeRoom} />;
     };
 
     return (
         <Wrapper {...rest}>
             <Sky />
             <StyledBackground />
-            <Ground direction='row-responsive' wrap={true}>
-                {event.rooms.map(renderRoom)}
+            <Ground>
+                <RoomsWrapper>
+                    {event.rooms.map(renderRoom)}
+                    <PuppetShow />
+                </RoomsWrapper>
             </Ground>
         </Wrapper>
     );

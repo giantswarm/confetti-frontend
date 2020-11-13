@@ -1,12 +1,20 @@
 import { memo } from "react";
+import styled from "styled-components";
 
 import Stall from "./Stall";
+
+const StyledStall = styled(Stall)`
+    width: 14%;
+    position: absolute;
+    left: 86%;
+    top: -0.8vw;
+`;
 
 interface MulledWineProps extends React.ComponentPropsWithoutRef<typeof Stall> {}
 
 const MulledWine: React.FC<MulledWineProps> = (props) => {
     return (
-        <Stall {...props}>
+        <StyledStall {...props}>
             <svg viewBox='0 0 571.17 354.76'>
                 <defs>
                     <style>
@@ -392,7 +400,7 @@ const MulledWine: React.FC<MulledWineProps> = (props) => {
                     </g>
                 </g>
             </svg>
-        </Stall>
+        </StyledStall>
     );
 };
 

@@ -1,12 +1,20 @@
 import { memo } from "react";
+import styled from "styled-components";
 
 import Stall from "./Stall";
+
+const StyledStall = styled(Stall)`
+    width: 13%;
+    position: absolute;
+    left: 14%;
+    top: 4.5vw;
+`;
 
 interface DevOpsProps extends React.ComponentPropsWithoutRef<typeof Stall> {}
 
 const DevOps: React.FC<DevOpsProps> = (props) => {
     return (
-        <Stall {...props}>
+        <StyledStall {...props}>
             <svg viewBox='0 0 560.22 439.25'>
                 <defs>
                     <style>
@@ -239,7 +247,7 @@ const DevOps: React.FC<DevOpsProps> = (props) => {
                     </g>
                 </g>
             </svg>
-        </Stall>
+        </StyledStall>
     );
 };
 

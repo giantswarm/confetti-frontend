@@ -1,12 +1,20 @@
 import { memo } from "react";
+import styled from "styled-components";
 
 import Stall from "./Stall";
+
+const StyledStall = styled(Stall)`
+    width: 17%;
+    position: absolute;
+    left: 20.5%;
+    top: 15vw;
+`;
 
 interface ContainerSolutionsProps extends React.ComponentPropsWithoutRef<typeof Stall> {}
 
 const ContainerSolutions: React.FC<ContainerSolutionsProps> = (props) => {
     return (
-        <Stall {...props}>
+        <StyledStall {...props}>
             <svg viewBox='0 0 765.01 607.85'>
                 <defs>
                     <style>
@@ -496,7 +504,7 @@ const ContainerSolutions: React.FC<ContainerSolutionsProps> = (props) => {
                     </g>
                 </g>
             </svg>
-        </Stall>
+        </StyledStall>
     );
 };
 

@@ -1,12 +1,20 @@
 import { memo } from "react";
+import styled from "styled-components";
 
 import Stall from "./Stall";
+
+const StyledStall = styled(Stall)`
+    width: 12%;
+    position: absolute;
+    left: 73%;
+    top: 6.5vw;
+`;
 
 interface RelEngProps extends React.ComponentPropsWithoutRef<typeof Stall> {}
 
 const RelEng: React.FC<RelEngProps> = (props) => {
     return (
-        <Stall {...props}>
+        <StyledStall {...props}>
             <svg viewBox='0 0 560.22 439.25'>
                 <defs>
                     <style>
@@ -270,7 +278,7 @@ const RelEng: React.FC<RelEngProps> = (props) => {
                     </g>
                 </g>
             </svg>
-        </Stall>
+        </StyledStall>
     );
 };
 

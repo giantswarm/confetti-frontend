@@ -1,12 +1,20 @@
 import { memo } from "react";
+import styled from "styled-components";
 
 import Stall from "./Stall";
+
+const StyledStall = styled(Stall)`
+    width: 9%;
+    position: absolute;
+    left: 19%;
+    top: -2.7vw;
+`;
 
 interface DirektGruppeProps extends React.ComponentPropsWithoutRef<typeof Stall> {}
 
 const DirektGruppe: React.FC<DirektGruppeProps> = (props) => {
     return (
-        <Stall {...props}>
+        <StyledStall {...props}>
             <svg viewBox='0 0 388.05 340.08'>
                 <defs>
                     <style>
@@ -448,7 +456,7 @@ const DirektGruppe: React.FC<DirektGruppeProps> = (props) => {
                     </g>
                 </g>
             </svg>
-        </Stall>
+        </StyledStall>
     );
 };
 

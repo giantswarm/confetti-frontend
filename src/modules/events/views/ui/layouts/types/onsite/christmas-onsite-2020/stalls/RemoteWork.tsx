@@ -1,12 +1,20 @@
 import { memo } from "react";
+import styled from "styled-components";
 
 import Stall from "./Stall";
+
+const StyledStall = styled(Stall)`
+    width: 20%;
+    position: absolute;
+    left: 80%;
+    top: 16.5vw;
+`;
 
 interface RemoteWorkProps extends React.ComponentPropsWithoutRef<typeof Stall> {}
 
 const RemoteWork: React.FC<RemoteWorkProps> = (props) => {
     return (
-        <Stall {...props}>
+        <StyledStall {...props}>
             <svg viewBox='0 0 883.36 545.48'>
                 <defs>
                     <style>
@@ -432,7 +440,7 @@ const RemoteWork: React.FC<RemoteWorkProps> = (props) => {
                     </g>
                 </g>
             </svg>
-        </Stall>
+        </StyledStall>
     );
 };
 

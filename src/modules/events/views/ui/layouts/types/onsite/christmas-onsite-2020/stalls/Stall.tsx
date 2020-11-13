@@ -1,33 +1,25 @@
 import { Box, BoxTypes, Drop, Stack, Text } from "grommet";
 import { FormCheckmark } from "grommet-icons";
 import { useRef, useState } from "react";
-import styled from "styled-components";
 
-interface WrapperProps extends BoxTypes {
-    active: boolean;
-    onClick: () => void;
-}
+import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEventRoom";
 
-const Wrapper = styled(Box as React.FC<WrapperProps>)`
-    flex-basis: 100px;
-    flex-grow: 1;
-    flex-shrink: 1;
-`;
-
-interface StallProps {
-    roomID: string;
-    roomName: string;
+interface StallProps extends Omit<BoxTypes, "onClick"> {
     onClick: (roomID: string) => void;
-    attendeeCounter?: number;
-    active?: boolean;
+    activeRoom?: OnsiteEventRoom | null;
+    room?: OnsiteEventRoom;
 }
 
-const Stall: React.FC<StallProps> = ({ children, roomID, roomName, onClick, active }) => {
+const Stall: React.FC<StallProps> = ({ children, room, onClick, activeRoom, ...rest }) => {
     const wrapperRef = useRef<HTMLDivElement>(null);
     const [isHovering, setIsHovering] = useState(false);
 
+    if (!room) return null;
+
+    const isActive = activeRoom?.id === room.id;
+
     return (
-        <Wrapper onClick={() => onClick(roomID)} active={active!}>
+        <Box {...rest} onClick={() => onClick(room.id)}>
             <span
                 ref={wrapperRef}
                 onMouseOver={() => setIsHovering(true)}
@@ -37,7 +29,7 @@ const Stall: React.FC<StallProps> = ({ children, roomID, roomName, onClick, acti
             >
                 <Stack anchor='top-right'>
                     <Box>{children}</Box>
-                    {active && (
+                    {isActive && (
                         <Box background='brand' pad='xsmall' direction='row' round={true} align='center'>
                             <FormCheckmark color='white' />
                         </Box>
@@ -49,18 +41,17 @@ const Stall: React.FC<StallProps> = ({ children, roomID, roomName, onClick, acti
                 <Drop plain align={{ left: "left", bottom: "top" }} target={wrapperRef.current} trapFocus={false}>
                     <Box pad='small' background='brand' width={{ max: "200px" }} round='xsmall'>
                         <Text size='small' color='white'>
-                            {roomName}
+                            {room.name}
                         </Text>
                     </Box>
                 </Drop>
             )}
-        </Wrapper>
+        </Box>
     );
 };
 
 Stall.defaultProps = {
-    active: false,
-    attendeeCounter: 0,
+    activeRoom: null,
 };
 
 export default Stall;

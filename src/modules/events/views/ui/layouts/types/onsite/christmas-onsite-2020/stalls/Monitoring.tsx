@@ -1,12 +1,20 @@
 import { memo } from "react";
+import styled from "styled-components";
 
 import Stall from "./Stall";
+
+const StyledStall = styled(Stall)`
+    width: 16%;
+    position: absolute;
+    left: 55.5%;
+    top: 16.5vw;
+`;
 
 interface MonitoringProps extends React.ComponentPropsWithoutRef<typeof Stall> {}
 
 const Monitoring: React.FC<MonitoringProps> = (props) => {
     return (
-        <Stall {...props}>
+        <StyledStall {...props}>
             <svg viewBox='0 0 726.13 569.33'>
                 <defs>
                     <style>
@@ -261,7 +269,7 @@ const Monitoring: React.FC<MonitoringProps> = (props) => {
                     </g>
                 </g>
             </svg>
-        </Stall>
+        </StyledStall>
     );
 };
 

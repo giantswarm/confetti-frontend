@@ -1,12 +1,20 @@
 import { memo } from "react";
+import styled from "styled-components";
 
 import Stall from "./Stall";
+
+const StyledStall = styled(Stall)`
+    width: 15%;
+    position: absolute;
+    left: 60%;
+    top: -2.6vw;
+`;
 
 interface MainStageProps extends React.ComponentPropsWithoutRef<typeof Stall> {}
 
 const MainStage: React.FC<MainStageProps> = (props) => {
     return (
-        <Stall {...props}>
+        <StyledStall {...props}>
             <svg viewBox='0 0 644.31 459.84'>
                 <defs>
                     <style>
@@ -389,7 +397,7 @@ const MainStage: React.FC<MainStageProps> = (props) => {
                     </g>
                 </g>
             </svg>
-        </Stall>
+        </StyledStall>
     );
 };
 

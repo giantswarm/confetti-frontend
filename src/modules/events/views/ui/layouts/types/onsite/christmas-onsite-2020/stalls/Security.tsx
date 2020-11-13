@@ -1,12 +1,20 @@
 import { memo } from "react";
+import styled from "styled-components";
 
 import Stall from "./Stall";
+
+const StyledStall = styled(Stall)`
+    width: 14%;
+    position: absolute;
+    left: 86%;
+    top: 7.3vw;
+`;
 
 interface SecurityProps extends React.ComponentPropsWithoutRef<typeof Stall> {}
 
 const Security: React.FC<SecurityProps> = (props) => {
     return (
-        <Stall {...props}>
+        <StyledStall {...props}>
             <svg viewBox='0 0 651.2 463.65'>
                 <defs>
                     <style>
@@ -412,7 +420,7 @@ const Security: React.FC<SecurityProps> = (props) => {
                     </g>
                 </g>
             </svg>
-        </Stall>
+        </StyledStall>
     );
 };
 
