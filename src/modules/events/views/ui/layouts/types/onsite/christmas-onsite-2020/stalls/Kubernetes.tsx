@@ -8,7 +8,7 @@ const StyledStall = styled(Stall)`
     position: absolute;
     left: 30%;
     top: -1.1vw;
-    z-index: 1;
+    z-index: 5;
 `;
 
 interface KubernetesProps extends React.ComponentPropsWithoutRef<typeof Stall> {}

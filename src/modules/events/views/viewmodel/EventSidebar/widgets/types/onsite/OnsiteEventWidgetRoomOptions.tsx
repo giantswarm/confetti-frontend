@@ -55,7 +55,7 @@ const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> 
 
     const descriptionLines = formatDescription(activeRoom.description);
 
-    const attendeesLabel = activeRoom.attendeeCounter === 1 ? "participant" : "participants";
+    const attendeesLabel = activeRoom.attendeeCounter === 1 ? "visitor" : "visitors";
 
     return (
         <Box key='onsitewidget-roomoptions'>
@@ -92,12 +92,12 @@ const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> 
             <Box direction='row' fill='horizontal' gap='small' margin={{ top: "medium" }} pad={{ vertical: "small" }}>
                 {activeRoom.conferenceURL && (
                     <a href={activeRoom.conferenceURL} target='_blank' rel='noreferrer'>
-                        <Button label='Join meeting' primary={true} color='status-ok' size='medium' />
+                        <Button label='Join call' primary={true} color='status-ok' size='medium' />
                     </a>
                 )}
                 <Button plain={true} onClick={() => leaveRoom(event.id, activeRoom.id)}>
                     <Text size='xsmall' color='status-unknown'>
-                        Leave room
+                        Leave stall
                     </Text>
                 </Button>
             </Box>

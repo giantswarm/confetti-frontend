@@ -6,7 +6,7 @@ const StyledSVG = styled.svg`
     position: absolute;
     left: 3%;
     top: -1vw;
-    z-index: 1;
+    z-index: 5;
 `;
 
 interface PuppetShowProps extends React.ComponentPropsWithoutRef<"svg"> {}

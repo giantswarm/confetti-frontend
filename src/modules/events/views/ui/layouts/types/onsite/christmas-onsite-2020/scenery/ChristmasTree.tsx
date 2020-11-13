@@ -6,7 +6,7 @@ const StyledSVG = styled.svg`
     position: absolute;
     left: 40.5%;
     top: -7vw;
-    z-index: 0;
+    z-index: 4;
 `;
 
 interface ChristmasTreeProps extends React.ComponentPropsWithoutRef<"svg"> {}

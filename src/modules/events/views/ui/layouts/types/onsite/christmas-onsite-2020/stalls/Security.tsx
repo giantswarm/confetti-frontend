@@ -8,7 +8,7 @@ const StyledStall = styled(Stall)`
     position: absolute;
     left: 86%;
     top: 7.3vw;
-    z-index: 3;
+    z-index: 7;
 `;
 
 interface SecurityProps extends React.ComponentPropsWithoutRef<typeof Stall> {}

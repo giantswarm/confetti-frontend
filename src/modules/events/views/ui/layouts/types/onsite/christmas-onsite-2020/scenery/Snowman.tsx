@@ -6,7 +6,7 @@ const StyledSVG = styled.svg`
     position: absolute;
     left: 68%;
     top: 16vw;
-    z-index: 5;
+    z-index: 9;
 `;
 
 interface SnowmanProps extends React.ComponentPropsWithoutRef<"svg"> {}

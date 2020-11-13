@@ -17,6 +17,9 @@ import Person3 from "./scenery/Person3";
 import PuppetShow from "./scenery/PuppetShow";
 import Snowman from "./scenery/Snowman";
 import { stalls } from "./stalls/stalls";
+import dynamic from "next/dynamic";
+
+const Snow = dynamic(() => import("./scenery/Snow"));
 
 const Wrapper = styled(Box)`
     position: relative;
@@ -59,7 +62,6 @@ const Ground = styled.div`
     bottom: 0;
     left: 0;
     background-color: ${christmasOnsite2020Palette.ground};
-    z-index: 1;
 `;
 
 const RoomsWrapper = styled.div`
@@ -94,6 +96,7 @@ const ChristmasOnsite2020Layout: React.FC<ChristmasOnsite2020LayoutProps> = ({
             <BackgroundWrapper>
                 <StyledBackground />
             </BackgroundWrapper>
+            <Snow />
             <Ground>
                 <RoomsWrapper>
                     {event.rooms.map(renderRoom)}

@@ -6,7 +6,7 @@ const StyledSVG = styled.svg`
     position: absolute;
     left: 39%;
     top: 14vw;
-    z-index: 4;
+    z-index: 8;
 `;
 
 interface People3Props extends React.ComponentPropsWithoutRef<"svg"> {}

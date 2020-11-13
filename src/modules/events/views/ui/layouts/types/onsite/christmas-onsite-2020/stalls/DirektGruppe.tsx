@@ -8,7 +8,7 @@ const StyledStall = styled(Stall)`
     position: absolute;
     left: 19%;
     top: -2.7vw;
-    z-index: 1;
+    z-index: 5;
 `;
 
 interface DirektGruppeProps extends React.ComponentPropsWithoutRef<typeof Stall> {}

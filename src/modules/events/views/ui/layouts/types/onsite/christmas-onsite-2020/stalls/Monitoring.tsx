@@ -8,7 +8,7 @@ const StyledStall = styled(Stall)`
     position: absolute;
     left: 50%;
     top: 16.5vw;
-    z-index: 5;
+    z-index: 9;
 `;
 
 interface MonitoringProps extends React.ComponentPropsWithoutRef<typeof Stall> {}
