@@ -5,8 +5,8 @@ import styled from "styled-components";
 import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEventRoom";
 
 import { EventLayoutProps } from "../../../layouts";
-import Background from "./Background";
 import { christmasOnsite2020Palette } from "./palette";
+import Background from "./scenery/Background";
 import ChristmasTree from "./scenery/ChristmasTree";
 import People1 from "./scenery/People1";
 import People2 from "./scenery/People2";
@@ -35,24 +35,6 @@ const Sky = styled(Box)`
     left: 0;
     background-color: ${christmasOnsite2020Palette.sky};
     z-index: 0;
-`;
-
-const BackgroundWrapper = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 40%;
-    overflow: hidden;
-    z-index: 1;
-`;
-
-const StyledBackground = styled(Background)`
-    position: absolute;
-    left: 0;
-    bottom: -0.8vh;
-    object-fit: cover;
-    object-position: bottom center;
 `;
 
 const Ground = styled.div`
@@ -93,9 +75,7 @@ const ChristmasOnsite2020Layout: React.FC<ChristmasOnsite2020LayoutProps> = ({
     return (
         <Wrapper {...rest}>
             <Sky />
-            <BackgroundWrapper>
-                <StyledBackground />
-            </BackgroundWrapper>
+            <Background />
             <Snow />
             <Ground>
                 <RoomsWrapper>
