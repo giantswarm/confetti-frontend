@@ -8,6 +8,7 @@ const StyledStall = styled(Stall)`
     position: absolute;
     left: 20.5%;
     top: 15vw;
+    z-index: 5;
 `;
 
 interface ContainerSolutionsProps extends React.ComponentPropsWithoutRef<typeof Stall> {}

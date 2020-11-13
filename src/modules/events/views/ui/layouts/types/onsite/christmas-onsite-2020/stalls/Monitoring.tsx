@@ -6,8 +6,9 @@ import Stall from "./Stall";
 const StyledStall = styled(Stall)`
     width: 16%;
     position: absolute;
-    left: 55.5%;
+    left: 50%;
     top: 16.5vw;
+    z-index: 5;
 `;
 
 interface MonitoringProps extends React.ComponentPropsWithoutRef<typeof Stall> {}

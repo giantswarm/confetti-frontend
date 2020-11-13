@@ -9,6 +9,7 @@ const StyledStall = styled(Stall)`
     position: absolute;
     left: 56%;
     top: 7.5vw;
+    z-index: 3;
 `;
 
 interface ViadeeProps extends React.ComponentPropsWithoutRef<typeof Stall> {}

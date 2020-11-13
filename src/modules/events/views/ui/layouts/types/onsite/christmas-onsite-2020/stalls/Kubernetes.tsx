@@ -6,8 +6,9 @@ import Stall from "./Stall";
 const StyledStall = styled(Stall)`
     width: 9%;
     position: absolute;
-    left: 31%;
+    left: 30%;
     top: -1.1vw;
+    z-index: 1;
 `;
 
 interface KubernetesProps extends React.ComponentPropsWithoutRef<typeof Stall> {}

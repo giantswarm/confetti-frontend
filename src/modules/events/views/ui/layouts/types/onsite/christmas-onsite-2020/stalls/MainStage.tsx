@@ -6,8 +6,9 @@ import Stall from "./Stall";
 const StyledStall = styled(Stall)`
     width: 15%;
     position: absolute;
-    left: 60%;
+    left: 59%;
     top: -2.6vw;
+    z-index: 1;
 `;
 
 interface MainStageProps extends React.ComponentPropsWithoutRef<typeof Stall> {}

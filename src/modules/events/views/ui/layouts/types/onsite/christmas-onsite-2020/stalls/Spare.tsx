@@ -8,6 +8,7 @@ const StyledStall = styled(Stall)`
     position: absolute;
     left: 26%;
     top: 6.5vw;
+    z-index: 3;
 `;
 
 interface SpareProps extends React.ComponentPropsWithoutRef<typeof Stall> {}

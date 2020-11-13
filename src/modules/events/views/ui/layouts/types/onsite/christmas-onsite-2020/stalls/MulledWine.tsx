@@ -8,6 +8,7 @@ const StyledStall = styled(Stall)`
     position: absolute;
     left: 86%;
     top: -0.8vw;
+    z-index: 1;
 `;
 
 interface MulledWineProps extends React.ComponentPropsWithoutRef<typeof Stall> {}

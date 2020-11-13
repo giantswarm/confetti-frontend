@@ -8,6 +8,7 @@ const StyledStall = styled(Stall)`
     position: absolute;
     left: 80%;
     top: 16.5vw;
+    z-index: 5;
 `;
 
 interface RemoteWorkProps extends React.ComponentPropsWithoutRef<typeof Stall> {}
