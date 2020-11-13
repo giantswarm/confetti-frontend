@@ -1,16 +1,13 @@
 const path = require("path");
 const fs = require("fs");
 
-const supportedVars = {
-    CONFETTI_BACKEND_HOST: true,
-    CONFETTI_BACKEND_HOST_SECURE: true,
-};
+const envVarPrefix = "CONFETTI_";
 
 function write(envVars = {}) {
     try {
         const envFileLines = [];
         for (const [key, value] of Object.entries(envVars)) {
-            if (!supportedVars[key]) continue;
+            if (!key.startsWith(envVarPrefix)) continue;
             envFileLines.push(`\t${key}: "${value}",\n`);
         }
 
