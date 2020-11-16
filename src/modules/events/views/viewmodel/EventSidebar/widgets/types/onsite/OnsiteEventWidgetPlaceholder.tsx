@@ -17,7 +17,7 @@ const OnsiteEventWidgetPlaceholder: React.FC<OnsiteEventWidgetPlaceholderProps> 
                 </Text>
             </Box>
             <Box direction='row' margin={{ vertical: "medium" }} align='center'>
-                <Text margin={{ right: "xsmall" }}>Join a room to start having fun</Text>
+                <Text margin={{ right: "xsmall" }}>Join a room by clicking a stall to start having fun</Text>
                 <FormNextLink />
             </Box>
         </Box>
