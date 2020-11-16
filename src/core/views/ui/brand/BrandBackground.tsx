@@ -19,10 +19,12 @@ const StyledImage = styled(Image)`
 
 interface BrandBackgroundProps {}
 
+// TODO(axbarsan): Remove `ts-expect-error` from below when the type issue is fixed in Next.js.
 export const BrandBackground: React.FC<BrandBackgroundProps> = () => {
     return (
         <Wrapper>
-            <StyledImage src='/gs_bg.jpg' alt='Giant Swarm Confetti' unsized={true} quality={90} />
+            {/* @ts-expect-error */}
+            <StyledImage src='/gs_bg.jpg' alt='Giant Swarm Confetti' layout='fill' quality={90} />
         </Wrapper>
     );
 };
