@@ -15,6 +15,7 @@ import { formatDescription } from "./OnsiteEventWidgetUtils";
 interface OnsiteEventWidgetRoomOptionsProps {
     event: OnsiteEvent;
     activeRoom: OnsiteEventRoom | null;
+    joinRoom: (eventID: string, roomID: string) => Promise<void>;
     leaveRoom: (eventID: string, roomID: string) => Promise<void>;
     error?: string;
     loading?: boolean;
@@ -23,6 +24,7 @@ interface OnsiteEventWidgetRoomOptionsProps {
 const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> = ({
     event,
     activeRoom,
+    joinRoom,
     leaveRoom,
     error,
     loading,
@@ -56,7 +58,7 @@ const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> 
         return (
             <Box key='onsitewidget-roomoptions'>
                 <OnsiteEventWidgetPlaceholder eventName={event.name} />
-                <OnsiteEventWidgetRoomList rooms={event.rooms} eventID={event.id} />
+                <OnsiteEventWidgetRoomList rooms={event.rooms} eventID={event.id} joinRoom={joinRoom} />
             </Box>
         );
     }
