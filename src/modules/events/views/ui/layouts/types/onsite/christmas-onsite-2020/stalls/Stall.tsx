@@ -8,9 +8,10 @@ interface StallProps extends Omit<BoxTypes, "onClick"> {
     onClick: (roomID: string) => void;
     activeRoom?: OnsiteEventRoom | null;
     room?: OnsiteEventRoom;
+    attendeeCounter?: number;
 }
 
-const Stall: React.FC<StallProps> = ({ children, room, onClick, activeRoom, ...rest }) => {
+const Stall: React.FC<StallProps> = ({ children, room, onClick, activeRoom, attendeeCounter, ...rest }) => {
     const wrapperRef = useRef<HTMLDivElement>(null);
     const [isHovering, setIsHovering] = useState(false);
 
@@ -27,14 +28,23 @@ const Stall: React.FC<StallProps> = ({ children, room, onClick, activeRoom, ...r
                 onFocus={() => setIsHovering(true)}
                 onBlur={() => setIsHovering(false)}
             >
+
                 <Stack anchor='top-right'>
                     <Box>{children}</Box>
                     {isActive && (
                         <Box background='brand' pad='xsmall' direction='row' round={true} align='center'>
                             <FormCheckmark color='white' />
+                            { room.attendeeCounter }
+                        </Box>
+                    )}
+
+                    {!isActive && room.attendeeCounter > 0 && (
+                        <Box background='brand' pad='xsmall' direction='row' round={true} align='center'>
+                            { room.attendeeCounter }
                         </Box>
                     )}
                 </Stack>
+
             </span>
 
             {wrapperRef.current && isHovering && (

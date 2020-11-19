@@ -69,7 +69,9 @@ const ChristmasOnsite2020Layout: React.FC<ChristmasOnsite2020LayoutProps> = ({
         const Component = stalls[room.id];
         if (!Component) return null;
 
-        return <Component key={room.id} room={room} onClick={handleJoinRoom} activeRoom={activeRoom} />;
+        console.log(room.id, room.attendeeCounter, room.name)
+
+        return <Component key={room.id} room={room} attendeeCounter={room.attendeeCounter} onClick={handleJoinRoom} activeRoom={activeRoom} />;
     };
 
     return (
