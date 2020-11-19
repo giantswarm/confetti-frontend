@@ -7,10 +7,10 @@ import { Paths } from "@/app/Paths";
 import Spinner from "@/core/views/ui/app/Spinner";
 import { OnsiteEvent } from "@/modules/events/models/types/onsite/OnsiteEvent";
 import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEventRoom";
+import OnsiteEventWidgetRoomList from "@/modules/events/views/viewmodel/EventSidebar/widgets/types/onsite/OnsiteEventWidgetRoomList";
 
 import OnsiteEventWidgetPlaceholder from "./OnsiteEventWidgetPlaceholder";
 import { formatDescription } from "./OnsiteEventWidgetUtils";
-import OnsiteEventWidgetRoomList from "@/modules/events/views/viewmodel/EventSidebar/widgets/types/onsite/OnsiteEventWidgetRoomList";
 
 interface OnsiteEventWidgetRoomOptionsProps {
     event: OnsiteEvent;
@@ -56,7 +56,7 @@ const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> 
         return (
             <>
                 <OnsiteEventWidgetPlaceholder key='onsitewidget-roomoptions' eventName={event.name} />
-                <OnsiteEventWidgetRoomList rooms={event.rooms} eventID={event.id}></OnsiteEventWidgetRoomList>
+                <OnsiteEventWidgetRoomList rooms={event.rooms} eventID={event.id} />
             </>
         );
     }

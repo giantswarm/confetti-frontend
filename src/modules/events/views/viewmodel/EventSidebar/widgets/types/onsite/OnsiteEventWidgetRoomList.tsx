@@ -1,8 +1,8 @@
-import React from "react";
-import { Box, Heading, Text, Anchor } from "grommet";
+import { Anchor, Box, Heading, Text } from "grommet";
 import { FormNextLink } from "grommet-icons";
-import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEventRoom";
+
 import { useStore } from "@/app/Store";
+import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEventRoom";
 
 interface OnsiteEventWidgetPlaceholderProps {
     eventID: string;
@@ -22,7 +22,7 @@ const OnsiteEventWidgetRoomList: React.FC<OnsiteEventWidgetPlaceholderProps> = (
             {rooms.map((room) => (
                 <Anchor key={room.id} onClick={() => Events.joinOnsiteRoom(eventID, room.id)}>
                     <Box direction='row' margin={{ vertical: "none" }} align='center'>
-                        <Text size={"medium"} padding={{ left: "large" }} margin={{ right: "xsmall", bottom: "none" }}>
+                        <Text size='medium' padding={{ left: "large" }} margin={{ right: "xsmall", bottom: "none" }}>
                             {room.name} ({room.attendeeCounter})
                         </Text>
                         <FormNextLink />
