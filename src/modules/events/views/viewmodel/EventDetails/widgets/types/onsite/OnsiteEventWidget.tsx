@@ -14,9 +14,6 @@ const OnsiteEventWidget: React.FC<OnsiteEventWidget> = ({ event, ...rest }) => {
     const EventSpecificLayout = eventLayouts.onsite[event.id];
     if (!EventSpecificLayout) return null;
 
-    const roomCounters = event.rooms.map((room) => room.attendeeCount);
-    console.log('render');
-
     return (
         <Box {...rest}>
             <EventSpecificLayout

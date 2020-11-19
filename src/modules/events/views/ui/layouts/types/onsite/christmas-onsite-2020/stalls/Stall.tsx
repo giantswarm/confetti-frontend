@@ -9,10 +9,9 @@ interface StallProps extends Omit<BoxTypes, "onClick"> {
     onClick: (roomID: string) => void;
     activeRoom?: OnsiteEventRoom | null;
     room?: OnsiteEventRoom;
-    attendeeCounter?: number;
 }
 
-const Stall: React.FC<StallProps> = ({ children, room, onClick, activeRoom, attendeeCounter, ...rest }) => {
+const Stall: React.FC<StallProps> = ({ children, room, onClick, activeRoom, ...rest }) => {
     const wrapperRef = useRef<HTMLDivElement>(null);
     const [isHovering, setIsHovering] = useState(false);
 
@@ -29,7 +28,6 @@ const Stall: React.FC<StallProps> = ({ children, room, onClick, activeRoom, atte
                 onFocus={() => setIsHovering(true)}
                 onBlur={() => setIsHovering(false)}
             >
-
                 <Stack anchor='top-right'>
                     <Box>{children}</Box>
 
