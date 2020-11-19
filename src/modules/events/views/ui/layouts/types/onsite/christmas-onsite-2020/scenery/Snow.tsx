@@ -56,7 +56,7 @@ const Wrapper = styled.div`
     left: 0;
     top: 0;
     width: 100%;
-    height: 100%;
+    height: 99%;
     z-index: 2;
     pointer-events: none;
 `;
