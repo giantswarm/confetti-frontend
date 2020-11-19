@@ -154,6 +154,7 @@ export class EventsRepository extends Repository {
     public stopWatchingEvent = (eventID: string): void => {
         this.eventsService.stopWatchingEvent(eventID);
         this.activeEventID.data = null;
+        this.activeEventID.error = "";
         this.persistingStrategy.delete(EventsRepository.activeEventIDStorageKey);
     };
 
@@ -256,8 +257,9 @@ export class EventsRepository extends Repository {
     };
 
     public onRoomLeave = (_roomID: string): void => {
+        this.activeOnsiteRoomID.data = null;
+        this.activeOnsiteRoomID.error = "";
         this.activeOnsiteRoomID.loading = false;
-        this.activeOnsiteRoomID.clear();
         this.persistingStrategy.delete(EventsRepository.activeOnsiteEventRoomIDStorageKey);
     };
 
