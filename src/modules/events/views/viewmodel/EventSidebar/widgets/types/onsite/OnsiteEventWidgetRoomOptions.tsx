@@ -54,10 +54,10 @@ const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> 
 
     if (!activeRoom) {
         return (
-            <>
-                <OnsiteEventWidgetPlaceholder key='onsitewidget-roomoptions' eventName={event.name} />
+            <Box key='onsitewidget-roomoptions'>
+                <OnsiteEventWidgetPlaceholder eventName={event.name} />
                 <OnsiteEventWidgetRoomList rooms={event.rooms} eventID={event.id} />
-            </>
+            </Box>
         );
     }
 
