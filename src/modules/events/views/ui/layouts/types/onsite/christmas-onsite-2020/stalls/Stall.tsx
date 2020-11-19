@@ -1,7 +1,7 @@
 import { Box, BoxTypes, Drop, Stack, Text } from "grommet";
-import { User, Group } from "grommet-icons";
-import { useRef, useState } from "react";
+import { Group,User } from "grommet-icons";
 import { observer } from "mobx-react-lite";
+import { useRef, useState } from "react";
 
 import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEventRoom";
 
@@ -33,7 +33,7 @@ const Stall: React.FC<StallProps> = ({ children, room, onClick, activeRoom, ...r
 
 
                     {room.attendeeCounter > 0 && (
-                        <Box background={isActive ? 'status-ok' : 'brand'} pad='xsmall' direction='row' round={true} align='center'>
+                        <Box background={isActive ? "status-ok" : "brand"} pad='xsmall' direction='row' round={true} align='center'>
                             {
                               !isActive && room.attendeeCounter === 1 && <User color='white' />
                             }
