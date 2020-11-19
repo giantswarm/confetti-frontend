@@ -22,7 +22,7 @@ const OnsiteEventWidgetRoomList: React.FC<OnsiteEventWidgetPlaceholderProps> = (
             {rooms.map((room) => (
                 <Anchor key={room.id} onClick={() => Events.joinOnsiteRoom(eventID, room.id)}>
                     <Box direction='row' margin={{ vertical: "none" }} align='center'>
-                        <Text size='medium' padding={{ left: "large" }} margin={{ right: "xsmall", bottom: "none" }}>
+                        <Text size='medium' margin={{ right: "xsmall", bottom: "none" }}>
                             {room.name} ({room.attendeeCounter})
                         </Text>
                         <FormNextLink />
