@@ -1,6 +1,7 @@
 import { Box, BoxTypes, Drop, Stack, Text } from "grommet";
-import { FormCheckmark } from "grommet-icons";
+import { User, Group } from "grommet-icons";
 import { useRef, useState } from "react";
+import { observer } from "mobx-react-lite";
 
 import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEventRoom";
 
@@ -31,15 +32,25 @@ const Stall: React.FC<StallProps> = ({ children, room, onClick, activeRoom, atte
 
                 <Stack anchor='top-right'>
                     <Box>{children}</Box>
-                    {isActive && (
-                        <Box background='brand' pad='xsmall' direction='row' round={true} align='center'>
-                            <FormCheckmark color='white' />
-                            { room.attendeeCounter }
-                        </Box>
-                    )}
 
-                    {!isActive && room.attendeeCounter > 0 && (
-                        <Box background='brand' pad='xsmall' direction='row' round={true} align='center'>
+
+                    {room.attendeeCounter > 0 && (
+                        <Box background={isActive ? 'status-ok' : 'brand'} pad='xsmall' direction='row' round={true} align='center'>
+                            {
+                              !isActive && room.attendeeCounter === 1 && <User color='white' />
+                            }
+                            {
+                              !isActive && room.attendeeCounter === 2 && <><User color='white' /><User color='white' /></>
+                            }
+                            {
+                              isActive && <User color='white' />
+                            }
+                            {
+                              isActive && room.attendeeCounter === 2 &&  <User color='white' />
+                            }
+                            {
+                              room.attendeeCounter >= 3  &&  <Group color='white' />
+                            }
                             { room.attendeeCounter }
                         </Box>
                     )}
@@ -64,4 +75,4 @@ Stall.defaultProps = {
     activeRoom: null,
 };
 
-export default Stall;
+export default observer(Stall);
