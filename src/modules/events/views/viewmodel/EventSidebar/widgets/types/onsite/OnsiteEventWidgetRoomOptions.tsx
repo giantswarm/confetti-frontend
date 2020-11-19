@@ -10,6 +10,7 @@ import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEven
 
 import OnsiteEventWidgetPlaceholder from "./OnsiteEventWidgetPlaceholder";
 import { formatDescription } from "./OnsiteEventWidgetUtils";
+import OnsiteEventWidgetRoomList from "@/modules/events/views/viewmodel/EventSidebar/widgets/types/onsite/OnsiteEventWidgetRoomList";
 
 interface OnsiteEventWidgetRoomOptionsProps {
     event: OnsiteEvent;
@@ -26,11 +27,13 @@ const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> 
     error,
     loading,
 }) => {
-    if (loading) {
-        <Box key='onsitewidget-roomoptions' direction='row' gap='small'>
-            <Spinner />
-            <Text>Loading room...</Text>
-        </Box>;
+    if (loading && activeRoom) {
+        return (
+            <Box key='onsitewidget-roomoptions' direction='row' gap='small'>
+                <Spinner />
+                <Text>Loading room...</Text>
+            </Box>
+        );
     }
 
     if (error) {
@@ -50,7 +53,12 @@ const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> 
     }
 
     if (!activeRoom) {
-        return <OnsiteEventWidgetPlaceholder key='onsitewidget-roomoptions' eventName={event.name} />;
+        return (
+            <>
+                <OnsiteEventWidgetPlaceholder key='onsitewidget-roomoptions' eventName={event.name} />
+                <OnsiteEventWidgetRoomList rooms={event.rooms} eventID={event.id}></OnsiteEventWidgetRoomList>
+            </>
+        );
     }
 
     const descriptionLines = formatDescription(activeRoom.description);
