@@ -8,7 +8,6 @@ import { EventLayoutProps } from "../../../layouts";
 import { christmasOnsite2020Palette } from "./palette";
 import { rooms } from "./rooms/rooms";
 import Background from "./scenery/Background";
-import ChristmasTree from "./scenery/ChristmasTree";
 import People1 from "./scenery/People1";
 import People2 from "./scenery/People2";
 import People3 from "./scenery/People3";
@@ -16,8 +15,6 @@ import People4 from "./scenery/People4";
 import Person1 from "./scenery/Person1";
 import Person2 from "./scenery/Person2";
 import Person3 from "./scenery/Person3";
-import PuppetShow from "./scenery/PuppetShow";
-import Snowman from "./scenery/Snowman";
 
 const Snow = dynamic(() => import("./scenery/Snow"));
 
@@ -80,8 +77,6 @@ const ChristmasOnsite2020Layout: React.FC<ChristmasOnsite2020LayoutProps> = ({
             <Ground>
                 <RoomsWrapper>
                     {event.rooms.map(renderRoom)}
-                    <PuppetShow />
-                    <ChristmasTree />
                     <Person1 />
                     <People1 />
                     <People2 />
@@ -89,7 +84,6 @@ const ChristmasOnsite2020Layout: React.FC<ChristmasOnsite2020LayoutProps> = ({
                     <Person2 />
                     <Person3 />
                     <People4 />
-                    <Snowman />
                 </RoomsWrapper>
             </Ground>
         </Wrapper>

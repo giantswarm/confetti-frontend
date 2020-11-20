@@ -1,11 +1,14 @@
+import ChristmasTree from "./ChristmasTree";
 import ContainerSolutions from "./ContainerSolutions";
 import DevOps from "./DevOps";
 import DirektGruppe from "./DirektGruppe";
+import InfoSignpost from "./InfoSignpost";
 import Kubernetes from "./Kubernetes";
 import MainStage from "./MainStage";
 import ManagedApps from "./ManagedApps";
 import Monitoring from "./Monitoring";
 import MulledWine from "./MulledWine";
+import PuppetShow from "./PuppetShow";
 import RelEng from "./RelEng";
 import RemoteWork from "./RemoteWork";
 import Room from "./Room";
@@ -27,4 +30,7 @@ export const rooms: Record<string, React.FC<React.ComponentPropsWithoutRef<typeo
     "container-solutions": ContainerSolutions,
     monitoring: Monitoring,
     "remote-work": RemoteWork,
+    "info-signpost": InfoSignpost,
+    "puppet-show": PuppetShow,
+    "christmas-tree": ChristmasTree,
 };
