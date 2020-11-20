@@ -1,9 +1,9 @@
 import { memo } from "react";
 import styled from "styled-components";
 
-import Stall from "./Stall";
+import Room from "./Room";
 
-const StyledStall = styled(Stall)`
+const StyledRoom = styled(Room)`
     width: 14%;
     position: absolute;
     left: 58%;
@@ -11,11 +11,11 @@ const StyledStall = styled(Stall)`
     z-index: 5;
 `;
 
-interface MainStageProps extends React.ComponentPropsWithoutRef<typeof Stall> {}
+interface MainStageProps extends React.ComponentPropsWithoutRef<typeof Room> {}
 
 const MainStage: React.FC<MainStageProps> = (props) => {
     return (
-        <StyledStall {...props}>
+        <StyledRoom {...props}>
             <svg viewBox='0 0 550.31 459.84'>
                 <defs>
                     <style>
@@ -398,7 +398,7 @@ const MainStage: React.FC<MainStageProps> = (props) => {
                     </g>
                 </g>
             </svg>
-        </StyledStall>
+        </StyledRoom>
     );
 };
 

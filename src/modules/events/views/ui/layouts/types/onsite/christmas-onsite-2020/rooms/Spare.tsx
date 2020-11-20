@@ -1,9 +1,9 @@
 import { memo } from "react";
 import styled from "styled-components";
 
-import Stall from "./Stall";
+import Room from "./Room";
 
-const StyledStall = styled(Stall)`
+const StyledRoom = styled(Room)`
     width: 26%;
     position: absolute;
     left: 26%;
@@ -11,11 +11,11 @@ const StyledStall = styled(Stall)`
     z-index: 7;
 `;
 
-interface SpareProps extends React.ComponentPropsWithoutRef<typeof Stall> {}
+interface SpareProps extends React.ComponentPropsWithoutRef<typeof Room> {}
 
 const Spare: React.FC<SpareProps> = (props) => {
     return (
-        <StyledStall {...props}>
+        <StyledRoom {...props}>
             <svg viewBox='0 0 966.88 447.62'>
                 <defs>
                     <style>
@@ -920,7 +920,7 @@ const Spare: React.FC<SpareProps> = (props) => {
                     </g>
                 </g>
             </svg>
-        </StyledStall>
+        </StyledRoom>
     );
 };
 

@@ -6,6 +6,7 @@ import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEven
 
 import { EventLayoutProps } from "../../../layouts";
 import { christmasOnsite2020Palette } from "./palette";
+import { rooms } from "./rooms/rooms";
 import Background from "./scenery/Background";
 import ChristmasTree from "./scenery/ChristmasTree";
 import People1 from "./scenery/People1";
@@ -17,7 +18,6 @@ import Person2 from "./scenery/Person2";
 import Person3 from "./scenery/Person3";
 import PuppetShow from "./scenery/PuppetShow";
 import Snowman from "./scenery/Snowman";
-import { stalls } from "./stalls/stalls";
 
 const Snow = dynamic(() => import("./scenery/Snow"));
 
@@ -66,7 +66,7 @@ const ChristmasOnsite2020Layout: React.FC<ChristmasOnsite2020LayoutProps> = ({
     };
 
     const renderRoom = (room: OnsiteEventRoom) => {
-        const Component = stalls[room.id];
+        const Component = rooms[room.id];
         if (!Component) return null;
 
         return <Component key={room.id} room={room} onClick={handleJoinRoom} activeRoom={activeRoom} />;

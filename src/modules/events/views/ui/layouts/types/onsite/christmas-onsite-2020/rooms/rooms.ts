@@ -8,12 +8,12 @@ import Monitoring from "./Monitoring";
 import MulledWine from "./MulledWine";
 import RelEng from "./RelEng";
 import RemoteWork from "./RemoteWork";
+import Room from "./Room";
 import Security from "./Security";
 import Spare from "./Spare";
-import Stall from "./Stall";
 import Viadee from "./Viadee";
 
-export const stalls: Record<string, React.FC<React.ComponentPropsWithoutRef<typeof Stall>>> = {
+export const rooms: Record<string, React.FC<React.ComponentPropsWithoutRef<typeof Room>>> = {
     "direkt-gruppe": DirektGruppe,
     kubernetes: Kubernetes,
     "main-stage": MainStage,

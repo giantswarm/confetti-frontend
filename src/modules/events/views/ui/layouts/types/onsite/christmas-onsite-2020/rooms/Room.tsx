@@ -4,13 +4,13 @@ import { useRef, useState } from "react";
 
 import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEventRoom";
 
-interface StallProps extends Omit<BoxTypes, "onClick"> {
+interface RoomProps extends Omit<BoxTypes, "onClick"> {
     onClick: (roomID: string) => void;
     activeRoom?: OnsiteEventRoom | null;
     room?: OnsiteEventRoom;
 }
 
-const Stall: React.FC<StallProps> = ({ children, room, onClick, activeRoom, ...rest }) => {
+const Room: React.FC<RoomProps> = ({ children, room, onClick, activeRoom, ...rest }) => {
     const wrapperRef = useRef<HTMLDivElement>(null);
     const [isHovering, setIsHovering] = useState(false);
 
@@ -50,8 +50,8 @@ const Stall: React.FC<StallProps> = ({ children, room, onClick, activeRoom, ...r
     );
 };
 
-Stall.defaultProps = {
+Room.defaultProps = {
     activeRoom: null,
 };
 
-export default Stall;
+export default Room;
