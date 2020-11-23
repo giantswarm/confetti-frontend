@@ -4,7 +4,7 @@ import styled from "styled-components";
 const StyledSVG = styled.svg`
     position: absolute;
     left: 0;
-    bottom: -0.8vh;
+    bottom: -0.2vh;
     object-fit: cover;
     object-position: bottom center;
     z-index: 0;

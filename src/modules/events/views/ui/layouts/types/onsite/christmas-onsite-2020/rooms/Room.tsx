@@ -1,25 +1,31 @@
 import { Box, BoxTypes, Drop, Stack, Text } from "grommet";
 import { FormCheckmark } from "grommet-icons";
 import { useRef, useState } from "react";
+import styled from "styled-components";
 
 import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEventRoom";
 
+const StyledBox = styled(Box)`
+    :focus:not(:focus-visible) {
+        outline: none;
+        box-shadow: none;
+    }
+`;
+
 interface RoomProps extends Omit<BoxTypes, "onClick"> {
+    room: OnsiteEventRoom;
     onClick: (roomID: string) => void;
     activeRoom?: OnsiteEventRoom | null;
-    room?: OnsiteEventRoom;
 }
 
 const Room: React.FC<RoomProps> = ({ children, room, onClick, activeRoom, ...rest }) => {
     const wrapperRef = useRef<HTMLDivElement>(null);
     const [isHovering, setIsHovering] = useState(false);
 
-    if (!room) return null;
-
     const isActive = activeRoom?.id === room.id;
 
     return (
-        <Box {...rest} onClick={() => onClick(room.id)}>
+        <StyledBox {...rest} onClick={() => onClick(room.id)} role='button' focusIndicator={false}>
             <span
                 ref={wrapperRef}
                 onMouseOver={() => setIsHovering(true)}
@@ -46,7 +52,7 @@ const Room: React.FC<RoomProps> = ({ children, room, onClick, activeRoom, ...res
                     </Box>
                 </Drop>
             )}
-        </Box>
+        </StyledBox>
     );
 };
 
