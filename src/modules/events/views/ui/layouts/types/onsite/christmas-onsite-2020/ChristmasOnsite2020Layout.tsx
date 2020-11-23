@@ -6,8 +6,8 @@ import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEven
 
 import { EventLayoutProps } from "../../../layouts";
 import { christmasOnsite2020Palette } from "./palette";
-import { rooms } from "./rooms/rooms";
-import Background from "./scenery/Background";
+import { rooms, RoomZone } from "./rooms/rooms";
+import Backdrop from "./scenery/Backdrop";
 import People1 from "./scenery/People1";
 import People2 from "./scenery/People2";
 import People3 from "./scenery/People3";
@@ -34,6 +34,30 @@ const Sky = styled(Box)`
     z-index: 0;
 `;
 
+
+const RoomsWrapper = styled.div`
+    max-width: 80%;
+    margin: auto;
+    z-index: 3;
+    position: relative;
+`;
+
+const Background = styled.div`
+    height: 40%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+
+    ${RoomsWrapper} {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+`;
+
 const Ground = styled.div`
     height: 60%;
     width: 100%;
@@ -41,13 +65,6 @@ const Ground = styled.div`
     bottom: 0;
     left: 0;
     background-color: ${christmasOnsite2020Palette.ground};
-`;
-
-const RoomsWrapper = styled.div`
-    max-width: 80%;
-    margin: auto;
-    z-index: 3;
-    position: relative;
 `;
 
 interface ChristmasOnsite2020LayoutProps extends EventLayoutProps<"onsite"> {}
@@ -62,8 +79,8 @@ const ChristmasOnsite2020Layout: React.FC<ChristmasOnsite2020LayoutProps> = ({
         await joinRoom(event.id, roomID);
     };
 
-    const renderRoom = (room: OnsiteEventRoom) => {
-        const Component = rooms[room.id];
+    const renderRoom = (zone: RoomZone) => (room: OnsiteEventRoom) => {
+        const Component = rooms[zone][room.id];
         if (!Component) return null;
 
         return <Component key={room.id} room={room} onClick={handleJoinRoom} activeRoom={activeRoom} />;
@@ -72,11 +89,14 @@ const ChristmasOnsite2020Layout: React.FC<ChristmasOnsite2020LayoutProps> = ({
     return (
         <Wrapper {...rest}>
             <Sky />
-            <Background />
+            <Background>
+                <RoomsWrapper>{event.rooms.map(renderRoom("background"))}</RoomsWrapper>
+                <Backdrop />
+            </Background>
             <Snow />
             <Ground>
                 <RoomsWrapper>
-                    {event.rooms.map(renderRoom)}
+                    {event.rooms.map(renderRoom("main"))}
                     <Person1 />
                     <People1 />
                     <People2 />
