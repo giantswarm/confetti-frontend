@@ -12,9 +12,13 @@ import People1 from "./scenery/People1";
 import People2 from "./scenery/People2";
 import People3 from "./scenery/People3";
 import People4 from "./scenery/People4";
+import People5 from "./scenery/People5";
+import People6 from "./scenery/People6";
 import Person1 from "./scenery/Person1";
 import Person2 from "./scenery/Person2";
 import Person3 from "./scenery/Person3";
+import Person4 from "./scenery/Person4";
+import Person5 from "./scenery/Person5";
 
 const Snow = dynamic(() => import("./scenery/Snow"));
 
@@ -33,7 +37,6 @@ const Sky = styled(Box)`
     background-color: ${christmasOnsite2020Palette.sky};
     z-index: 0;
 `;
-
 
 const RoomsWrapper = styled.div`
     max-width: 80%;
@@ -91,6 +94,10 @@ const ChristmasOnsite2020Layout: React.FC<ChristmasOnsite2020LayoutProps> = ({
             <Sky />
             <Background>
                 <RoomsWrapper>{event.rooms.map(renderRoom("background"))}</RoomsWrapper>
+                <Person4 />
+                <Person5 />
+                <People5 />
+                <People6 />
                 <Backdrop />
             </Background>
             <Snow />

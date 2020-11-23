@@ -7,7 +7,7 @@ const StyledRoom = styled(Room)`
     width: 52.3%;
     position: absolute;
     left: 23.5%;
-    bottom: -0.8vw;
+    bottom: 0;
     z-index: 0;
 `;
 
