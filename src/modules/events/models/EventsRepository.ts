@@ -256,8 +256,9 @@ export class EventsRepository extends Repository {
     };
 
     public onRoomLeave = (_roomID: string): void => {
+        this.activeOnsiteRoomID.data = null;
+        this.activeOnsiteRoomID.error = "";
         this.activeOnsiteRoomID.loading = false;
-        this.activeOnsiteRoomID.clear();
         this.persistingStrategy.delete(EventsRepository.activeOnsiteEventRoomIDStorageKey);
     };
 

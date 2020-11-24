@@ -16,6 +16,7 @@ const OnsiteEventWidget: React.FC<OnsiteEventWidget> = ({ event, ...rest }) => {
             <OnsiteEventWidgetRoomOptions
                 event={event}
                 activeRoom={Events.activeOnsiteRoom}
+                joinRoom={Events.joinOnsiteRoom}
                 leaveRoom={Events.leaveOnsiteRoom}
                 error={Events.activeOnsiteRoomID.error}
                 loading={Events.activeOnsiteRoomID.loading}
