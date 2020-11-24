@@ -1,9 +1,9 @@
 import { memo } from "react";
 import styled from "styled-components";
 
-import Stall from "./Stall";
+import Room from "./Room";
 
-const StyledStall = styled(Stall)`
+const StyledRoom = styled(Room)`
     display: block;
     width: 14%;
     position: absolute;
@@ -12,11 +12,11 @@ const StyledStall = styled(Stall)`
     z-index: 7;
 `;
 
-interface ViadeeProps extends React.ComponentPropsWithoutRef<typeof Stall> {}
+interface ViadeeProps extends React.ComponentPropsWithoutRef<typeof Room> {}
 
 const Viadee: React.FC<ViadeeProps> = (props) => {
     return (
-        <StyledStall {...props}>
+        <StyledRoom {...props}>
             <svg viewBox='0 0 620.16 465.99'>
                 <defs>
                     <style>
@@ -832,7 +832,7 @@ const Viadee: React.FC<ViadeeProps> = (props) => {
                     </g>
                 </g>
             </svg>
-        </StyledStall>
+        </StyledRoom>
     );
 };
 

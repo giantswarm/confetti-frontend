@@ -1,9 +1,9 @@
 import { memo } from "react";
 import styled from "styled-components";
 
-import Stall from "./Stall";
+import Room from "./Room";
 
-const StyledStall = styled(Stall)`
+const StyledRoom = styled(Room)`
     width: 20%;
     position: absolute;
     left: 80%;
@@ -11,11 +11,11 @@ const StyledStall = styled(Stall)`
     z-index: 9;
 `;
 
-interface RemoteWorkProps extends React.ComponentPropsWithoutRef<typeof Stall> {}
+interface RemoteWorkProps extends React.ComponentPropsWithoutRef<typeof Room> {}
 
 const RemoteWork: React.FC<RemoteWorkProps> = (props) => {
     return (
-        <StyledStall {...props}>
+        <StyledRoom {...props}>
             <svg viewBox='0 0 883.36 545.48'>
                 <defs>
                     <style>
@@ -441,7 +441,7 @@ const RemoteWork: React.FC<RemoteWorkProps> = (props) => {
                     </g>
                 </g>
             </svg>
-        </StyledStall>
+        </StyledRoom>
     );
 };
 

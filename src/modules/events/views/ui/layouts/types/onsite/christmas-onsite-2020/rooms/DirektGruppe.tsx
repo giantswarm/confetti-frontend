@@ -1,9 +1,9 @@
 import { memo } from "react";
 import styled from "styled-components";
 
-import Stall from "./Stall";
+import Room from "./Room";
 
-const StyledStall = styled(Stall)`
+const StyledRoom = styled(Room)`
     width: 9%;
     position: absolute;
     left: 19%;
@@ -11,11 +11,11 @@ const StyledStall = styled(Stall)`
     z-index: 5;
 `;
 
-interface DirektGruppeProps extends React.ComponentPropsWithoutRef<typeof Stall> {}
+interface DirektGruppeProps extends React.ComponentPropsWithoutRef<typeof Room> {}
 
 const DirektGruppe: React.FC<DirektGruppeProps> = (props) => {
     return (
-        <StyledStall {...props}>
+        <StyledRoom {...props}>
             <svg viewBox='0 0 388.05 340.08'>
                 <defs>
                     <style>
@@ -457,7 +457,7 @@ const DirektGruppe: React.FC<DirektGruppeProps> = (props) => {
                     </g>
                 </g>
             </svg>
-        </StyledStall>
+        </StyledRoom>
     );
 };
 
