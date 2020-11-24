@@ -1,9 +1,9 @@
 import { memo } from "react";
 import styled from "styled-components";
 
-import Stall from "./Stall";
+import Room from "./Room";
 
-const StyledStall = styled(Stall)`
+const StyledRoom = styled(Room)`
     width: 13%;
     position: absolute;
     left: 0;
@@ -11,11 +11,11 @@ const StyledStall = styled(Stall)`
     z-index: 7;
 `;
 
-interface ManagedAppsProps extends React.ComponentPropsWithoutRef<typeof Stall> {}
+interface ManagedAppsProps extends React.ComponentPropsWithoutRef<typeof Room> {}
 
 const ManagedApps: React.FC<ManagedAppsProps> = (props) => {
     return (
-        <StyledStall {...props}>
+        <StyledRoom {...props}>
             <svg viewBox='0 0 523.42 474.82'>
                 <defs>
                     <linearGradient
@@ -394,7 +394,7 @@ const ManagedApps: React.FC<ManagedAppsProps> = (props) => {
                     </g>
                 </g>
             </svg>
-        </StyledStall>
+        </StyledRoom>
     );
 };
 

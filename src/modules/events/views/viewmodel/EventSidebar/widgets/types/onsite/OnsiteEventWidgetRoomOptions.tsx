@@ -7,6 +7,7 @@ import { Paths } from "@/app/Paths";
 import Spinner from "@/core/views/ui/app/Spinner";
 import { OnsiteEvent } from "@/modules/events/models/types/onsite/OnsiteEvent";
 import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEventRoom";
+import OnsiteEventWidgetRoomList from "@/modules/events/views/viewmodel/EventSidebar/widgets/types/onsite/OnsiteEventWidgetRoomList";
 
 import OnsiteEventWidgetPlaceholder from "./OnsiteEventWidgetPlaceholder";
 import { formatDescription } from "./OnsiteEventWidgetUtils";
@@ -14,6 +15,7 @@ import { formatDescription } from "./OnsiteEventWidgetUtils";
 interface OnsiteEventWidgetRoomOptionsProps {
     event: OnsiteEvent;
     activeRoom: OnsiteEventRoom | null;
+    joinRoom: (eventID: string, roomID: string) => Promise<void>;
     leaveRoom: (eventID: string, roomID: string) => Promise<void>;
     error?: string;
     loading?: boolean;
@@ -22,15 +24,18 @@ interface OnsiteEventWidgetRoomOptionsProps {
 const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> = ({
     event,
     activeRoom,
+    joinRoom,
     leaveRoom,
     error,
     loading,
 }) => {
-    if (loading) {
-        <Box key='onsitewidget-roomoptions' direction='row' gap='small'>
-            <Spinner />
-            <Text>Loading room...</Text>
-        </Box>;
+    if (loading && activeRoom) {
+        return (
+            <Box key='onsitewidget-roomoptions' direction='row' gap='small'>
+                <Spinner />
+                <Text>Loading room...</Text>
+            </Box>
+        );
     }
 
     if (error) {
@@ -50,7 +55,12 @@ const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> 
     }
 
     if (!activeRoom) {
-        return <OnsiteEventWidgetPlaceholder key='onsitewidget-roomoptions' eventName={event.name} />;
+        return (
+            <Box key='onsitewidget-roomoptions'>
+                <OnsiteEventWidgetPlaceholder eventName={event.name} />
+                <OnsiteEventWidgetRoomList rooms={event.rooms} eventID={event.id} joinRoom={joinRoom} />
+            </Box>
+        );
     }
 
     const descriptionLines = formatDescription(activeRoom.description);
