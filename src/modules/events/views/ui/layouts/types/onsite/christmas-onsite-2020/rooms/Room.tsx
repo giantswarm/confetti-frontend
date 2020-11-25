@@ -25,6 +25,8 @@ const Room: React.FC<RoomProps> = ({ children, room, onClick, activeRoom, ...res
 
     const isActive = activeRoom?.id === room.id;
 
+    const color = isActive ? "white" : "";
+
     return (
         <StyledBox {...rest} onClick={() => onClick(room.id)} role='button' focusIndicator={false}>
             <span
@@ -41,21 +43,22 @@ const Room: React.FC<RoomProps> = ({ children, room, onClick, activeRoom, ...res
                     {room.attendeeCounter > 0 && (
                         <Box background={isActive ? "status-ok" : "brand"} pad='xsmall' direction='row' round={true} align='center'>
                             {
-                              !isActive && room.attendeeCounter === 1 && <User color='white' />
+                              room.attendeeCounter >= 3 && isActive && <User color={color} size='small'/>
                             }
+
                             {
-                              !isActive && room.attendeeCounter === 2 && <><User color='white' /><User color='white' /></>
+                              room.attendeeCounter == 1 && <User color={color} size='small'/>
                             }
+
                             {
-                              isActive && <User color='white' />
+                              room.attendeeCounter == 2 && <><User color={color} size='small'/><User color={color} size='small'/></>
                             }
+
                             {
-                              isActive && room.attendeeCounter === 2 &&  <User color='white' />
+                              room.attendeeCounter >= 3 && <Group color={color} size='small'/>
                             }
-                            {
-                              room.attendeeCounter >= 3  &&  <Group color='white' />
-                            }
-                            { room.attendeeCounter }
+
+                            <span style={{color: color}}>{ room.attendeeCounter }</span>
                         </Box>
                     )}
                 </Stack>
