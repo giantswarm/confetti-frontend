@@ -47,11 +47,11 @@ const Room: React.FC<RoomProps> = ({ children, room, onClick, activeRoom, ...res
                             }
 
                             {
-                              room.attendeeCounter == 1 && <User color={color} size='small'/>
+                              room.attendeeCounter === 1 && <User color={color} size='small'/>
                             }
 
                             {
-                              room.attendeeCounter == 2 && <><User color={color} size='small'/><User color={color} size='small'/></>
+                              room.attendeeCounter === 2 && <><User color={color} size='small'/><User color={color} size='small'/></>
                             }
 
                             {
