@@ -1,5 +1,6 @@
 import { Box, BoxTypes, Drop, Stack, Text } from "grommet";
-import { FormCheckmark } from "grommet-icons";
+import { Group, User } from "grommet-icons";
+import { observer } from "mobx-react-lite";
 import { useRef, useState } from "react";
 import styled from "styled-components";
 
@@ -24,6 +25,8 @@ const Room: React.FC<RoomProps> = ({ children, room, onClick, activeRoom, ...res
 
     const isActive = activeRoom?.id === room.id;
 
+    const color = isActive ? "white" : "";
+
     return (
         <StyledBox {...rest} onClick={() => onClick(room.id)} role='button' focusIndicator={false}>
             <span
@@ -35,12 +38,31 @@ const Room: React.FC<RoomProps> = ({ children, room, onClick, activeRoom, ...res
             >
                 <Stack anchor='top-right'>
                     <Box>{children}</Box>
-                    {isActive && (
-                        <Box background='brand' pad='xsmall' direction='row' round={true} align='center'>
-                            <FormCheckmark color='white' />
+
+
+                    {room.attendeeCounter > 0 && (
+                        <Box background={isActive ? "status-ok" : "brand"} pad='xsmall' direction='row' round={true} align='center'>
+                            {
+                              room.attendeeCounter >= 3 && isActive && <User color={color} size='small'/>
+                            }
+
+                            {
+                              room.attendeeCounter === 1 && <User color={color} size='small'/>
+                            }
+
+                            {
+                              room.attendeeCounter === 2 && <><User color={color} size='small'/><User color={color} size='small'/></>
+                            }
+
+                            {
+                              room.attendeeCounter >= 3 && <Group color={color} size='small'/>
+                            }
+
+                            <span style={{color: color}}>{ room.attendeeCounter }</span>
                         </Box>
                     )}
                 </Stack>
+
             </span>
 
             {wrapperRef.current && isHovering && (
@@ -60,4 +82,4 @@ Room.defaultProps = {
     activeRoom: null,
 };
 
-export default Room;
+export default observer(Room);

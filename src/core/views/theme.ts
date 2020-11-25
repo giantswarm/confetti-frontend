@@ -564,6 +564,11 @@ export const theme = deepMerge(generate(16), {
         },
     },
     scale: 1,
+    icon: {
+        size: {
+            small: "16px"
+        }
+    }
 });
 
 /* eslint-enable no-magic-numbers */
