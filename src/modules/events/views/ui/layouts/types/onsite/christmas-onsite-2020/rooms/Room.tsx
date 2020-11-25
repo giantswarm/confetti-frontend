@@ -1,5 +1,5 @@
 import { Box, BoxTypes, Drop, Stack, Text } from "grommet";
-import { Group,User } from "grommet-icons";
+import { Group, User } from "grommet-icons";
 import { observer } from "mobx-react-lite";
 import { useRef, useState } from "react";
 import styled from "styled-components";
