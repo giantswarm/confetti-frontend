@@ -3,13 +3,13 @@ import { observer } from "mobx-react-lite";
 
 import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEventRoom";
 
-interface OnsiteEventWidgetPlaceholderProps {
+interface OnsiteEventRoomListProps {
     eventID: string;
     joinRoom: (eventID: string, roomID: string) => Promise<void>;
     rooms: OnsiteEventRoom[];
 }
 
-const OnsiteEventWidgetRoomList: React.FC<OnsiteEventWidgetPlaceholderProps> = ({ eventID, joinRoom, rooms }) => {
+const OnsiteEventWidgetRoomList: React.FC<OnsiteEventRoomListProps> = ({ eventID, joinRoom, rooms }) => {
     return (
         <Box>
             <Box>
