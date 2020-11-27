@@ -23,7 +23,7 @@ const ChristmasOnsite2020Sidebar: React.FC<ChristmasOnsite2020SidebarProps> = ({
 }) => {
     if (loading && activeRoom) {
         return (
-            <Box key='onsitewidget-roomoptions' direction='row' gap='small'>
+            <Box key='onsitewidget-roomoptions' direction='row' gap='small' animation='fadeIn'>
                 <Spinner />
                 <Text>Loading room...</Text>
             </Box>
@@ -32,7 +32,7 @@ const ChristmasOnsite2020Sidebar: React.FC<ChristmasOnsite2020SidebarProps> = ({
 
     if (error) {
         return (
-            <Box key='onsitewidget-roomoptions'>
+            <Box key='onsitewidget-roomoptions' animation='fadeIn'>
                 <Text>There was a problem loading event:</Text>
                 <Text weight='bold' color='status-critical'>
                     {error}
@@ -48,9 +48,13 @@ const ChristmasOnsite2020Sidebar: React.FC<ChristmasOnsite2020SidebarProps> = ({
 
     if (!activeRoom) {
         return (
-            <Box key='onsitewidget-roomoptions'>
+            <Box key='onsitewidget-roomoptions' animation='fadeIn'>
                 <ChristmasOnsite2020SidebarPlaceholder eventName={event.name} />
-                <ChristmasOnsite2020SidebarRoomList rooms={event.rooms} eventID={event.id} joinRoom={joinRoom} />
+                <ChristmasOnsite2020SidebarRoomList
+                    rooms={event.rooms}
+                    eventID={event.id}
+                    joinRoom={joinRoom}
+                />
             </Box>
         );
     }
@@ -61,7 +65,7 @@ const ChristmasOnsite2020Sidebar: React.FC<ChristmasOnsite2020SidebarProps> = ({
 
     return (
         <Box key='onsitewidget-roomoptions'>
-            <Box>
+            <Box animation='fadeIn'>
                 <Heading level={4} margin={{ bottom: "xsmall" }}>
                     {activeRoom.name}
                 </Heading>
@@ -91,7 +95,14 @@ const ChristmasOnsite2020Sidebar: React.FC<ChristmasOnsite2020SidebarProps> = ({
                     </Box>
                 )}
             </Box>
-            <Box direction='row' fill='horizontal' gap='small' margin={{ top: "medium" }} pad={{ vertical: "small" }}>
+            <Box
+                direction='row'
+                fill='horizontal'
+                gap='small'
+                margin={{ top: "medium" }}
+                pad={{ vertical: "small" }}
+                animation='fadeIn'
+            >
                 {activeRoom.conferenceURL && (
                     <a href={activeRoom.conferenceURL} target='_blank' rel='noreferrer'>
                         <Button label='Join call' primary={true} color='status-ok' size='medium' />

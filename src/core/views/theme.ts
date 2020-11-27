@@ -4,7 +4,7 @@ import { deepMerge } from "grommet/utils";
 /* eslint-disable no-magic-numbers */
 
 export const theme = deepMerge(generate(16), {
-    name: "remva",
+    name: "confetti",
     rounding: 6,
     spacing: 16,
     defaultMode: "light",

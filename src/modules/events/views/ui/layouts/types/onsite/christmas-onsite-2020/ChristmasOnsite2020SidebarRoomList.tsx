@@ -1,10 +1,10 @@
-import { Anchor, Box, Heading, Text } from "grommet";
+import { Anchor, Box, BoxTypes, Heading, Text } from "grommet";
 import { Group } from "grommet-icons";
 import { observer } from "mobx-react-lite";
 
 import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEventRoom";
 
-interface ChristmasOnsite2020SidebarRoomListProps {
+interface ChristmasOnsite2020SidebarRoomListProps extends BoxTypes {
     eventID: string;
     joinRoom: (eventID: string, roomID: string) => Promise<void>;
     rooms: OnsiteEventRoom[];
@@ -14,9 +14,10 @@ const ChristmasOnsite2020SidebarRoomList: React.FC<ChristmasOnsite2020SidebarRoo
     eventID,
     joinRoom,
     rooms,
+    ...rest
 }) => {
     return (
-        <Box>
+        <Box {...rest}>
             <Box>
                 <Heading level={4} margin={{ bottom: "small" }}>
                     Rooms

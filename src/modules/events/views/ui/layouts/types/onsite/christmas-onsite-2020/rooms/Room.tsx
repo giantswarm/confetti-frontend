@@ -49,6 +49,11 @@ const Room: React.FC<RoomProps> = ({ children, room, onClick, activeRoom, ...res
                                 direction='row'
                                 round={true}
                                 align='center'
+                                animation={{
+                                    type: "fadeIn",
+                                    duration: 150,
+                                    size: "xsmall",
+                                }}
                             >
                                 {room.attendeeCounter >= 3 && isActive && <User color={color} size='small' />}
 
