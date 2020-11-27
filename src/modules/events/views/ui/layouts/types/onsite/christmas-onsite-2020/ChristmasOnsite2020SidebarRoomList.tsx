@@ -20,7 +20,7 @@ const ChristmasOnsite2020SidebarRoomList: React.FC<ChristmasOnsite2020SidebarRoo
         <Box {...rest}>
             <Box>
                 <Heading level={4} margin={{ bottom: "small" }}>
-                    Rooms
+                    Stalls
                 </Heading>
             </Box>
             <Box direction='column' gap='small'>
@@ -29,7 +29,7 @@ const ChristmasOnsite2020SidebarRoomList: React.FC<ChristmasOnsite2020SidebarRoo
                         <Box>
                             <Anchor onClick={() => joinRoom(eventID, room.id)} color='text'>
                                 <Box>
-                                    <Text size='medium' truncate={true}>
+                                    <Text size='medium' weight='normal' truncate={true}>
                                         {room.name}
                                     </Text>
                                 </Box>
