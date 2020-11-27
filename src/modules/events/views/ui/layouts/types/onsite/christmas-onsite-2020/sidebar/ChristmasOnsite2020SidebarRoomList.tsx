@@ -3,17 +3,21 @@ import { observer } from "mobx-react-lite";
 
 import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEventRoom";
 
-interface OnsiteEventRoomListProps {
+interface ChristmasOnsite2020SidebarRoomListProps {
     eventID: string;
     joinRoom: (eventID: string, roomID: string) => Promise<void>;
     rooms: OnsiteEventRoom[];
 }
 
-const OnsiteEventWidgetRoomList: React.FC<OnsiteEventRoomListProps> = ({ eventID, joinRoom, rooms }) => {
+const ChristmasOnsite2020SidebarRoomList: React.FC<ChristmasOnsite2020SidebarRoomListProps> = ({
+    eventID,
+    joinRoom,
+    rooms,
+}) => {
     return (
         <Box>
             <Box>
-                <Heading level={3} margin={{ bottom: "small" }}>
+                <Heading level={4} margin={{ bottom: "small" }}>
                     Rooms
                 </Heading>
             </Box>
@@ -33,4 +37,4 @@ const OnsiteEventWidgetRoomList: React.FC<OnsiteEventRoomListProps> = ({ eventID
     );
 };
 
-export default observer(OnsiteEventWidgetRoomList);
+export default observer(ChristmasOnsite2020SidebarRoomList);

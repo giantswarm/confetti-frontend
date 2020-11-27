@@ -1,11 +1,11 @@
 import { Box, Heading, Text } from "grommet";
 import { FormNextLink } from "grommet-icons";
 
-interface OnsiteEventWidgetPlaceholderProps {
+interface ChristmasOnsite2020SidebarPlaceholderProps {
     eventName: string;
 }
 
-const OnsiteEventWidgetPlaceholder: React.FC<OnsiteEventWidgetPlaceholderProps> = ({ eventName }) => {
+const ChristmasOnsite2020SidebarPlaceholder: React.FC<ChristmasOnsite2020SidebarPlaceholderProps> = ({ eventName }) => {
     return (
         <Box>
             <Box>
@@ -24,4 +24,4 @@ const OnsiteEventWidgetPlaceholder: React.FC<OnsiteEventWidgetPlaceholderProps> 
     );
 };
 
-export default OnsiteEventWidgetPlaceholder;
+export default ChristmasOnsite2020SidebarPlaceholder;

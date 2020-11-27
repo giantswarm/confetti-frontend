@@ -5,23 +5,15 @@ import Link from "next/link";
 
 import { Paths } from "@/app/Paths";
 import Spinner from "@/core/views/ui/app/Spinner";
-import { OnsiteEvent } from "@/modules/events/models/types/onsite/OnsiteEvent";
-import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEventRoom";
-import OnsiteEventWidgetRoomList from "@/modules/events/views/viewmodel/EventSidebar/widgets/types/onsite/OnsiteEventWidgetRoomList";
 
-import OnsiteEventWidgetPlaceholder from "./OnsiteEventWidgetPlaceholder";
-import { formatDescription } from "./OnsiteEventWidgetUtils";
+import { EventLayoutProps } from "../../../../layouts";
+import ChristmasOnsite2020SidebarPlaceholder from "./ChristmasOnsite2020SidebarPlaceholder";
+import ChristmasOnsite2020SidebarRoomList from "./ChristmasOnsite2020SidebarRoomList";
+import { formatDescription } from "./ChristmasOnsite2020SidebarUtils";
 
-interface OnsiteEventWidgetRoomOptionsProps {
-    event: OnsiteEvent;
-    activeRoom: OnsiteEventRoom | null;
-    joinRoom: (eventID: string, roomID: string) => Promise<void>;
-    leaveRoom: (eventID: string, roomID: string) => Promise<void>;
-    error?: string;
-    loading?: boolean;
-}
+interface ChristmasOnsite2020SidebarProps extends EventLayoutProps<"onsite"> {}
 
-const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> = ({
+const ChristmasOnsite2020Sidebar: React.FC<ChristmasOnsite2020SidebarProps> = ({
     event,
     activeRoom,
     joinRoom,
@@ -57,8 +49,8 @@ const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> 
     if (!activeRoom) {
         return (
             <Box key='onsitewidget-roomoptions'>
-                <OnsiteEventWidgetPlaceholder eventName={event.name} />
-                <OnsiteEventWidgetRoomList rooms={event.rooms} eventID={event.id} joinRoom={joinRoom} />
+                <ChristmasOnsite2020SidebarPlaceholder eventName={event.name} />
+                <ChristmasOnsite2020SidebarRoomList rooms={event.rooms} eventID={event.id} joinRoom={joinRoom} />
             </Box>
         );
     }
@@ -115,9 +107,4 @@ const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> 
     );
 };
 
-OnsiteEventWidgetRoomOptions.defaultProps = {
-    error: "",
-    loading: false,
-};
-
-export default observer(OnsiteEventWidgetRoomOptions);
+export default observer(ChristmasOnsite2020Sidebar);

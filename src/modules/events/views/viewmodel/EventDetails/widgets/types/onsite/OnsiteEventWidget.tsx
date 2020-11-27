@@ -11,7 +11,7 @@ interface OnsiteEventWidget extends EventWidgetProps<"onsite"> {}
 const OnsiteEventWidget: React.FC<OnsiteEventWidget> = ({ event, ...rest }) => {
     const { Events } = useStore();
 
-    const EventSpecificLayout = eventLayouts.onsite[event.id];
+    const EventSpecificLayout = eventLayouts.onsite[event.id]?.details;
     if (!EventSpecificLayout) return null;
 
     return (
@@ -21,6 +21,8 @@ const OnsiteEventWidget: React.FC<OnsiteEventWidget> = ({ event, ...rest }) => {
                 joinRoom={Events.joinOnsiteRoom}
                 leaveRoom={Events.leaveOnsiteRoom}
                 activeRoom={Events.activeOnsiteRoom}
+                error={Events.activeOnsiteRoomID.error}
+                loading={Events.activeOnsiteRoomID.loading}
             />
         </Box>
     );
