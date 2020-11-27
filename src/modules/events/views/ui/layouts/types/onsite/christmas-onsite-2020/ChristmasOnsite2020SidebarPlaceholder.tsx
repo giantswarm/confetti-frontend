@@ -1,5 +1,4 @@
 import { Box, Heading, Text } from "grommet";
-import { FormNextLink } from "grommet-icons";
 
 interface ChristmasOnsite2020SidebarPlaceholderProps {
     eventName: string;
@@ -16,9 +15,8 @@ const ChristmasOnsite2020SidebarPlaceholder: React.FC<ChristmasOnsite2020Sidebar
                     {eventName}
                 </Text>
             </Box>
-            <Box direction='row' margin={{ vertical: "medium" }} align='center'>
-                <Text margin={{ right: "xsmall" }}>Join a room by clicking a stall to start having fun</Text>
-                <FormNextLink />
+            <Box direction='row' margin={{ top: "medium" }} align='center'>
+                <Text margin={{ right: "xsmall" }}>Join a stall and start having fun.</Text>
             </Box>
         </Box>
     );
