@@ -2,7 +2,7 @@ import { EventType, RemoteEventMapping } from "@/modules/events/models/types/eve
 import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEventRoom";
 
 import ChristmasOnsite2020Layout from "./types/onsite/christmas-onsite-2020/ChristmasOnsite2020Layout";
-import ChristmasOnsite2020Sidebar from "./types/onsite/christmas-onsite-2020/sidebar/ChristmasOnsite2020Sidebar";
+import ChristmasOnsite2020Sidebar from "./types/onsite/christmas-onsite-2020/ChristmasOnsite2020Sidebar";
 
 export interface EventLayoutProps<T extends EventType> {
     event: RemoteEventMapping[T];
