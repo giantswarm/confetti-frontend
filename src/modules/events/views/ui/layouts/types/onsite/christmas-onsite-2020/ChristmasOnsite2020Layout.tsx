@@ -22,6 +22,7 @@ import Person3 from "./scenery/Person3";
 import Person4 from "./scenery/Person4";
 import Person5 from "./scenery/Person5";
 import { useEffect } from "react";
+import ChristmasOnsite2020Navigator from "./ChristmasOnsite2020Navigator";
 
 const Snow = dynamic(() => import("./scenery/Snow"));
 
@@ -137,6 +138,13 @@ const ChristmasOnsite2020Layout: React.FC<ChristmasOnsite2020LayoutProps> = ({
                 size: "small",
             }}
         >
+            <ChristmasOnsite2020Navigator
+                scale={Events.map.scale}
+                centerX={centerCoords[0]}
+                centerY={centerCoords[1]}
+                setCenterCoords={Events.setMapCenterCoords}
+                setScale={Events.setMapScale}
+            />
             <Content scale={Events.map.scale} centerX={centerCoords[0]} centerY={centerCoords[1]}>
                 <Sky />
                 <Background>
@@ -149,10 +157,6 @@ const ChristmasOnsite2020Layout: React.FC<ChristmasOnsite2020LayoutProps> = ({
                 </Background>
                 {/* <Snow /> */}
                 <Ground>
-                    <div style={{ zIndex: 9999 }}>
-                        <button onClick={() => Events.setScale(Events.map.scale + 0.1)}>Zoom in</button>
-                        <button onClick={() => Events.setScale(Events.map.scale - 0.1)}>Zoom out</button>
-                    </div>
                     <RoomsWrapper>
                         {event.rooms.map(renderRoom("main"))}
                         <Person1 />

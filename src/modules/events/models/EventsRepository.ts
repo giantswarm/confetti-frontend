@@ -52,8 +52,8 @@ export class EventsRepository extends Repository {
             joinOnsiteRoom: action,
             lostConnection: observable,
             map: observable,
-            setScale: action,
-            setCenterCoords: action,
+            setMapScale: action,
+            setMapCenterCoords: action,
             tryToRestoreActiveEventMap: action,
         });
     }
@@ -282,12 +282,14 @@ export class EventsRepository extends Repository {
         room.attendeeCounter = counter;
     };
 
-    public setScale = (newScale: number): void => {
-        this.map.scale = newScale;
+    public setMapScale = (newScale: number): void => {
+        const scale = Math.min(Math.max(1.0, newScale), 2.0);
+
+        this.map.scale = scale;
         this.persistingStrategy.persist(EventsRepository.activeEventMapStorageKey, this.map);
     };
 
-    public setCenterCoords = (x: number, y: number): void => {
+    public setMapCenterCoords = (x: number, y: number): void => {
         this.map.centerCoords = [x, y];
         this.persistingStrategy.persist(EventsRepository.activeEventMapStorageKey, this.map);
     };
