@@ -76,6 +76,9 @@ const ChristmasOnsite2020Layout: React.FC<ChristmasOnsite2020LayoutProps> = ({
     event,
     joinRoom,
     activeRoom,
+    loading,
+    error,
+    leaveRoom,
     ...rest
 }) => {
     const handleJoinRoom = async (roomID: string) => {

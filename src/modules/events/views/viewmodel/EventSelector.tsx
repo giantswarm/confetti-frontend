@@ -2,7 +2,7 @@ import { Anchor, Box, BoxTypes, Heading, Text } from "grommet";
 import { observer } from "mobx-react-lite";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { Paths } from "@/app/Paths";
 import { useStore } from "@/app/Store";
@@ -15,10 +15,13 @@ const EventSelector: React.FC<EventSelectorProps> = ({ children, ...rest }) => {
     const { Events } = useStore();
     const { push } = useRouter();
 
+    const [redirectingToEvent, setRedirectingToEvent] = useState(false);
+
     useEffect(() => {
         const fetchAllEvents = async () => {
             await Events.getAll();
             if (Events.events.data?.size === 1) {
+                setRedirectingToEvent(true);
                 // If there's a single event available, just redirect to it.
                 const event = Events.events.data.values().next().value as RemoteEvent;
                 await push({
@@ -56,6 +59,15 @@ const EventSelector: React.FC<EventSelectorProps> = ({ children, ...rest }) => {
         return (
             <Box key='event-selector' {...rest}>
                 <Text>No events to display.</Text>
+            </Box>
+        );
+    }
+
+    if (redirectingToEvent) {
+        return (
+            <Box key='event-selector' direction='row' gap='small' {...rest}>
+                <Spinner />
+                <Text>Redirecting to event...</Text>
             </Box>
         );
     }
