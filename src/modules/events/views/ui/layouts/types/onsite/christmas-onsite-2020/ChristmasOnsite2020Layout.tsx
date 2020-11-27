@@ -1,7 +1,9 @@
 import { Box } from "grommet";
+import { observer } from "mobx-react-lite";
 import dynamic from "next/dynamic";
 import styled from "styled-components";
 
+import { useStore } from "@/app/Store";
 import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEventRoom";
 
 import { EventLayoutProps } from "../../../layouts";
@@ -19,13 +21,26 @@ import Person2 from "./scenery/Person2";
 import Person3 from "./scenery/Person3";
 import Person4 from "./scenery/Person4";
 import Person5 from "./scenery/Person5";
+import { useEffect } from "react";
 
 const Snow = dynamic(() => import("./scenery/Snow"));
 
 const Wrapper = styled(Box)`
     position: relative;
-    min-height: 100vh;
+    height: 100vh;
     width: 100%;
+    overflow: hidden;
+`;
+
+const Content = styled.div<{ scale: number; centerX: number; centerY: number }>`
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+
+    transform-origin: center center;
+    transform: ${({ scale, centerX, centerY }) => `scale(${scale}) translate3d(${centerX}px, ${centerY}px, 0)`};
 `;
 
 const Sky = styled(Box)`
@@ -107,6 +122,13 @@ const ChristmasOnsite2020Layout: React.FC<ChristmasOnsite2020LayoutProps> = ({
         );
     };
 
+    const { Events } = useStore();
+    const centerCoords = Events.map.centerCoords;
+
+    useEffect(() => {
+        Events.tryToRestoreActiveEventMap();
+    }, [Events]);
+
     return (
         <Wrapper
             {...rest}
@@ -115,30 +137,36 @@ const ChristmasOnsite2020Layout: React.FC<ChristmasOnsite2020LayoutProps> = ({
                 size: "small",
             }}
         >
-            <Sky />
-            <Background>
-                <RoomsWrapper>{event.rooms.map(renderRoom("background"))}</RoomsWrapper>
-                <Person4 />
-                <Person5 />
-                <People5 />
-                <People6 />
-                <Backdrop />
-            </Background>
-            <Snow />
-            <Ground>
-                <RoomsWrapper>
-                    {event.rooms.map(renderRoom("main"))}
-                    <Person1 />
-                    <People1 />
-                    <People2 />
-                    <People3 />
-                    <Person2 />
-                    <Person3 />
-                    <People4 />
-                </RoomsWrapper>
-            </Ground>
+            <Content scale={Events.map.scale} centerX={centerCoords[0]} centerY={centerCoords[1]}>
+                <Sky />
+                <Background>
+                    <RoomsWrapper>{event.rooms.map(renderRoom("background"))}</RoomsWrapper>
+                    <Person4 />
+                    <Person5 />
+                    <People5 />
+                    <People6 />
+                    <Backdrop />
+                </Background>
+                {/* <Snow /> */}
+                <Ground>
+                    <div style={{ zIndex: 9999 }}>
+                        <button onClick={() => Events.setScale(Events.map.scale + 0.1)}>Zoom in</button>
+                        <button onClick={() => Events.setScale(Events.map.scale - 0.1)}>Zoom out</button>
+                    </div>
+                    <RoomsWrapper>
+                        {event.rooms.map(renderRoom("main"))}
+                        <Person1 />
+                        <People1 />
+                        <People2 />
+                        <People3 />
+                        <Person2 />
+                        <Person3 />
+                        <People4 />
+                    </RoomsWrapper>
+                </Ground>
+            </Content>
         </Wrapper>
     );
 };
 
-export default ChristmasOnsite2020Layout;
+export default observer(ChristmasOnsite2020Layout);

@@ -10,6 +10,7 @@ import { UsersRepository } from "@/modules/users/models/UsersRepository";
 import { DefaultEventPayloadHandler } from "../networking/handlers/watcher/types/default/DefaultEventPayloadHandler";
 import { OnsiteEventPayloadHandler } from "../networking/handlers/watcher/types/onsite/OnsitePayloadHandler";
 import { EventsWatcherPayloads } from "../networking/payloads/watcher/watcher";
+import { EventMap } from "./EventMap";
 import { RemoteEvent } from "./types/eventTypes";
 import { OnsiteEvent } from "./types/onsite/OnsiteEvent";
 import { OnsiteEventRoom } from "./types/onsite/OnsiteEventRoom";
@@ -19,6 +20,7 @@ type EventsMap = Map<string, RemoteEvent>;
 export class EventsRepository extends Repository {
     public static activeEventIDStorageKey = "activeEventID";
     public static activeOnsiteEventRoomIDStorageKey = "activeOnsiteEventRoomID";
+    public static activeEventMapStorageKey = "activeEventMap";
 
     constructor(
         protected readonly persistingStrategy: PersistingStrategy,
@@ -49,6 +51,10 @@ export class EventsRepository extends Repository {
             leaveOnsiteRoom: action,
             joinOnsiteRoom: action,
             lostConnection: observable,
+            map: observable,
+            setScale: action,
+            setCenterCoords: action,
+            tryToRestoreActiveEventMap: action,
         });
     }
 
@@ -56,6 +62,7 @@ export class EventsRepository extends Repository {
     public activeEventID = new RepositoryValue<string>(null);
     public activeOnsiteRoomID = new RepositoryValue<string>(null);
     public lostConnection = false;
+    public map = new EventMap();
 
     get activeEvent(): RemoteEvent | null {
         if (!this.activeEventID.data) return null;
@@ -273,6 +280,38 @@ export class EventsRepository extends Repository {
         if (!room) return;
 
         room.attendeeCounter = counter;
+    };
+
+    public setScale = (newScale: number): void => {
+        this.map.scale = newScale;
+        this.persistingStrategy.persist(EventsRepository.activeEventMapStorageKey, this.map);
+    };
+
+    public setCenterCoords = (x: number, y: number): void => {
+        this.map.centerCoords = [x, y];
+        this.persistingStrategy.persist(EventsRepository.activeEventMapStorageKey, this.map);
+    };
+
+    public tryToRestoreActiveEventMap = () => {
+        try {
+            const existingMap = this.persistingStrategy.restore(EventsRepository.activeEventMapStorageKey);
+            if (!existingMap) return;
+
+            if (
+                !existingMap.scale ||
+                !(Array.isArray(existingMap.centerCoords) && existingMap.centerCoords.length === 2)
+            ) {
+                throw new Error("Persisted event map is incomplete.");
+            }
+
+            const newMap = new EventMap();
+            newMap.scale = existingMap.scale as number;
+            newMap.centerCoords = existingMap.centerCoords as [number, number];
+
+            this.map = newMap;
+        } catch {
+            this.persistingStrategy.delete(EventsRepository.activeEventMapStorageKey);
+        }
     };
 
     private findRoomWithID(roomID: string): OnsiteEventRoom | null {
