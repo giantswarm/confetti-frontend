@@ -8,10 +8,10 @@ export class EventMap extends GenericObject {
 
         makeObservable(this, {
             scale: observable,
-            centerCoords: observable,
+            centerAnchor: observable,
         });
     }
 
     public scale: number = 1.0;
-    public centerCoords: [x: number, y: number] = [0.0, 0.0];
+    public centerAnchor: [x: number, y: number] = [0.0, 0.0];
 }

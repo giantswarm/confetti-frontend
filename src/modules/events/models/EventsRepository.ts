@@ -6,6 +6,7 @@ import { RepositoryValue } from "@/core/models/RepositoryValue";
 import { PayloadHandler } from "@/core/networking/PayloadHandler";
 import { EventsService } from "@/modules/events/networking/EventsService";
 import { UsersRepository } from "@/modules/users/models/UsersRepository";
+import { debounce } from "@/utils/debounce";
 
 import { DefaultEventPayloadHandler } from "../networking/handlers/watcher/types/default/DefaultEventPayloadHandler";
 import { OnsiteEventPayloadHandler } from "../networking/handlers/watcher/types/onsite/OnsitePayloadHandler";
@@ -53,7 +54,7 @@ export class EventsRepository extends Repository {
             lostConnection: observable,
             map: observable,
             setMapScale: action,
-            setMapCenterCoords: action,
+            setMapCenterAnchor: action,
             tryToRestoreActiveEventMap: action,
         });
     }
@@ -282,16 +283,21 @@ export class EventsRepository extends Repository {
         room.attendeeCounter = counter;
     };
 
+    public persistMap = debounce(() => {
+        this.persistingStrategy.persist(EventsRepository.activeEventMapStorageKey, this.map);
+        // eslint-disable-next-line no-magic-numbers
+    }, 300);
+
     public setMapScale = (newScale: number): void => {
-        const scale = Math.min(Math.max(1.0, newScale), 2.0);
+        const scale = Math.min(Math.max(1.0, newScale), 3.0);
 
         this.map.scale = scale;
-        this.persistingStrategy.persist(EventsRepository.activeEventMapStorageKey, this.map);
+        this.persistMap();
     };
 
-    public setMapCenterCoords = (x: number, y: number): void => {
-        this.map.centerCoords = [x, y];
-        this.persistingStrategy.persist(EventsRepository.activeEventMapStorageKey, this.map);
+    public setMapCenterAnchor = (x: number, y: number): void => {
+        this.map.centerAnchor = [x, y];
+        this.persistMap();
     };
 
     public tryToRestoreActiveEventMap = () => {
@@ -301,14 +307,14 @@ export class EventsRepository extends Repository {
 
             if (
                 !existingMap.scale ||
-                !(Array.isArray(existingMap.centerCoords) && existingMap.centerCoords.length === 2)
+                !(Array.isArray(existingMap.centerAnchor) && existingMap.centerAnchor.length === 2)
             ) {
                 throw new Error("Persisted event map is incomplete.");
             }
 
             const newMap = new EventMap();
             newMap.scale = existingMap.scale as number;
-            newMap.centerCoords = existingMap.centerCoords as [number, number];
+            newMap.centerAnchor = existingMap.centerAnchor as [number, number];
 
             this.map = newMap;
         } catch {
