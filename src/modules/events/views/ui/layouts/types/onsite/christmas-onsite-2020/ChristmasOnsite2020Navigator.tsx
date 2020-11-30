@@ -2,8 +2,6 @@ import { Box, RangeInput, Text } from "grommet";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
-import { throttle } from "@/utils/throttle";
-
 const Wrapper = styled(Box)`
     z-index: 9999;
     position: absolute;
@@ -55,8 +53,6 @@ const ChristmasOnsite2020Navigator: React.FC<ChristmasOnsite2020NavigatorProps> 
 
     const [isDragging, setIsDragging] = useState(false);
 
-    const setCenterAnchorThrottled = useCallback(throttle(setCenterAnchor), []);
-
     const setScreenPosition = useCallback(
         (clientX: number, clientY: number) => {
             const parentRect = screenWrapperRef.current!.getBoundingClientRect();
@@ -77,9 +73,9 @@ const ChristmasOnsite2020Navigator: React.FC<ChristmasOnsite2020NavigatorProps> 
             posX = Math.min(Math.max(posX, 0), 1);
             posY = Math.min(Math.max(posY, 0), 1);
 
-            setCenterAnchorThrottled(posX, posY);
+            setCenterAnchor(posX, posY);
         },
-        [setCenterAnchorThrottled]
+        [setCenterAnchor]
     );
 
     const onDragStart = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -127,7 +123,7 @@ const ChristmasOnsite2020Navigator: React.FC<ChristmasOnsite2020NavigatorProps> 
             // eslint-disable-next-line no-magic-numbers
             const nextCenterPosY = Math.floor((heightDiff / centerAnchorY) * 100) / 100;
 
-            setCenterAnchorThrottled(nextCenterPosX, nextCenterPosY);
+            setCenterAnchor(nextCenterPosX, nextCenterPosY);
         }
         /**
          * We don't need to track the changing coordinates here,

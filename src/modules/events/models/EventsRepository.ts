@@ -7,6 +7,7 @@ import { PayloadHandler } from "@/core/networking/PayloadHandler";
 import { EventsService } from "@/modules/events/networking/EventsService";
 import { UsersRepository } from "@/modules/users/models/UsersRepository";
 import { debounce } from "@/utils/debounce";
+import { throttle } from "@/utils/throttle";
 
 import { DefaultEventPayloadHandler } from "../networking/handlers/watcher/types/default/DefaultEventPayloadHandler";
 import { OnsiteEventPayloadHandler } from "../networking/handlers/watcher/types/onsite/OnsitePayloadHandler";
@@ -288,33 +289,37 @@ export class EventsRepository extends Repository {
         // eslint-disable-next-line no-magic-numbers
     }, 300);
 
-    public setMapScale = (newScale: number): void => {
+    public setMapScale = throttle((newScale: number): void => {
         const scale = Math.min(Math.max(1.0, newScale), 3.0);
 
-        this.map.scale = scale;
-        this.persistMap();
-    };
+        runInAction(() => {
+            this.map.scale = scale;
+        });
 
-    public setMapCenterAnchor = (x: number, y: number): void => {
-        this.map.centerAnchor = [x, y];
         this.persistMap();
-    };
+    });
+
+    public setMapCenterAnchor = throttle((x: number, y: number): void => {
+        runInAction(() => {
+            this.map.centerAnchorX = x;
+            this.map.centerAnchorY = y;
+        });
+        this.persistMap();
+    });
 
     public tryToRestoreActiveEventMap = () => {
         try {
             const existingMap = this.persistingStrategy.restore(EventsRepository.activeEventMapStorageKey);
             if (!existingMap) return;
 
-            if (
-                !existingMap.scale ||
-                !(Array.isArray(existingMap.centerAnchor) && existingMap.centerAnchor.length === 2)
-            ) {
+            if (!existingMap.scale || !existingMap.centerAnchorX || !existingMap.centerAnchorY) {
                 throw new Error("Persisted event map is incomplete.");
             }
 
             const newMap = new EventMap();
             newMap.scale = existingMap.scale as number;
-            newMap.centerAnchor = existingMap.centerAnchor as [number, number];
+            newMap.centerAnchorX = existingMap.centerAnchorX as number;
+            newMap.centerAnchorY = existingMap.centerAnchorY as number;
 
             this.map = newMap;
         } catch {

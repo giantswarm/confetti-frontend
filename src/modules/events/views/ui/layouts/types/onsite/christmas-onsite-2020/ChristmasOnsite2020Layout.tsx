@@ -1,3 +1,5 @@
+import { useDebounce } from "@react-hook/debounce";
+import useResizeObserver from "@react-hook/resize-observer";
 import { Box } from "grommet";
 import { observer } from "mobx-react-lite";
 import dynamic from "next/dynamic";
@@ -6,7 +8,6 @@ import styled from "styled-components";
 
 import { useStore } from "@/app/Store";
 import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEventRoom";
-import useDebounce from "@/utils/hooks/useDebounce";
 
 import { EventLayoutProps } from "../../../layouts";
 import ChristmasOnsite2020Navigator from "./ChristmasOnsite2020Navigator";
@@ -41,7 +42,8 @@ const Content = styled.div`
     height: 100%;
     width: 100%;
     transform-origin: top left;
-    transition: 0.1s;
+    will-change: transform;
+    transition: 0.05s;
 `;
 
 const Sky = styled(Box)`
@@ -127,7 +129,11 @@ const ChristmasOnsite2020Layout: React.FC<ChristmasOnsite2020LayoutProps> = ({
     const contentElemRef = useRef<HTMLDivElement>(null);
 
     const { Events } = useStore();
-    const { scale, centerAnchor } = Events.map;
+    useEffect(() => {
+        Events.tryToRestoreActiveEventMap();
+    }, [Events]);
+
+    const { scale, centerAnchorX, centerAnchorY } = Events.map;
 
     const getRealContentCoords = useCallback((): [x: number, y: number] => {
         const parentRect = wrapperElemRef.current?.getBoundingClientRect();
@@ -136,19 +142,30 @@ const ChristmasOnsite2020Layout: React.FC<ChristmasOnsite2020LayoutProps> = ({
         if (!parentRect || !elemRect) return [0, 0];
 
         // eslint-disable-next-line no-magic-numbers
-        const posX = Math.floor(((centerAnchor[0] * (parentRect.width - elemRect.width)) / scale) * 100) / 100;
+        const posX = Math.floor(((centerAnchorX * (parentRect.width - elemRect.width)) / scale) * 100) / 100;
         // eslint-disable-next-line no-magic-numbers
-        const posY = Math.floor(((centerAnchor[1] * (parentRect.height - elemRect.height)) / scale) * 100) / 100;
+        const posY = Math.floor(((centerAnchorY * (parentRect.height - elemRect.height)) / scale) * 100) / 100;
 
         return [posX, posY];
-    }, [centerAnchor, scale]);
+    }, [centerAnchorX, centerAnchorY, scale]);
 
     // eslint-disable-next-line no-magic-numbers
-    const [posX, posY] = useDebounce(getRealContentCoords(), 200);
-
+    const [currPos, setContentCoords] = useDebounce<[x: number, y: number] | null>(null, 50, true);
     useEffect(() => {
-        Events.tryToRestoreActiveEventMap();
-    }, [Events]);
+        if (!currPos) {
+            setTimeout(() => {
+                setContentCoords(getRealContentCoords());
+            });
+
+            return;
+        }
+
+        setContentCoords(getRealContentCoords());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [getRealContentCoords]);
+    useResizeObserver(wrapperElemRef, () => setContentCoords(getRealContentCoords()));
+
+    if (!currPos) return null;
 
     return (
         <Wrapper
@@ -161,15 +178,15 @@ const ChristmasOnsite2020Layout: React.FC<ChristmasOnsite2020LayoutProps> = ({
         >
             <ChristmasOnsite2020Navigator
                 scale={scale}
-                centerAnchorX={centerAnchor[0]}
-                centerAnchorY={centerAnchor[1]}
+                centerAnchorX={centerAnchorX}
+                centerAnchorY={centerAnchorY}
                 setCenterAnchor={Events.setMapCenterAnchor}
                 setScale={Events.setMapScale}
             />
             <Content
                 ref={contentElemRef}
                 style={{
-                    transform: `scale(${scale}) translate3d(${posX}px, ${posY}px, 0)`,
+                    transform: `scale(${scale}) translate3d(${currPos[0]}px, ${currPos[1]}px, 0)`,
                 }}
             >
                 <Sky />

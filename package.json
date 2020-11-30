@@ -17,6 +17,8 @@
         "make-env": "node ./scripts/makeEnv.js"
     },
     "dependencies": {
+        "@react-hook/debounce": "^3.0.0",
+        "@react-hook/resize-observer": "^1.1.0",
         "axios": "^0.21.0",
         "grommet": "^2.16.0",
         "grommet-icons": "^4.5.0",
