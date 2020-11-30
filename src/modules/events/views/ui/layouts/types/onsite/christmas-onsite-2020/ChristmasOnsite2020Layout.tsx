@@ -76,21 +76,45 @@ const ChristmasOnsite2020Layout: React.FC<ChristmasOnsite2020LayoutProps> = ({
     event,
     joinRoom,
     activeRoom,
+    loading,
+    error,
+    leaveRoom,
     ...rest
 }) => {
     const handleJoinRoom = async (roomID: string) => {
         await joinRoom(event.id, roomID);
     };
 
-    const renderRoom = (zone: RoomZone) => (room: OnsiteEventRoom) => {
+    const renderRoom = (zone: RoomZone) => (room: OnsiteEventRoom, index: number) => {
         const Component = rooms[zone][room.id];
         if (!Component) return null;
 
-        return <Component key={room.id} room={room} onClick={handleJoinRoom} activeRoom={activeRoom} />;
+        // eslint-disable-next-line no-magic-numbers
+        const transitionDelay = 0.05 * index * 1000;
+
+        return (
+            <Component
+                key={room.id}
+                room={room}
+                onClick={handleJoinRoom}
+                activeRoom={activeRoom}
+                animation={{
+                    type: "fadeIn",
+                    size: "xsmall",
+                    delay: transitionDelay,
+                }}
+            />
+        );
     };
 
     return (
-        <Wrapper {...rest}>
+        <Wrapper
+            {...rest}
+            animation={{
+                type: "fadeIn",
+                size: "small",
+            }}
+        >
             <Sky />
             <Background>
                 <RoomsWrapper>{event.rooms.map(renderRoom("background"))}</RoomsWrapper>

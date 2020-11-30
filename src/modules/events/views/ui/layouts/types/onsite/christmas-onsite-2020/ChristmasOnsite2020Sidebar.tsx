@@ -5,23 +5,15 @@ import Link from "next/link";
 
 import { Paths } from "@/app/Paths";
 import Spinner from "@/core/views/ui/app/Spinner";
-import { OnsiteEvent } from "@/modules/events/models/types/onsite/OnsiteEvent";
-import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEventRoom";
-import OnsiteEventWidgetRoomList from "@/modules/events/views/viewmodel/EventSidebar/widgets/types/onsite/OnsiteEventWidgetRoomList";
 
-import OnsiteEventWidgetPlaceholder from "./OnsiteEventWidgetPlaceholder";
-import { formatDescription } from "./OnsiteEventWidgetUtils";
+import { EventLayoutProps } from "../../../layouts";
+import ChristmasOnsite2020SidebarPlaceholder from "./ChristmasOnsite2020SidebarPlaceholder";
+import ChristmasOnsite2020SidebarRoomList from "./ChristmasOnsite2020SidebarRoomList";
+import { formatDescription } from "./ChristmasOnsite2020SidebarUtils";
 
-interface OnsiteEventWidgetRoomOptionsProps {
-    event: OnsiteEvent;
-    activeRoom: OnsiteEventRoom | null;
-    joinRoom: (eventID: string, roomID: string) => Promise<void>;
-    leaveRoom: (eventID: string, roomID: string) => Promise<void>;
-    error?: string;
-    loading?: boolean;
-}
+interface ChristmasOnsite2020SidebarProps extends EventLayoutProps<"onsite"> {}
 
-const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> = ({
+const ChristmasOnsite2020Sidebar: React.FC<ChristmasOnsite2020SidebarProps> = ({
     event,
     activeRoom,
     joinRoom,
@@ -31,7 +23,7 @@ const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> 
 }) => {
     if (loading && activeRoom) {
         return (
-            <Box key='onsitewidget-roomoptions' direction='row' gap='small'>
+            <Box key='onsitewidget-roomoptions' direction='row' gap='small' animation='fadeIn'>
                 <Spinner />
                 <Text>Loading room...</Text>
             </Box>
@@ -40,7 +32,7 @@ const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> 
 
     if (error) {
         return (
-            <Box key='onsitewidget-roomoptions'>
+            <Box key='onsitewidget-roomoptions' animation='fadeIn'>
                 <Text>There was a problem loading event:</Text>
                 <Text weight='bold' color='status-critical'>
                     {error}
@@ -56,9 +48,13 @@ const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> 
 
     if (!activeRoom) {
         return (
-            <Box key='onsitewidget-roomoptions'>
-                <OnsiteEventWidgetPlaceholder eventName={event.name} />
-                <OnsiteEventWidgetRoomList rooms={event.rooms} eventID={event.id} joinRoom={joinRoom} />
+            <Box key='onsitewidget-roomoptions' animation='fadeIn'>
+                <ChristmasOnsite2020SidebarPlaceholder eventName={event.name} />
+                <ChristmasOnsite2020SidebarRoomList
+                    rooms={event.rooms}
+                    eventID={event.id}
+                    joinRoom={joinRoom}
+                />
             </Box>
         );
     }
@@ -69,7 +65,7 @@ const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> 
 
     return (
         <Box key='onsitewidget-roomoptions'>
-            <Box>
+            <Box animation='fadeIn'>
                 <Heading level={4} margin={{ bottom: "xsmall" }}>
                     {activeRoom.name}
                 </Heading>
@@ -99,7 +95,14 @@ const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> 
                     </Box>
                 )}
             </Box>
-            <Box direction='row' fill='horizontal' gap='small' margin={{ top: "medium" }} pad={{ vertical: "small" }}>
+            <Box
+                direction='row'
+                fill='horizontal'
+                gap='small'
+                margin={{ top: "medium" }}
+                pad={{ vertical: "small" }}
+                animation='fadeIn'
+            >
                 {activeRoom.conferenceURL && (
                     <a href={activeRoom.conferenceURL} target='_blank' rel='noreferrer'>
                         <Button label='Join call' primary={true} color='status-ok' size='medium' />
@@ -115,9 +118,4 @@ const OnsiteEventWidgetRoomOptions: React.FC<OnsiteEventWidgetRoomOptionsProps> 
     );
 };
 
-OnsiteEventWidgetRoomOptions.defaultProps = {
-    error: "",
-    loading: false,
-};
-
-export default observer(OnsiteEventWidgetRoomOptions);
+export default observer(ChristmasOnsite2020Sidebar);
