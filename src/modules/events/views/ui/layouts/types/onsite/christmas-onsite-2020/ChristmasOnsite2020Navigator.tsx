@@ -45,44 +45,42 @@ interface ChristmasOnsite2020NavigatorProps {
 
 const ChristmasOnsite2020Navigator: React.FC<ChristmasOnsite2020NavigatorProps> = ({
     scale,
+    centerAnchorX,
+    centerAnchorY,
     setScale,
     setCenterAnchor,
 }) => {
     const screenRef = useRef<HTMLDivElement | null>(null);
     const screenWrapperRef = useRef<HTMLDivElement | null>(null);
 
-    const [anchorPosition, setAnchorPosition] = useState([0, 0]);
     const [isDragging, setIsDragging] = useState(false);
 
-    const setCenterAnchorThrottled = throttle(setCenterAnchor);
+    const setCenterAnchorThrottled = useCallback(throttle(setCenterAnchor), []);
 
-    const setCenterPosition = (newPosition: [x: number, y: number]) => {
-        setAnchorPosition(newPosition);
-        setCenterAnchorThrottled(newPosition[0], newPosition[1]);
-    };
+    const setScreenPosition = useCallback(
+        (clientX: number, clientY: number) => {
+            const parentRect = screenWrapperRef.current!.getBoundingClientRect();
+            const elemRect = screenRef.current!.getBoundingClientRect();
 
-    const setScreenPosition = useCallback((clientX: number, clientY: number) => {
-        const parentRect = screenWrapperRef.current!.getBoundingClientRect();
-        const elemRect = screenRef.current!.getBoundingClientRect();
+            let posX = clientX - parentRect.left - elemRect.width / 2;
+            let posY = clientY - parentRect.top - elemRect.height / 2;
 
-        let posX = clientX - parentRect.left - elemRect.width / 2;
-        let posY = clientY - parentRect.top - elemRect.height / 2;
+            /**
+             * Constrain the positions to have a value between 0 and 1.
+             * (0 being the left-most value, and 1 being the right-most value)
+             *  */
+            // eslint-disable-next-line no-magic-numbers
+            posX = Math.floor((posX / (parentRect.width - elemRect.width)) * 100) / 100;
+            // eslint-disable-next-line no-magic-numbers
+            posY = Math.floor((posY / (parentRect.height - elemRect.height)) * 100) / 100;
 
-        /**
-         * Constrain the positions to have a value between 0 and 1.
-         * (0 being the left-most value, and 1 being the right-most value)
-         *  */
-        // eslint-disable-next-line no-magic-numbers
-        posX = Math.floor((posX / (parentRect.width - elemRect.width)) * 100) / 100;
-        // eslint-disable-next-line no-magic-numbers
-        posY = Math.floor((posY / (parentRect.height - elemRect.height)) * 100) / 100;
+            posX = Math.min(Math.max(posX, 0), 1);
+            posY = Math.min(Math.max(posY, 0), 1);
 
-        posX = Math.min(Math.max(posX, 0), 1);
-        posY = Math.min(Math.max(posY, 0), 1);
-
-        setCenterPosition([posX, posY]);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+            setCenterAnchorThrottled(posX, posY);
+        },
+        [setCenterAnchorThrottled]
+    );
 
     const onDragStart = (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
@@ -111,22 +109,25 @@ const ChristmasOnsite2020Navigator: React.FC<ChristmasOnsite2020NavigatorProps> 
 
         if (!parentRect || !elemRect) return [0, 0];
 
-        const posX = anchorPosition[0] * (parentRect.width - elemRect.width);
-        const posY = anchorPosition[1] * (parentRect.height - elemRect.height);
+        const posX = centerAnchorX * (parentRect.width - elemRect.width);
+        const posY = centerAnchorY * (parentRect.height - elemRect.height);
 
         return [posX, posY];
-    }, [anchorPosition]);
+    }, [centerAnchorX, centerAnchorY]);
 
     useEffect(() => {
         const parentRect = screenWrapperRef.current!.getBoundingClientRect();
-        const nextElemWidth = parentRect.width / scale;
-        const nextElemHeight = parentRect.height / scale;
 
-        const widthDiff = nextElemWidth - parentRect.width;
-        const heightDiff = nextElemHeight - parentRect.height;
+        const widthDiff = parentRect.width / scale - parentRect.width;
+        const heightDiff = parentRect.height / scale - parentRect.height;
 
         if (widthDiff > 0 || heightDiff > 0) {
-            setCenterPosition([widthDiff / anchorPosition[0], heightDiff / anchorPosition[1]]);
+            // eslint-disable-next-line no-magic-numbers
+            const nextCenterPosX = Math.floor((widthDiff / centerAnchorX) * 100) / 100;
+            // eslint-disable-next-line no-magic-numbers
+            const nextCenterPosY = Math.floor((heightDiff / centerAnchorY) * 100) / 100;
+
+            setCenterAnchorThrottled(nextCenterPosX, nextCenterPosY);
         }
         /**
          * We don't need to track the changing coordinates here,
@@ -137,7 +138,7 @@ const ChristmasOnsite2020Navigator: React.FC<ChristmasOnsite2020NavigatorProps> 
     }, [scale]);
 
     // eslint-disable-next-line no-magic-numbers
-    const size = `${100 / scale}%`;
+    const size = `${Math.floor(100 / scale)}%`;
     const [posX, posY] = getRealCoords();
 
     return (

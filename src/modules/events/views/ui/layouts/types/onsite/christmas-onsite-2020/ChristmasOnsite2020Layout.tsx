@@ -135,8 +135,10 @@ const ChristmasOnsite2020Layout: React.FC<ChristmasOnsite2020LayoutProps> = ({
 
         if (!parentRect || !elemRect) return [0, 0];
 
-        const posX = (centerAnchor[0] * (parentRect.width - elemRect.width)) / scale;
-        const posY = (centerAnchor[1] * (parentRect.height - elemRect.height)) / scale;
+        // eslint-disable-next-line no-magic-numbers
+        const posX = Math.floor(((centerAnchor[0] * (parentRect.width - elemRect.width)) / scale) * 100) / 100;
+        // eslint-disable-next-line no-magic-numbers
+        const posY = Math.floor(((centerAnchor[1] * (parentRect.height - elemRect.height)) / scale) * 100) / 100;
 
         return [posX, posY];
     }, [centerAnchor, scale]);
