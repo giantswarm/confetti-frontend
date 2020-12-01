@@ -312,7 +312,11 @@ export class EventsRepository extends Repository {
             const existingMap = this.persistingStrategy.restore(EventsRepository.activeEventMapStorageKey);
             if (!existingMap) return;
 
-            if (!existingMap.scale || !existingMap.centerAnchorX || !existingMap.centerAnchorY) {
+            if (
+                typeof existingMap.scale === "undefined" ||
+                typeof existingMap.centerAnchorX === "undefined" ||
+                typeof existingMap.centerAnchorY === "undefined"
+            ) {
                 throw new Error("Persisted event map is incomplete.");
             }
 

@@ -13,7 +13,7 @@ export class EventMap extends GenericObject {
         });
     }
 
-    public scale: number = 1.0;
+    public scale = 1.0;
     public centerAnchorX = 0.0;
     public centerAnchorY = 0.0;
 }
