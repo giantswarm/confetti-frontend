@@ -1,4 +1,5 @@
 import { Box, RangeInput, Text } from "grommet";
+import Image from "next/image";
 import { useCallback, useRef, useState } from "react";
 import styled from "styled-components";
 
@@ -9,11 +10,13 @@ const Wrapper = styled(Box)`
     right: 10px;
     width: 300px;
     max-width: 30vw;
+    user-select: none;
 `;
 
 const NavigatorWrapper = styled(Box)`
     width: 100%;
-    height: 120px;
+    height: 150px;
+    overflow: hidden;
 `;
 
 const NavigatorScreenWrapper = styled(Box)`
@@ -31,6 +34,17 @@ const NavigatorScreen = styled(Box)`
     transform-origin: top left;
     will-change: transform, width, height;
     transition: 0.05s;
+`;
+
+const BackgroundImage = styled(Image)`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    opacity: 0.5;
 `;
 
 interface ChristmasOnsite2020NavigatorProps {
@@ -134,6 +148,8 @@ const ChristmasOnsite2020Navigator: React.FC<ChristmasOnsite2020NavigatorProps> 
                     onMouseMove={onDrag}
                     onMouseUp={onDragEnd}
                 >
+                    {/* @ts-expect-error */}
+                    <BackgroundImage src='/minimap.jpg' alt='Giant Swarm Confetti' layout='fill' quality={90} />
                     <NavigatorScreen
                         border={{ color: "brand", size: "small" }}
                         round='small'
