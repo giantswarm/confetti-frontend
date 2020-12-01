@@ -21,7 +21,7 @@ const ChristmasOnsite2020Sidebar: React.FC<ChristmasOnsite2020SidebarProps> = ({
     error,
     loading,
 }) => {
-    if (loading && activeRoom) {
+    if (loading) {
         return (
             <Box key='onsitewidget-roomoptions' direction='row' gap='small' animation='fadeIn'>
                 <Spinner />
