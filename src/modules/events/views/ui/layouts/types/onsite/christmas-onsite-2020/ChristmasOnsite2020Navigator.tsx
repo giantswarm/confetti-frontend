@@ -54,6 +54,8 @@ const ChristmasOnsite2020Navigator: React.FC<ChristmasOnsite2020NavigatorProps> 
 
     const setScreenPosition = useCallback(
         (clientX: number, clientY: number) => {
+            if (scale === 1) return;
+
             const parentRect = screenWrapperRef.current!.getBoundingClientRect();
 
             const targetWidth = parentRect.width / scale;
