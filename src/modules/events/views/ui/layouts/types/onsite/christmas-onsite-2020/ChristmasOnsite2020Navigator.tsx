@@ -138,7 +138,14 @@ const ChristmasOnsite2020Navigator: React.FC<ChristmasOnsite2020NavigatorProps> 
     const [posX, posY] = getRealCoords();
 
     return (
-        <Wrapper pad='small' background='background-contrast' round='small' direction='column' gap='small'>
+        <Wrapper
+            pad='small'
+            background='background-contrast'
+            round='small'
+            direction='column'
+            gap='small'
+            animation='fadeIn'
+        >
             <Text size='small'>Navigator</Text>
             <NavigatorWrapper background='white' round='small'>
                 <NavigatorScreenWrapper
@@ -149,7 +156,7 @@ const ChristmasOnsite2020Navigator: React.FC<ChristmasOnsite2020NavigatorProps> 
                     onMouseUp={onDragEnd}
                 >
                     {/* @ts-expect-error */}
-                    <BackgroundImage src='/minimap.jpg' alt='Giant Swarm Confetti' layout='fill' quality={90} />
+                    <BackgroundImage src='/minimap.jpg' alt='Giant Swarm Confetti' layout='fill' quality={40} />
                     <NavigatorScreen
                         border={{ color: "brand", size: "small" }}
                         round='small'
