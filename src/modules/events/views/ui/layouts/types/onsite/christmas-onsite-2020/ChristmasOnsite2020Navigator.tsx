@@ -78,15 +78,12 @@ const ChristmasOnsite2020Navigator: React.FC<ChristmasOnsite2020NavigatorProps> 
             let posX = clientX - parentRect.left - targetWidth / 2;
             let posY = clientY - parentRect.top - targetHeight / 2;
 
-            /**
-             * Constrain the positions to have a value between 0 and 1.
-             * (0 being the left-most value, and 1 being the right-most value)
-             *  */
             // eslint-disable-next-line no-magic-numbers
             posX = Math.floor((posX / (parentRect.width - targetWidth)) * 100) / 100;
             // eslint-disable-next-line no-magic-numbers
             posY = Math.floor((posY / (parentRect.height - targetHeight)) * 100) / 100;
 
+            // Constrain the values between 0 and 1.
             posX = Math.min(Math.max(posX, 0), 1);
             posY = Math.min(Math.max(posY, 0), 1);
 
@@ -118,7 +115,6 @@ const ChristmasOnsite2020Navigator: React.FC<ChristmasOnsite2020NavigatorProps> 
 
     const getRealCoords = useCallback((): [x: number, y: number] => {
         const parentRect = screenWrapperRef.current?.getBoundingClientRect();
-
         if (!parentRect) return [0, 0];
 
         // Get difference between parent sizes and desired sizes.

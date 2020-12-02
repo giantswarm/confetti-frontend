@@ -290,12 +290,12 @@ export class EventsRepository extends Repository {
     }, 300);
 
     public setMapScale = throttle((newScale: number): void => {
+        // Constrain the scale value between 1 and 3.
         const scale = Math.min(Math.max(1.0, newScale), 3.0);
 
         runInAction(() => {
             this.map.scale = scale;
         });
-
         this.persistMap();
     });
 

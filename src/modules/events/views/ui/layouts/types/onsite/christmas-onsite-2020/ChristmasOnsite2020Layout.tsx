@@ -135,7 +135,6 @@ const ChristmasOnsite2020Layout: React.FC<ChristmasOnsite2020LayoutProps> = ({
 
     const getRealContentCoords = useCallback((): [x: number, y: number] => {
         const parentRect = wrapperElemRef.current?.getBoundingClientRect();
-
         if (!parentRect) return [0, 0];
 
         // Get difference between parent sizes and desired sizes.
