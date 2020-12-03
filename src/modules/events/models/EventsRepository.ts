@@ -6,10 +6,13 @@ import { RepositoryValue } from "@/core/models/RepositoryValue";
 import { PayloadHandler } from "@/core/networking/PayloadHandler";
 import { EventsService } from "@/modules/events/networking/EventsService";
 import { UsersRepository } from "@/modules/users/models/UsersRepository";
+import { debounce } from "@/utils/debounce";
+import { throttle } from "@/utils/throttle";
 
 import { DefaultEventPayloadHandler } from "../networking/handlers/watcher/types/default/DefaultEventPayloadHandler";
 import { OnsiteEventPayloadHandler } from "../networking/handlers/watcher/types/onsite/OnsitePayloadHandler";
 import { EventsWatcherPayloads } from "../networking/payloads/watcher/watcher";
+import { EventMap } from "./EventMap";
 import { RemoteEvent } from "./types/eventTypes";
 import { OnsiteEvent } from "./types/onsite/OnsiteEvent";
 import { OnsiteEventRoom } from "./types/onsite/OnsiteEventRoom";
@@ -19,6 +22,7 @@ type EventsMap = Map<string, RemoteEvent>;
 export class EventsRepository extends Repository {
     public static activeEventIDStorageKey = "activeEventID";
     public static activeOnsiteEventRoomIDStorageKey = "activeOnsiteEventRoomID";
+    public static activeEventMapStorageKey = "activeEventMap";
 
     constructor(
         protected readonly persistingStrategy: PersistingStrategy,
@@ -49,6 +53,10 @@ export class EventsRepository extends Repository {
             leaveOnsiteRoom: action,
             joinOnsiteRoom: action,
             lostConnection: observable,
+            map: observable,
+            setMapScale: action,
+            setMapCenterAnchor: action,
+            tryToRestoreActiveEventMap: action,
         });
     }
 
@@ -56,6 +64,7 @@ export class EventsRepository extends Repository {
     public activeEventID = new RepositoryValue<string>(null);
     public activeOnsiteRoomID = new RepositoryValue<string>(null);
     public lostConnection = false;
+    public map = new EventMap();
 
     get activeEvent(): RemoteEvent | null {
         if (!this.activeEventID.data) return null;
@@ -273,6 +282,53 @@ export class EventsRepository extends Repository {
         if (!room) return;
 
         room.attendeeCounter = counter;
+    };
+
+    public persistMap = debounce(() => {
+        this.persistingStrategy.persist(EventsRepository.activeEventMapStorageKey, this.map);
+        // eslint-disable-next-line no-magic-numbers
+    }, 300);
+
+    public setMapScale = throttle((newScale: number): void => {
+        // Constrain the scale value between 1 and 3.
+        const scale = Math.min(Math.max(1.0, newScale), 3.0);
+
+        runInAction(() => {
+            this.map.scale = scale;
+        });
+        this.persistMap();
+    });
+
+    public setMapCenterAnchor = throttle((x: number, y: number): void => {
+        runInAction(() => {
+            this.map.centerAnchorX = x;
+            this.map.centerAnchorY = y;
+        });
+        this.persistMap();
+    });
+
+    public tryToRestoreActiveEventMap = () => {
+        try {
+            const existingMap = this.persistingStrategy.restore(EventsRepository.activeEventMapStorageKey);
+            if (!existingMap) return;
+
+            if (
+                typeof existingMap.scale === "undefined" ||
+                typeof existingMap.centerAnchorX === "undefined" ||
+                typeof existingMap.centerAnchorY === "undefined"
+            ) {
+                throw new Error("Persisted event map is incomplete.");
+            }
+
+            const newMap = new EventMap();
+            newMap.scale = existingMap.scale as number;
+            newMap.centerAnchorX = existingMap.centerAnchorX as number;
+            newMap.centerAnchorY = existingMap.centerAnchorY as number;
+
+            this.map = newMap;
+        } catch {
+            this.persistingStrategy.delete(EventsRepository.activeEventMapStorageKey);
+        }
     };
 
     private findRoomWithID(roomID: string): OnsiteEventRoom | null {

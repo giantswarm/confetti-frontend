@@ -21,7 +21,7 @@ const ChristmasOnsite2020Sidebar: React.FC<ChristmasOnsite2020SidebarProps> = ({
     error,
     loading,
 }) => {
-    if (loading && activeRoom) {
+    if (loading) {
         return (
             <Box key='onsitewidget-roomoptions' direction='row' gap='small' animation='fadeIn'>
                 <Spinner />
@@ -50,11 +50,7 @@ const ChristmasOnsite2020Sidebar: React.FC<ChristmasOnsite2020SidebarProps> = ({
         return (
             <Box key='onsitewidget-roomoptions' animation='fadeIn'>
                 <ChristmasOnsite2020SidebarPlaceholder eventName={event.name} />
-                <ChristmasOnsite2020SidebarRoomList
-                    rooms={event.rooms}
-                    eventID={event.id}
-                    joinRoom={joinRoom}
-                />
+                <ChristmasOnsite2020SidebarRoomList rooms={event.rooms} eventID={event.id} joinRoom={joinRoom} />
             </Box>
         );
     }

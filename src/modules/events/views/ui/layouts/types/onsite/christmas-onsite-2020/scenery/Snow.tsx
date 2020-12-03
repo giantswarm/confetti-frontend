@@ -30,7 +30,7 @@ const particlesParams: ISourceOptions = {
             random: true,
             anim: {
                 enable: true,
-                speed: 15,
+                speed: 3,
                 size_min: 0.1,
                 sync: false,
             },
@@ -40,7 +40,7 @@ const particlesParams: ISourceOptions = {
         },
         move: {
             enable: true,
-            speed: 4,
+            speed: 2,
             direction: "bottom-left",
             random: false,
             straight: false,
