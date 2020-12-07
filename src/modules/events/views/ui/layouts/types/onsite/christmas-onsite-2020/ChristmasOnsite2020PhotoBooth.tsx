@@ -1,7 +1,8 @@
-import Spinner from "@/core/views/ui/app/Spinner";
-import { Box, Text } from "grommet";
+import { Box } from "grommet";
 import { useState } from "react";
 import styled from "styled-components";
+
+import Spinner from "@/core/views/ui/app/Spinner";
 
 const Wrapper = styled(Box)`
     position: relative;
