@@ -11,9 +11,9 @@ const StyledRoom = styled(Room)`
     z-index: 5;
 `;
 
-interface PuppetShowProps extends React.ComponentPropsWithoutRef<typeof Room> {}
+interface PhotoBoothProps extends React.ComponentPropsWithoutRef<typeof Room> {}
 
-const PuppetShow: React.FC<PuppetShowProps> = (props) => {
+const PhotoBooth: React.FC<PhotoBoothProps> = (props) => {
     return (
         <StyledRoom {...props}>
             <svg viewBox='0 0 360.01 328.34'>
@@ -334,4 +334,4 @@ const PuppetShow: React.FC<PuppetShowProps> = (props) => {
     );
 };
 
-export default memo(PuppetShow);
+export default memo(PhotoBooth);
