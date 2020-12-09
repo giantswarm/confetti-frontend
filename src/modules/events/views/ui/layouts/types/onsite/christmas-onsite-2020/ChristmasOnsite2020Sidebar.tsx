@@ -7,6 +7,7 @@ import { Paths } from "@/app/Paths";
 import Spinner from "@/core/views/ui/app/Spinner";
 
 import { EventLayoutProps } from "../../../layouts";
+import ChristmasOnsite2020PhotoBooth from "./ChristmasOnsite2020PhotoBooth";
 import ChristmasOnsite2020SidebarPlaceholder from "./ChristmasOnsite2020SidebarPlaceholder";
 import ChristmasOnsite2020SidebarRoomList from "./ChristmasOnsite2020SidebarRoomList";
 import { formatDescription } from "./ChristmasOnsite2020SidebarUtils";
@@ -90,6 +91,8 @@ const ChristmasOnsite2020Sidebar: React.FC<ChristmasOnsite2020SidebarProps> = ({
                         ))}
                     </Box>
                 )}
+
+                {activeRoom.id === "photo-booth" && <ChristmasOnsite2020PhotoBooth />}
             </Box>
             <Box
                 direction='row'
