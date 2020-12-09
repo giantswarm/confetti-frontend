@@ -11,7 +11,7 @@ import MainStage from "./MainStage";
 import ManagedApps from "./ManagedApps";
 import Monitoring from "./Monitoring";
 import MulledWine from "./MulledWine";
-import PuppetShow from "./PuppetShow";
+import PhotoBooth from "./PhotoBooth";
 import RelEng from "./RelEng";
 import RemoteWork from "./RemoteWork";
 import Room from "./Room";
@@ -39,7 +39,7 @@ export const rooms: Record<RoomZone, Record<string, RoomComponent>> = {
         monitoring: Monitoring,
         "remote-work": RemoteWork,
         "info-signpost": InfoSignpost,
-        "puppet-show": PuppetShow,
+        "photo-booth": PhotoBooth,
         "christmas-tree": ChristmasTree,
     },
     background: {
