@@ -34,7 +34,7 @@ const AppWrapper: React.FC<AppWrapperProps> = ({ Component, pageProps }) => {
 
 
                 <title>Giant Swarm Remote Christmas Market</title>
-                <meta name="title" content="Hang out at the Giant Swarm’s Remote Christmas Market" />
+                <meta name="title" content="Hang out at the Giant Swarm Remote Christmas Market" />
                 <meta name="description" content="Say hi at a stall that grabs your interest! You can see how many people are at a stall, and join the conversation directly." />
 
                 <meta property="og:type" content="website" />
