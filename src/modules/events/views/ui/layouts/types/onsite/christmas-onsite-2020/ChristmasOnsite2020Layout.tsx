@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import Head from "next/head";
 
 import { useStore } from "@/app/Store";
 import { OnsiteEventRoom } from "@/modules/events/models/types/onsite/OnsiteEventRoom";
