@@ -41,13 +41,13 @@ const AppWrapper: React.FC<AppWrapperProps> = ({ Component, pageProps }) => {
                 <meta property="og:url" content="https://christmas2020.giantswarm.io/events" />
                 <meta property="og:title" content="Hang out at the Giant Swarm Remote Christmas Market" />
                 <meta property="og:description" content="Say hi at a stall that grabs your interest! You can see how many people are at a stall, and join the conversation directly." />
-                <meta property="og:image" content="/social_share_preview.png" />
+                <meta property="og:image" content="https://christmas2020.giantswarm.io/social_share_preview.png" />
 
                 <meta property="twitter:card" content="summary_large_image" />
                 <meta property="twitter:url" content="https://christmas2020.giantswarm.io/events" />
                 <meta property="twitter:title" content="Hang out at the Giant Swarm Remote Christmas Market" />
                 <meta property="twitter:description" content="Say hi at a stall that grabs your interest! You can see how many people are at a stall, and join the conversation directly." />
-                <meta property="twitter:image" content="/social_share_preview.png" />
+                <meta property="twitter:image" content="https://christmas2020.giantswarm.io/social_share_preview.png" />
 
                 <script src='/env.js' crossOrigin='anonymous' />
             </Head>
