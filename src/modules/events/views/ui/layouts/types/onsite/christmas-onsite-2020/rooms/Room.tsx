@@ -1,6 +1,6 @@
 import { Box, BoxTypes, Stack, Text } from "grommet";
-import { Group, User } from "grommet-icons";
 import { Tip } from "grommet/components/Tip";
+import { Group, User } from "grommet-icons";
 import { observer } from "mobx-react-lite";
 import styled from "styled-components";
 
