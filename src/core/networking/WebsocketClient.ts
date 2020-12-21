@@ -123,7 +123,7 @@ export class WebsocketClientImpl implements WebsocketClient {
     };
 
     protected startAutoReconnectTicker(url: string): void {
-        this.autoReconnectTicker = setInterval(() => {
+        this.autoReconnectTicker = window.setInterval(() => {
             this.stopAutoReconnectTicker();
             this.connect(url);
         }, this.config.autoReconnectInterval);
