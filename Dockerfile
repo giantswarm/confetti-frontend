@@ -1,5 +1,5 @@
 # Install.
-FROM node:15.4.0-alpine as install-target
+FROM node:15.5.0-alpine as install-target
 ENV NODE_ENV=development
 ENV PATH $PATH:/usr/src/app/node_modules/.bin
 
