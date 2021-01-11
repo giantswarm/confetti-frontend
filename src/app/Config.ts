@@ -7,8 +7,8 @@ export enum ConfigDeploymentStatus {
 export class Config {
     constructor(confettiEnv?: ConfettiEnv) {
         if (confettiEnv) {
-            this.backendHost = confettiEnv.CONFETTI_BACKEND_HOST ?? "localhost:7777";
-            this.backendHostSecure = confettiEnv.CONFETTI_BACKEND_HOST_SECURE === "true";
+            this.backendHost = confettiEnv.CONFETTI_PUBLIC_BACKEND_HOST ?? "localhost:7777";
+            this.backendHostSecure = confettiEnv.CONFETTI_PUBLIC_BACKEND_HOST_SECURE === "true";
         }
     }
 

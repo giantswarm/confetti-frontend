@@ -1,7 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 
-const envVarPrefix = "CONFETTI_";
+const envVarPrefix = "CONFETTI_PUBLIC_";
 
 function write(envVars = {}) {
     try {
