@@ -5,6 +5,7 @@ import { useEffect } from "react";
 
 import { useStore } from "@/app/Store";
 import Spinner from "@/core/views/ui/app/Spinner";
+import { isLocalUrl } from "@/utils/isLocalUrl";
 
 interface LoginFormProps {}
 
@@ -12,8 +13,8 @@ const LoginForm: React.FC<LoginFormProps> = () => {
     const { Users } = useStore();
     const { push, query } = useRouter();
     let redirectPath: string = "/";
-    if (query.redirectTo) {
-        redirectPath = decodeURIComponent(query.redirectTo as string);
+    if (typeof query.redirectTo === "string" && isLocalUrl(query.redirectTo)) {
+        redirectPath = decodeURIComponent(query.redirectTo);
     }
 
     const { currentUser, tryToRestoreUser, login } = Users;
