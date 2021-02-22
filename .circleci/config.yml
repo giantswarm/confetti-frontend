@@ -157,7 +157,6 @@ jobs:
                   at: ~/confetti-frontend
             - setup_remote_docker:
                   version: 19.03.13
-                  docker_layer_caching: true
             - architect/push-to-docker:
                   image: *image_name
                   username_envar: "QUAY_USERNAME"
