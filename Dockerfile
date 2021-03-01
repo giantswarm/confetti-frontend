@@ -1,5 +1,5 @@
 # Install.
-FROM node:15.9.0-alpine as install-target
+FROM node:15.10.0-alpine as install-target
 ENV NODE_ENV=development
 ENV PATH $PATH:/usr/src/app/node_modules/.bin
 
@@ -19,7 +19,7 @@ ENV NODE_ENV=production
 RUN yarn build
 
 # Archive.
-FROM node:15.9.0-alpine as archive-target
+FROM node:15.10.0-alpine as archive-target
 ENV NODE_ENV=production
 ENV PATH $PATH:/usr/src/app/node_modules/.bin
 
